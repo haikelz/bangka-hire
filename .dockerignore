@@ -5,3 +5,7 @@ dist
 output
 cypress
 test
+.env.example
+.gitignore
+.github
+cypress.config.ts

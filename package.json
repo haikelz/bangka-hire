@@ -1,7 +1,13 @@
 {
-  "name": "proxo-coris-2025",
-  "version": "0.1.0",
+  "name": "babelhire",
+  "version": "1.0.0",
   "private": true,
+  "description": "Babel Hire",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haikelz/babelhire"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,3 +1,3 @@
 export default function Home() {
-  return <p>Home</p>;
+  return <h1 className="text-5xl font-bold">Ini Next JS</h1>;
 }
