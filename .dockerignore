@@ -1,0 +1,7 @@
+.github
+node_modules
+README.md
+dist
+output
+cypress
+test
