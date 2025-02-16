@@ -6,7 +6,7 @@
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/haikelz/babelhire"
+    "url": "https://github.com/haikelz/bangka-hire"
   },
   "scripts": {
     "dev": "next dev",
