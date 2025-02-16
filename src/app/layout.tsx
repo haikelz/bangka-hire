@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Babelhire",
-  description: "Babelhire",
+  title: "Bangka Hire",
+  description: "Bangka Hire",
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
