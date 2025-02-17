@@ -12,7 +12,9 @@ export default function Wrapper({ children }: ChildrenProps) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <LazyMotion features={domAnimation}>
-        <AnimatePresence mode="wait">{children}</AnimatePresence>
+        <AnimatePresence mode="wait">
+          {children}
+        </AnimatePresence>
       </LazyMotion>
     </QueryClientProvider>
   );

@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 
-interface JobProps {
+type JobProps = {
   params: {
     job : string;
   };
