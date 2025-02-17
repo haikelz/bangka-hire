@@ -1,13 +1,7 @@
-import React from 'react'
-import { ChildrenProps } from '@/types'
+import { ChildrenProps } from "@/types";
 
+const layout = ({ children }: ChildrenProps) => {
+  return <div className="container mx-auto max-w-7xl">{children}</div>;
+};
 
-const layout = ({children} : ChildrenProps) => {
-  return (
-    <div className='container mx-auto max-w-7xl'>
-      {children}
-    </div>
-  )
-}
-
-export default layout
+export default layout;
