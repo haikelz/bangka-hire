@@ -13,9 +13,6 @@ export default function Wrapper({ children }: ChildrenProps) {
       <ReactQueryDevtools />
       <LazyMotion features={domAnimation}>
         <AnimatePresence mode="wait">
-<<<<<<< HEAD
-          {children}
-=======
           <div className="w-full">
             <m.div
               className="w-full"
@@ -26,7 +23,6 @@ export default function Wrapper({ children }: ChildrenProps) {
               {children}
             </m.div>
           </div>
->>>>>>> 9ae678d9275aeaf658e39708d4bf4ca2505f2572
         </AnimatePresence>
       </LazyMotion>
     </QueryClientProvider>
