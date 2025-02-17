@@ -1,3 +1,12 @@
+import { Input } from "@/components/ui/input";
+
 export default function Home() {
-  return <h1 className="text-5xl font-bold">Ini Next JS</h1>;
+  return (
+    <div>
+      <div>
+        <Input placeholder="Cari lowongan kerja...." type="text" />
+        <Input placeholder="Lokasi" />
+      </div>
+    </div>
+  );
 }
