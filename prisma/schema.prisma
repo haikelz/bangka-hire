@@ -14,12 +14,23 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
+model job_applicant {
   id        String   @id @default(cuid())
   email     String   @unique
-  name      String?
-  password  String
+  full_name      String
+  phone_number String
+  password String
+  cv String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model job_vacancy_provider {
+  id String @id @default(cuid())
+  email String @unique
+  full_name String
+  phone_number String
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
