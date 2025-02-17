@@ -8,6 +8,15 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+<<<<<<< HEAD
+    extend: {
+      colors: {
+
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+    },
+=======
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -79,6 +88,7 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
+>>>>>>> 9ae678d9275aeaf658e39708d4bf4ca2505f2572
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
