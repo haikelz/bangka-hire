@@ -8,15 +8,6 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-<<<<<<< HEAD
-    extend: {
-      colors: {
-
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
-=======
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -49,6 +40,7 @@ export default {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+        primary_color:'#3C74FF',
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -88,7 +80,6 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
->>>>>>> 9ae678d9275aeaf658e39708d4bf4ca2505f2572
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
