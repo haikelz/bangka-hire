@@ -1,12 +1,12 @@
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
 import "./globals.css";
 import Wrapper from "./wrapper";
-import Footer from "@/components/footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
