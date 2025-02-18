@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bangka Hire",
+  title: "BabelHire",
   description:
-    "Website Bangka Hire adalah sebuah Website untuk mencari lowongan kerja yang ada di Kepulauan Bangka Belitung.",
+    "Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan !",
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
