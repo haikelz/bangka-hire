@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: ChildrenProps) {
           <Header />
           {children}
         </Wrapper>
+        <Toaster />
       </body>
     </html>
   );
