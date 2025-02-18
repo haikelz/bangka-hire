@@ -1,10 +1,10 @@
 import Image from "next/image";
-import logo2 from "../assets/logo 2.png";
-import Layout from "./container";
-import instagram from "../assets/instagram.png";
-import facebook from "../assets/facebook.png";
-import thread from "../assets/thread.png";
 import Link from "next/link";
+import facebook from "../assets/facebook.png";
+import instagram from "../assets/instagram.png";
+import logo2 from "../assets/logo 2.png";
+import thread from "../assets/thread.png";
+import Layout from "./container";
 
 export default function Footer() {
   return (
@@ -14,13 +14,14 @@ export default function Footer() {
           {/* logo dan sosmed */}
           <div className="space-y-4">
             <Image src={logo2} alt="logo" />
-            <p>Platform lowongan kerja terpercaya seluruh
-            wilayah bangka belitung</p>
+            <p>
+              Platform lowongan kerja terpercaya seluruh wilayah bangka belitung
+            </p>
             {/* sosmed */}
             <div className="flex gap-4 items-center">
-                <Image src={instagram} alt="instagram" />
-                <Image src={facebook} alt="facebook" />
-                <Image src={thread} alt="thread" />
+              <Image src={instagram} className="w-6 h-6" alt="instagram" />
+              <Image src={facebook} className="w-6 h-6" alt="facebook" />
+              <Image src={thread} className="w-6 h-6" alt="thread" />
             </div>
           </div>
 
@@ -48,9 +49,10 @@ export default function Footer() {
         {/* Line */}
         <div className="space-y-4">
           <div className="w-full h-[2px] bg-white mt-10"></div>
-          <p className="text-center text-lg">Copyright BabelHire Team © 2025. All Rights Reserved.</p>
+          <p className="text-center text-lg">
+            Copyright BabelHire Team © 2025. All Rights Reserved.
+          </p>
         </div>
-
       </Layout>
     </footer>
   );

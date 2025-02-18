@@ -2,11 +2,11 @@
   "name": "bangka-hire",
   "version": "1.0.0",
   "private": true,
-  "description": "Bangka Hire",
+  "description": "BabelHire",
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/haikelz/bangka-hire"
+    "url": "https://github.com/haikelz/babel-hire"
   },
   "scripts": {
     "dev": "next dev",
