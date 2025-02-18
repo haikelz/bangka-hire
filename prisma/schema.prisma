@@ -14,25 +14,20 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model job_applicant {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  full_name      String
-  phone_number String
-  password String
-  cv String?
-  image String?
+model Users {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  full_name     String
+  phone_number  String
+  password      String?
+  google_oauth  Boolean  @default(false)
+  role          String
+  cv            String?
+  image         String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model job_vacancy_provider {
-  id String @id @default(cuid())
-  email String @unique
-  full_name String
-  phone_number String
-  password String
-  image String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+
+
+

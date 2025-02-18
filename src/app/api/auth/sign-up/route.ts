@@ -7,13 +7,15 @@ import { options } from "../[...nextauth]/options";
 export async function POST(req: NextRequest) {
   const session = await getServerSession(options());
 
-  if (!session || !session.user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
+  // if (!session || !session.user) {
+  //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  // }
+
+
 
   const { full_name, phone_number, email, password } = await req.json();
 
-  const existingJobApplicant = await db.job_applicant.findUnique({
+  const existingJobApplicant = await db.users.findUnique({
     where: {
       email,
     },
@@ -28,12 +30,13 @@ export async function POST(req: NextRequest) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.job_applicant.create({
+  await db.users.create({
     data: {
       full_name,
       phone_number,
       email,
       password: hashedPassword,
+      role: "job_applicant"
     },
   });
 
