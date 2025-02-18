@@ -1,20 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import facebook from "../assets/facebook.png";
-import instagram from "../assets/instagram.png";
-import logo2 from "../assets/logo 2.png";
-import thread from "../assets/thread.png";
+import facebook from "../../public/assets/facebook.png";
+import instagram from "../../public/assets/instagram.png";
+import logo2 from "../../public/assets/logo 2.png";
+import thread from "../../public/assets/thread.png";
 import Layout from "./container";
 
 export default function Footer() {
   return (
     <footer className="bg-secondary_color_1 text-white w-full mt-32 py-10">
       <Layout>
-        <div className="flex justify-between items-start">
+        <div className="flex flex-col justify-center gap-10 sm:gap-5 md:gap-10 md:flex-row md:justify-between md:items-start">
           {/* logo dan sosmed */}
-          <div className="space-y-4">
+          <div className="space-y-4 flex md:block flex-col justify-center items-center">
             <Image src={logo2} alt="logo" />
-            <p>
+            <p className="text-center sm:text-justify md:text-sm lg:text-base">
               Platform lowongan kerja terpercaya seluruh wilayah bangka belitung
             </p>
             {/* sosmed */}
@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
 
           {/* menu navbar */}
-          <div className="space-y-6">
+          <div className="sm:space-y-6 flex gap-10 sm:gap-[100px] md:inline-block md:gap-0 items-center text-sm lg:text-base">
             <h1 className="font-bold">Quick Link</h1>
             <div className="flex flex-col gap-1">
               <Link href="/">Beranda</Link>
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
 
           {/* Hubungi Kami */}
-          <div className="space-y-6">
+          <div className="sm:space-y-6 flex gap-5 sm:gap-20 md:gap-0 md:inline-block items-center text-sm lg:text-base">
             <h1 className="font-bold">Hubungi Kami</h1>
             <div className="space-y-1">
               <p>Pangkal Pinang, Bangka Belitung</p>
@@ -49,7 +49,7 @@ export default function Footer() {
         {/* Line */}
         <div className="space-y-4">
           <div className="w-full h-[2px] bg-white mt-10"></div>
-          <p className="text-center text-lg">
+          <p className="text-center text-sm lg:text-lg">
             Copyright BabelHire Team © 2025. All Rights Reserved.
           </p>
         </div>

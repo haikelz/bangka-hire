@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import location from "../assets/location.png";
-import logo from "../assets/logo.png";
-import salary from "../assets/salary.png";
-import status from "../assets/status-work.png";
-import time from "../assets/time.png";
+import location from "../../public/assets/location.png";
+import logo from "../../public/assets/logo.png";
+import salary from "../../public/assets/salary.png";
+import status from "../../public/assets/status-work.png";
+import time from "../../public/assets/time.png";
 
 export default function CardResultJob() {
   return (
@@ -33,8 +33,8 @@ export default function CardResultJob() {
           </div>
 
           {/* status work */}
-          <Image className="w-4" src={status} alt="Status" />
           <div className="flex items-center gap-2">
+            <Image className="w-4" src={status} alt="Status" />
             <p>Fulltime</p>
           </div>
         </div>
