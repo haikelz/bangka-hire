@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from "next/image";
-import logo from "../assets/logo.png";
+import logo from "../../public/assets/logo.png";
 import NavLink from "./nav-link";
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ export default function Header() {
 
   return (
     <header className={`bg-white text-primary_color sticky top-0 z-50 ${isScroll ? "border-b-2 border-primary_color" : ""} duration-300 ease-in-out`}>
-      <nav className="flex justify-between items-center w-full xl:mx-auto py-2 px-6 md:px-[30px] lg:px-20">
+      <nav className="flex justify-between items-center w-full md:max-w-[1366px] xl:mx-auto py-2 px-4 lg:px-[30px] 2xl:px-0">
         {/* Logo dan menu navbar */}
         <div className="flex items-center md:gap-5 xl:gap-10">
           <Image className="w-20 md:w-24 xl:w-32" src={logo} alt="logo" />

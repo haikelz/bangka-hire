@@ -22,7 +22,7 @@ export default function FormSearchJob() {
       {/* Select untuk filter lokasi */}
       <div className="relative w-full md:w-[20%]">
         <select
-          className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer"
+          className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer md:text-xs lg:text-base"
           onClick={() =>
             setOpenSelect(openSelect === "location" ? null : "location")
           }
@@ -52,7 +52,7 @@ export default function FormSearchJob() {
       {/* Select untuk filter urutan gaji */}
       <div className="relative w-full md:w-[20%]">
         <select
-          className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer"
+          className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer md:text-xs lg:text-base"
           onClick={() =>
             setOpenSelect(openSelect === "salary" ? null : "salary")
           }

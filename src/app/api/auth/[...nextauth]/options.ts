@@ -69,6 +69,7 @@ export const options: NextAuthOptions = {
           id: jobApplicant.id,
           name: jobApplicant.full_name,
           email: jobApplicant.email,
+          role: "job_applicant",
           phone_number: jobApplicant.phone_number,
           role: "job_applicant",
         };
