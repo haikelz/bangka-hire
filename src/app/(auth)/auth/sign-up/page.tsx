@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { SignUpFormJobApplicant } from "@/components/job-applicant/sign-up-form";
 
 export default function SignUp() {
   return (
-    <div>
-      <div>
-        <Button>Sign Up</Button>
-      </div>
-    </div>
+    <>
+      <SignUpFormJobApplicant />
+    </>
   );
 }

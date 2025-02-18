@@ -1,10 +1,11 @@
+import Header from "@/components/header";
+import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import Wrapper from "./wrapper";
-import Header from "@/components/header";
 import Footer from "@/components/footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: ChildrenProps) {
           {children}
           <Footer />
         </Wrapper>
+        <Toaster />
       </body>
     </html>
   );
