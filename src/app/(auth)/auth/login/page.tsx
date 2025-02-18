@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 export default async function Login() {
   const session = await getServerSession(options());
 
-  console.log(session);
-
   if (
     session?.user.role === "job_applicant" ||
     session?.user.role === "job_vacancy_provider"
@@ -16,8 +14,10 @@ export default async function Login() {
   }
 
   return (
-    <div>
-      <LoginFormJobApplicant />
-    </div>
+    <main className="bg-[#F3F9FF] w-full py-10 flex min-h-svh justify-center items-center">
+      <section className="mx-auto max-w-lg w-full px-4 md:px-0">
+        <LoginFormJobApplicant />
+      </section>
+    </main>
   );
 }

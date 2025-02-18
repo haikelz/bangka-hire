@@ -61,7 +61,7 @@ export function SignUpFormJobApplicant() {
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md">
           <div>
             <Input
               {...register("full_name", { required: true })}
@@ -103,8 +103,8 @@ export function SignUpFormJobApplicant() {
           <Button className="font-bold" type="submit">
             Sign Up
           </Button>
+          <Button onClick={() => signIn("google")}>Sign Up with Google</Button>
         </form>
-        <Button onClick={() => signIn("google")}>Sign Up with Google</Button>
       </div>
     </div>
   );
