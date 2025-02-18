@@ -1,23 +1,21 @@
-"use client";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { LoginFormJobApplicant } from "@/components/job-applicant/login-form";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
+export default async function Login() {
+  const session = await getServerSession(options);
 
-export default function Login() {
+  if (
+    session?.user.role === "job_applicant" ||
+    session?.user.role === "job_vacancy_provider"
+  ) {
+    return redirect("/");
+  }
+
   return (
     <div>
-      <div>
-        <Input placeholder="Email" />
-        <Input placeholder="Password" />
-        <p>Atau Login dengan Google</p>
-        <Button
-          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-          className="font-bold"
-        >
-          Login
-        </Button>
-      </div>
+      <LoginFormJobApplicant />
     </div>
   );
 }

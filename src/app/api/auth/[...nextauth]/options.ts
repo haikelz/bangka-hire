@@ -1,4 +1,8 @@
-import { NEXT_PUBLIC_GOOGLE_ID, NEXT_PUBLIC_GOOGLE_SECRET, NEXTAUTH_SECRET } from "@/lib/constants";
+import {
+  NEXT_PUBLIC_GOOGLE_ID,
+  NEXT_PUBLIC_GOOGLE_SECRET,
+  NEXTAUTH_SECRET,
+} from "@/lib/constants";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 import type { Awaitable, NextAuthOptions, User } from "next-auth";
@@ -38,21 +42,27 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        if(!credentials?.email || !credentials?.password) {
-          return null
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
 
-        const jobApplicant = await db.job_applicant.findUnique({where: {
-          email: credentials.email
-        }})
+        const jobApplicant = await db.job_applicant.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
 
         if (!jobApplicant) {
-          return null
+          return null;
         }
 
-        const matchPassword = await bcrypt.compare(credentials.password, jobApplicant.password)
-        if(!matchPassword) {
-          return null
+        const matchPassword = await bcrypt.compare(
+          credentials.password,
+          jobApplicant.password
+        );
+
+        if (!matchPassword) {
+          return null;
         }
 
         return {
@@ -60,7 +70,8 @@ export const options: NextAuthOptions = {
           name: jobApplicant.full_name,
           email: jobApplicant.email,
           phone_number: jobApplicant.phone_number,
-        }
+          role: "job_applicant",
+        };
       },
     }),
   ],
@@ -72,18 +83,23 @@ export const options: NextAuthOptions = {
     maxAge: 60 * 60 * 24 * 7,
   },
   callbacks: {
-  async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (account && user) {
-        if (account.provider === 'google') {
-          const existingJobApplicant = await db.job_applicant.findUnique({ where:{ email: user.email as string } });
-          const existingJobVacancyProvider =await db.job_vacancy_provider.findUnique({ where: { email: user.email as string } });
+        if (account.provider === "google") {
+          const existingJobApplicant = await db.job_applicant.findUnique({
+            where: { email: user.email as string },
+          });
+          const existingJobVacancyProvider =
+            await db.job_vacancy_provider.findUnique({
+              where: { email: user.email as string },
+            });
 
           if (existingJobApplicant) {
             token.id = existingJobApplicant.id;
             token.role = "job_applicant";
           }
 
-          if(existingJobVacancyProvider) {
+          if (existingJobVacancyProvider) {
             token.id = existingJobVacancyProvider.id;
             token.role = "job_vacancy_provider";
           }
@@ -112,23 +128,27 @@ export const options: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ user, account}) {
-      if (account.provider !== 'credentials') {
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") {
         if (!user.email) {
           return false;
         }
 
-        const existingJobApplicant = await db.job_applicant.findUnique( {where: { email: user.email as string } })
-        const existingJobVacancyProvider =await db.job_vacancy_provider.findUnique({ where:{ email: user.email as string } })
+        const existingJobApplicant = await db.job_applicant.findUnique({
+          where: { email: user.email as string },
+        });
+        const existingJobVacancyProvider =
+          await db.job_vacancy_provider.findUnique({
+            where: { email: user.email as string },
+          });
 
         if (existingJobApplicant) {
-          user.role = "job_applicant"
-        }
-        else if(existingJobVacancyProvider) {
-          user.role = "job_vacancy_provider"
+          user.role = "job_applicant";
+        } else if (existingJobVacancyProvider) {
+          user.role = "job_vacancy_provider";
         }
       }
       return true;
-    }
+    },
   },
 };
