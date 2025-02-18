@@ -7,12 +7,9 @@ import { createAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export function SignUpFormJobApplicant() {
-  const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({
@@ -61,7 +58,7 @@ export function SignUpFormJobApplicant() {
 
   function handleSignUpWithGoogle() {
     Cookies.set("sign-up-role", "job_applicant", { expires: 7 });
-    signIn("google");
+    signIn("google", { redirect: false, callbackUrl: "/" });
   }
 
   return (

@@ -4,7 +4,7 @@ import db from "@/lib/db";
 import { getServerSession } from "next-auth";
 
 export default async function Login() {
-  const session = await getServerSession(options());
+  const session = await getServerSession(options);
   const data = await db.users.findMany();
 
   console.log(data);
