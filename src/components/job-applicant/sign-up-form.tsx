@@ -3,16 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { axiosClient } from "@/services/axios";
-import { JobApplicantProps } from "@/types";
+import { createAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-async function createAccount(data: Omit<JobApplicantProps, "cv" | "id">) {
-  const response = await axiosClient.post("/auth/sign-up", data);
-  return response.data;
-}
 
 export function SignUpFormJobApplicant() {
   const router = useRouter();
@@ -32,11 +27,9 @@ export function SignUpFormJobApplicant() {
         setTimeout(() => {
           toast({
             title: "Sukses mendaftarkan akun!",
-            description: "Kamu akan dialihkan ke halaman Login",
+            description: "Kamu akan dialihkan ke halaman dashboard!",
           });
         }, 1000);
-
-        router.push("/auth/login");
       });
     },
     onError: (data) => {
@@ -111,6 +104,7 @@ export function SignUpFormJobApplicant() {
             Sign Up
           </Button>
         </form>
+        <Button onClick={() => signIn("google")}>Sign Up with Google</Button>
       </div>
     </div>
   );

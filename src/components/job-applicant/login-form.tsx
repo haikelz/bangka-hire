@@ -15,7 +15,6 @@ export function LoginFormJobApplicant() {
           onClick={() =>
             signIn("google", {
               callbackUrl: "/dashboard",
-              role: "job_applicant",
             })
           }
           className="font-bold"

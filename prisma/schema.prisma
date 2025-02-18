@@ -21,6 +21,7 @@ model job_applicant {
   phone_number String
   password String
   cv String?
+  image String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -31,6 +32,7 @@ model job_vacancy_provider {
   full_name String
   phone_number String
   password String
+  image String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

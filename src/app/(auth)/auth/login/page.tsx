@@ -4,7 +4,9 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function Login() {
-  const session = await getServerSession(options);
+  const session = await getServerSession(options());
+
+  console.log(session);
 
   if (
     session?.user.role === "job_applicant" ||

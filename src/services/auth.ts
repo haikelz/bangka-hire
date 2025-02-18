@@ -1,7 +1,9 @@
 import { JobApplicantProps } from "@/types";
 import { axiosClient } from "./axios";
 
-export async function createAccount(data: Omit<JobApplicantProps, "cv">) {
+export async function createAccount(
+  data: Omit<JobApplicantProps, "id" | "cv">
+) {
   const response = await axiosClient.post("/auth/sign-up", data);
   return response.data;
 }
