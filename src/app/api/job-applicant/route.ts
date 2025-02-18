@@ -6,7 +6,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { password, full_name, email, phone_number } = req.body;
 
-    const existingJobApplicant = await db.job_applicant.findUnique({
+    const existingJobApplicant = await db.users.findUnique({
       where: {
         email,
       },
@@ -21,11 +21,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.job_applicant.create({
+    await db.users.create({
       data: {
         full_name,
         phone_number,
         email,
+        role: "job_applicant",
         password: hashedPassword,
       },
     });

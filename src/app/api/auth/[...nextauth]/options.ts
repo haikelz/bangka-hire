@@ -51,7 +51,7 @@ export const options = (
             return null;
           }
 
-          const jobApplicant = await db.job_applicant.findUnique({
+          const jobApplicant = await db.users.findUnique({
             where: {
               email: credentials.email,
             },
@@ -63,7 +63,7 @@ export const options = (
 
           const matchPassword = await bcrypt.compare(
             credentials.password,
-            jobApplicant.password
+            jobApplicant.password as string
           );
 
           if (!matchPassword) {
@@ -91,12 +91,12 @@ export const options = (
       async jwt({ token, user, account, trigger, session }) {
         if (account && user) {
           if (account.provider === "google") {
-            const existingJobApplicant = await db.job_applicant.findUnique({
+            const existingJobApplicant = await db.users.findUnique({
               where: { email: user.email as string },
             });
 
             const existingJobVacancyProvider =
-              await db.job_vacancy_provider.findUnique({
+              await db.users.findUnique({
                 where: { email: user.email as string },
               });
 
@@ -140,11 +140,11 @@ export const options = (
           const url = new URL(req?.url || "");
           const signUpUrl = url.searchParams.get("sign-up-url");
 
-          const existingJobApplicant = await db.job_applicant.findUnique({
+          const existingJobApplicant = await db.users.findUnique({
             where: { email: user.email as string },
           });
           const existingJobVacancyProvider =
-            await db.job_vacancy_provider.findUnique({
+            await db.users.findUnique({
               where: { email: user.email as string },
             });
 
