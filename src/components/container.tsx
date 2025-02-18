@@ -1,7 +1,7 @@
 import { ChildrenProps } from "@/types";
 
-const layout = ({ children }: ChildrenProps) => {
+const Layout = ({ children }: ChildrenProps) => {
   return <div className="container mx-auto max-w-7xl">{children}</div>;
 };
 
-export default layout;
+export default Layout;

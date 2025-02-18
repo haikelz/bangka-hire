@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,9 +26,12 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.className} antialiased`}
       >
-        <Wrapper>{children}</Wrapper>
+        <Wrapper>
+          <Header />
+          {children}
+        </Wrapper>
       </body>
     </html>
   );
