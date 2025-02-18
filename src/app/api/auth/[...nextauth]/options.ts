@@ -9,6 +9,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import type { Awaitable, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import { cookies } from "next/headers";
 
 export const options = (
   req?: NextApiRequest,
@@ -31,6 +32,13 @@ export const options = (
         },
         clientId: NEXT_PUBLIC_GOOGLE_ID,
         clientSecret: NEXT_PUBLIC_GOOGLE_SECRET,
+        authorization: {
+          params: {
+            prompt: "consent",
+            access_type: "offline",
+            response_type: "code",
+          },
+        },
       }),
       CredentialsProvider({
         name: "Credentials Login",
@@ -95,10 +103,9 @@ export const options = (
               where: { email: user.email as string },
             });
 
-            const existingJobVacancyProvider =
-              await db.users.findUnique({
-                where: { email: user.email as string },
-              });
+            const existingJobVacancyProvider = await db.users.findUnique({
+              where: { email: user.email as string },
+            });
 
             if (existingJobApplicant) {
               token.id = existingJobApplicant.id;
@@ -115,6 +122,7 @@ export const options = (
             email: user.email,
             name: user.name,
             picture: user.image,
+            role: user.role || token.role,
           };
         }
 
@@ -128,6 +136,7 @@ export const options = (
         if (token) {
           session.user.id = token.id;
           session.user.role = token.role;
+          session.user.image = token.picture as string;
         }
         return session;
       },
@@ -137,59 +146,62 @@ export const options = (
             return false;
           }
 
-          const url = new URL(req?.url || "");
-          const signUpUrl = url.searchParams.get("sign-up-url");
+          const signUpRole = (await cookies()).get("sign-up-role")?.value;
 
           const existingJobApplicant = await db.users.findUnique({
-            where: { email: user.email as string },
+            where: {
+              email: user.email as string,
+              google_oauth: true,
+              role: "job_applicant",
+            },
           });
-          const existingJobVacancyProvider =
-            await db.users.findUnique({
-              where: { email: user.email as string },
-            });
-
-          if (signUpUrl && !existingJobApplicant) {
-            /*await db.job_applicant.create({
-              data: {
-                email: user.email as string,
-                full_name: user.name as string,
-                password: "",
-                phone_number: "",
-                image: user.image as string,
-              },
-            });*/
-
-            return true;
-          } else if (signUpUrl === "/auth/sign-up" && !existingJobApplicant) {
-            return false;
-          }
-
-          if (
-            (req?.url as string) === "/auth/job-vacancy-provider/sign-up" &&
-            !existingJobVacancyProvider
-          ) {
-            /*await db.job_vacancy_provider.create({
-              data: {
-                email: user.email as string,
-                full_name: user.name as string,
-                password: "",
-                phone_number: "",
-                image: user.image as string,
-              },
-            });*/
-
-            return true;
-          } else if (
-            (req?.url as string) === "/auth/job-vacancy-provider/sign-up" &&
-            !existingJobVacancyProvider
-          ) {
-            return false;
-          }
+          const existingJobVacancyProvider = await db.users.findUnique({
+            where: {
+              email: user.email as string,
+              google_oauth: true,
+              role: "job_vacancy_provider",
+            },
+          });
 
           if (existingJobApplicant) {
             user.role = "job_applicant";
+            return true;
           } else if (existingJobVacancyProvider) {
             user.role = "job_vacancy_provider";
+            return true;
+          }
+
+          if (!existingJobApplicant && signUpRole === "job_vacancy") {
+            await db.users.create({
+              data: {
+                email: user.email as string,
+                full_name: user.name as string,
+                password: "",
+                phone_number: "",
+                image: user.image as string,
+                role: "job_applicant",
+                google_oauth: true,
+              },
+            });
+            return true;
+          }
+
+          if (
+            !existingJobVacancyProvider &&
+            signUpRole === "job_vacancy_provider"
+          ) {
+            await db.users.create({
+              data: {
+                email: user.email as string,
+                full_name: user.name as string,
+                password: "",
+                phone_number: "",
+                image: user.image as string,
+                role: "job_vacancy_provider",
+                google_oauth: true,
+              },
+            });
+            return true;
           }
         }
         return true;
