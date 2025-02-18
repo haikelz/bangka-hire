@@ -1,6 +1,6 @@
 
 import Image from 'next/image';
-import hero from '../../assets/Hero Section.png';
+import hero from '../../assets/hero.png';
 import Layout from '../container';
 import logo from '../../assets/logo.png';
 import FormSearchJob from '../form-search-job';
@@ -13,19 +13,22 @@ export default function HomePage() {
     return (
         <div className='xl:space-y-14'>
           {/* Gambar dan tagline */}
-          <div className='relative w-full'>
-            <Image className='w-full' src={hero} alt="Hero Section" />
+          <div className='w-full  bg-gradient-to-r from-secondary_color_1 via-secondary_color_1 to-primary_color'>
             {/* Tagline */}
-            <div className='absolute w-full h-full top-0 flex items-start'>
                 <Layout>
-                  {/* tagline singkat */}
-                  <div className='mt-16 space-y-6 w-[65%]'>
-                    <h1 className='text-4xl font-bold'>Temukan karier impianmu dengan mudah!</h1>
-                    <p className='text-2xl'>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu
-                    menuju masa depan !</p>
+                  <div className='flex justify-between items-center'>
+                    {/* tagline singkat */}
+                    <div className='mt-16 space-y-6 w-[65%]'>
+                      <h1 className='text-4xl font-bold'>Temukan karier impianmu dengan mudah!</h1>
+                      <p className='text-2xl'>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu
+                      menuju masa depan !</p>
+                    </div>
+
+                    {/* Gambar */}
+                    <Image src={hero} alt="hero" />
                   </div>
+
                 </Layout>
-            </div>
           </div>
 
           <Layout>

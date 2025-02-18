@@ -59,6 +59,7 @@ export const options: NextAuthOptions = {
           id: jobApplicant.id,
           name: jobApplicant.full_name,
           email: jobApplicant.email,
+          role: "job_applicant",
           phone_number: jobApplicant.phone_number,
         }
       },
@@ -113,7 +114,7 @@ export const options: NextAuthOptions = {
       return session;
     },
     async signIn({ user, account}) {
-      if (account.provider !== 'credentials') {
+      if (account?.provider !== 'credentials') {
         if (!user.email) {
           return false;
         }
