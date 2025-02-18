@@ -41,6 +41,7 @@ export default {
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
         primary_color:'#3C74FF',
+        secondary_color_1 : '#2A72B3',
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',

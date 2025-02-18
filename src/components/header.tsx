@@ -1,7 +1,7 @@
 "use client"
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import logo from "../assets/logo.png";
 import NavLink from "./nav-link";
@@ -9,6 +9,17 @@ import { motion } from "framer-motion";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScroll, setIsScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScroll(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const Path = (props : any) => (
     <motion.span
@@ -18,8 +29,8 @@ export default function Header() {
   );
 
   return (
-    <header className="bg-white text-primary_color">
-      <nav className="flex justify-between items-center w-full md:max-w-7xl xl:mx-auto py-2 px-6 md:px-[30px]">
+    <header className={`bg-white text-primary_color sticky top-0 z-50 ${isScroll ? "border-b-2 border-primary_color" : ""} duration-300 ease-in-out`}>
+      <nav className="flex justify-between items-center w-full xl:mx-auto py-2 px-6 md:px-[30px] lg:px-20">
         {/* Logo dan menu navbar */}
         <div className="flex items-center md:gap-5 xl:gap-10">
           <Image className="w-20 md:w-24 xl:w-32" src={logo} alt="logo" />
@@ -27,7 +38,7 @@ export default function Header() {
           {/* menu navbar */}
           <div className="hidden md:flex md:gap-5 xl:gap-10">
             <NavLink href="/">BERANDA</NavLink>
-            <NavLink href="/review-perusahaan">REVIEW PERUSAHAAN</NavLink>
+            <NavLink href="/review-vacancy-provider">REVIEW PERUSAHAAN</NavLink>
           </div>
         </div>
 
@@ -83,7 +94,7 @@ export default function Header() {
         >
           <div className="flex flex-col p-4 gap-4">
             <NavLink href="/">BERANDA</NavLink>
-            <NavLink href="/review-perusahaan">REVIEW PERUSAHAAN</NavLink>
+            <NavLink href="/review-vacancy-provider">REVIEW PERUSAHAAN</NavLink>
             <div className="border-t border-primary_color my-2" />
             <NavLink href="/login">MASUK</NavLink>
             <NavLink href="/sign-up">UNTUK PEMBERI KERJA</NavLink>

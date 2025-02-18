@@ -1,7 +1,7 @@
 import { ChildrenProps } from "@/types";
 
 const Layout = ({ children }: ChildrenProps) => {
-  return <div className="container mx-auto max-w-7xl">{children}</div>;
+  return <div className="px-20">{children}</div>;
 };
 
 export default Layout;

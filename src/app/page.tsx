@@ -1,12 +1,10 @@
-import { Input } from "@/components/ui/input";
+
+import HomePage from "@/components/pages/home-page";
 
 export default function Home() {
   return (
     <div>
-      <div>
-        <Input placeholder="Cari lowongan kerja...." type="text" />
-        <Input placeholder="Lokasi" />
-      </div>
+      <HomePage />
     </div>
   );
 }
