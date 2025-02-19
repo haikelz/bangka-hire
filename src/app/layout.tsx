@@ -38,9 +38,9 @@ export default async function RootLayout({ children }: ChildrenProps) {
         className={`${geistSans.className} ${geistMono.variable} antialiased text-black`}
       >
         <Wrapper>
-          {!excludedPages ? <Header /> : null}
+          {!excludedPages && <Header /> }
           {children}
-          {!excludedPages ? <Footer /> : null}
+          {!excludedPages && <Footer /> }
         </Wrapper>
         <Toaster />
       </body>

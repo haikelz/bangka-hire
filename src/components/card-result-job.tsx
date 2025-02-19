@@ -10,16 +10,16 @@ export default function CardResultJob() {
   return (
     <div className="shadow-2xl bg-white rounded-lg p-4 border border-primary_color">
       {/* Logo company */}
-      <Image className="w-24" src={logo} alt="Logo" />
+      <Image className="w-16 md:w-24" src={logo} alt="Logo" />
       {/* informasi singkat dari nama perusahaan, posisi, gaji, dll */}
-      <div className="text-black mt-4 space-y-2">
+      <div className="text-black mt-1 space-y-2">
         <div className="text-primary_color">
-          <h3 className="text-2xl font-bold line-clamp-1">PT. BabelHire</h3>
-          <p className="text-lg font-medium line-clamp-1">Frontend Developer</p>
+          <h3 className="text-xl md:text-2xl font-bold line-clamp-1">PT. BabelHire</h3>
+          <p className="text-base md:text-lg font-medium line-clamp-1">Frontend Developer</p>
         </div>
 
         {/* Informasi lokasi perusahaan dan gaji dan status pekerjaan */}
-        <div className="font-medium text-sm space-y-2">
+        <div className="font-medium text-xs md:text-sm space-y-2">
           {/* location */}
           <div className="flex items-center gap-2">
             <Image className="w-4" src={location} alt="Location" />
@@ -40,7 +40,7 @@ export default function CardResultJob() {
         </div>
 
         {/* lihat detail button */}
-        <div className="w-full">
+        <div className="w-full text-sm md:text-base">
           <Link
             href="/jobs/inidetail"
             className="bg-primary_color text-white font-semibold text-center rounded-lg block py-1"
@@ -53,7 +53,7 @@ export default function CardResultJob() {
         <div className="w-full h-[2px] bg-primary_color"></div>
 
         {/* waktu posting */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-sm sm:text-sm">
           <Image className="w-4" src={time} alt="Time" />
           <p>1 hari yang lalu</p>
         </div>

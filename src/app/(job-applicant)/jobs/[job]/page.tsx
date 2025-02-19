@@ -7,8 +7,7 @@ interface JobProps {
 }
 
 export default async function Job({ params }: JobProps) {
-  const { job } = params;
-
+  const { job } = await params;
   return (
     <div>
       <DetailJobPage id={job} />

@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { JobApplicantProps, JobApplyProps } from "@/types";
+import { JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
 
 export async function createApplyJob(data : Omit<JobApplyProps, "user_id" | "job_id">) {

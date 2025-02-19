@@ -29,7 +29,7 @@ export default function Header() {
   );
 
   return (
-    <header className={`bg-white text-primary_color sticky top-0 z-50 ${isScroll ? "border-b-2 border-primary_color" : ""} duration-300 ease-in-out`}>
+    <header className={`bg-white text-primary_color sticky top-0 z-50 ${isScroll ? "border-b border-primary_color" : ""} duration-200 ease-in-out`}>
       <nav className="flex justify-between items-center w-full md:max-w-[1366px] xl:mx-auto py-2 px-4 lg:px-[30px] 2xl:px-0">
         {/* Logo dan menu navbar */}
         <div className="flex items-center md:gap-5 xl:gap-10">
@@ -44,8 +44,8 @@ export default function Header() {
 
         {/* Login dan sign up */}
         <div className="hidden md:flex md:gap-5 xl:gap-10">
-          <NavLink href="/login">MASUK</NavLink>
-          <NavLink href="/sign-up">UNTUK PEMBERI KERJA</NavLink>
+          <NavLink href="/auth/login">MASUK</NavLink>
+          <NavLink href="/auth/sign-up">UNTUK PEMBERI KERJA</NavLink>
         </div>
 
         {/* Menu Hamburger */}

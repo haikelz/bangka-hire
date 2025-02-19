@@ -1,10 +1,9 @@
 import db from "@/lib/db";
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth"
-import { NextRequest, NextResponse } from "next/server"
 
 //
-export async function POST(req: NextRequest, res:NextApiResponse) {
+export async function POST(req: NextApiRequest, res:NextApiResponse) {
   try {
     // ambil data user yang sedang login saat ini
     const session = await getServerSession();
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest, res:NextApiResponse) {
     }
 
     // ambil user_id dan juga job_id dari json
-    const { job_id } = await req.json();
+    const { job_id } = await req.body;
 
 
     // buat relasi antara user dan job
