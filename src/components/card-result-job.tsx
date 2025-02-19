@@ -42,7 +42,7 @@ export default function CardResultJob() {
         {/* lihat detail button */}
         <div className="w-full">
           <Link
-            href="/detail-job"
+            href="/jobs/inidetail"
             className="bg-primary_color text-white font-semibold text-center rounded-lg block py-1"
           >
             Lihat Detail

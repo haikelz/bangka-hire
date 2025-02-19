@@ -14,7 +14,7 @@ export default function HomePage() {
           <Layout>
             <div className="sm:flex w-full sm:justify-between sm:items-center lg:items-start">
                {/* tagline singkat */}
-              <div className="md:space-y-6 space-y-2 w-full sm:w-2/3 lg:w-1/2 lg:pt-16 py-4 sm:py-10">
+              <div className="md:space-y-6 space-y-2 w-full sm:w-2/3 lg:w-1/2 lg:pt-16 py-4 sm:py-10 text-white">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">
                   Temukan karier impianmu <span className="bg-gradient-to-r to-[#FFED3C] from-[#FF3C86] bg-clip-text text-transparent">dengan Mudah!</span>
                 </h1>

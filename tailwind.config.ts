@@ -42,6 +42,8 @@ export default {
         },
         primary_color: "#3C74FF",
         secondary_color_1: "#2A72B3",
+        secondary_color_3: "#CEE8FF",
+        secondary_color_2: "#F3F9FF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

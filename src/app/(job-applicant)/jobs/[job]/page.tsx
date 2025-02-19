@@ -1,3 +1,5 @@
+import DetailJobPage from "@/components/pages/detail-job-page";
+
 interface JobProps {
   params: {
     job: string;
@@ -9,8 +11,7 @@ export default async function Job({ params }: JobProps) {
 
   return (
     <div>
-      <div>Test Job</div>
-      <div>{job}</div>
+      <DetailJobPage id={job} />
     </div>
   );
 }
