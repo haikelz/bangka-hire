@@ -3,9 +3,9 @@
 import db from "@/lib/db";
 
 export default function Client() {
-  async function handleSubmit(e : any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-    await db.user.create({
+    await db.users.create({
       data: {
         email: "gdsfg@gmail.com",
         name: "Test",
