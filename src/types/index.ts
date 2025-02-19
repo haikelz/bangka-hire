@@ -4,6 +4,11 @@ export type ChildrenProps = {
   children: ReactNode;
 };
 
+export type JobApplyProps = {
+  user_id: string;
+  job_id: string;
+}
+
 export type JobApplicantProps = {
   id: string;
   email: string;

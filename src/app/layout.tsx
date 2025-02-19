@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.className} ${geistMono.variable} antialiased text-white`}
+        className={`${geistSans.className} ${geistMono.variable} antialiased text-black`}
       >
         <Wrapper>
           {!excludedPages ? <Header /> : null}

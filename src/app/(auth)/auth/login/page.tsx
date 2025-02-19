@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 export default async function Login() {
   const session = await getServerSession(options);
-  const data = await db.users.findMany();
+  const data = await db.user.findMany();
 
   console.log(data);
 

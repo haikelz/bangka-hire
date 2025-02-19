@@ -50,7 +50,6 @@ model Job {
   company        ProfilCompany @relation(fields: [company_id], references: [id])
   company_id     String
   position_job   String
-  city           String
   responsibilty  String
   qualification  String
   salary         String
