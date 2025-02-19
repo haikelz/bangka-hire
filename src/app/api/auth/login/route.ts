@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { createSession } from "../sign-up/route";
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
 
   if (!existingJobApplicant) {
     return NextResponse.json({
-      status_code: 401,
+      status_code: 400,
       message: "Nama akun dengan Email ini tidak ditemukan!",
     });
   }
@@ -26,10 +27,12 @@ export async function POST(req: NextRequest) {
 
   if (!matchPassword) {
     return NextResponse.json({
-      status_code: 401,
+      status_code: 400,
       message: "Password yang kamu masukkan salah!",
     });
   }
+
+  await createSession(existingJobApplicant);
 
   return NextResponse.json({
     status_code: 200,

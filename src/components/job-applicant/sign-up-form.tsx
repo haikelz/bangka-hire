@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { createAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
+import { setCookie } from "cookies-next";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
@@ -57,7 +57,12 @@ export function SignUpFormJobApplicant() {
   }
 
   function handleSignUpWithGoogle() {
-    Cookies.set("sign-up-role", "job_applicant", { expires: 7 });
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 7);
+
+    setCookie("sign-up-role", "job_applicant", {
+      expires: expirationDate,
+    });
     signIn("google", { redirect: false, callbackUrl: "/" });
   }
 

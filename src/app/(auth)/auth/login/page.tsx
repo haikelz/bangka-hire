@@ -1,13 +1,13 @@
-import { options } from "@/app/api/auth/[...nextauth]/options";
 import { LoginFormJobApplicant } from "@/components/job-applicant/login-form";
-import db from "@/lib/db";
-import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Login() {
-  const session = await getServerSession(options);
-  const data = await db.users.findMany();
+  const session = (await cookies()).get("auth-token");
 
-  console.log(data);
+  if (session) {
+    return redirect("/");
+  }
 
   return (
     <main className="bg-[#F3F9FF] w-full py-10 flex min-h-svh justify-center items-center">
