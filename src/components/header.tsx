@@ -55,10 +55,6 @@ export default function Header() {
             <NavLink href="/auth/sign-up">UNTUK PEMBERI KERJA</NavLink>
           </div>
 
-        <div>
-          <button onClick={() => logoutAccount()}>LOGOUT</button>
-        </div>
-
 
         {/* Menu Hamburger */}
         <div className="md:hidden">
