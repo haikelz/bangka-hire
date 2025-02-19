@@ -8,6 +8,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
+import Link from "next/link";
+import { z } from "zod";
+import { signUpSchema } from "@/lib/schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function SignUpFormJobApplicant() {
   const queryClient = useQueryClient();
@@ -20,7 +25,16 @@ export function SignUpFormJobApplicant() {
         email: getValues("email"),
         password: getValues("password"),
       }),
-    onSuccess: async () => {
+    onSuccess: async (response) => {
+      // cek status dari response
+      if(response.status_code === 400) {
+        return toast({
+          title: "Gagal mendaftarkan akun!",
+          description: response.message,
+          variant: "destructive",
+        });
+      }
+
       await queryClient.invalidateQueries().then(() => {
         setTimeout(() => {
           toast({
@@ -43,12 +57,14 @@ export function SignUpFormJobApplicant() {
     getValues,
     register,
     handleSubmit,
-  } = useForm({
+  } = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       phone_number: "",
       email: "",
       full_name: "",
       password: "",
+      confirm_password: "",
     },
   });
 
@@ -67,53 +83,93 @@ export function SignUpFormJobApplicant() {
   }
 
   return (
-    <div>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md">
-          <div>
-            <Input
-              {...register("full_name", { required: true })}
-              placeholder="Nama Lengkap...."
-              required
-              name="full_name"
-            />
-            {errors.full_name ? <span>{errors.full_name.message}</span> : null}
+    <div className="bg-white rounded-sm py-8 px-8">
+          <div className="w-full space-y-4">
+            <Image src="/assets/logo.png" alt="logo" width={138.72} height={77} />
+            <div className="space-y-2">
+              <h3 className="text-black text-xl font-bold">Selamat Datang! Pencari Kerja</h3>
+              <p className="text-black">
+                Daftar sekarang dan mulai jelajahi pekerjaan tanpa batas.
+              </p>
+            </div>
+            <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
+              <div className="space-y-2">
+                <Input
+                    {...register("full_name")}
+                    type="text"
+                    placeholder="Nama Lengkap"
+                    className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                    name="full_name"
+                />
+                {errors.full_name && <p className="text-red-500 text-sm">{errors.full_name.message}</p>}
+                <Input
+                    {...register("phone_number")}
+                    type="text"
+                    placeholder="No Handphone"
+                    className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                    name="phone_number"
+
+                />
+                {errors.phone_number && <p className="text-red-500 text-sm">{errors.phone_number.message}</p>}
+                <Input
+                  {...register("email")}
+                  type="email"
+                  placeholder="Email"
+                  className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                  name="email"
+
+                />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                <Input
+                  {...register("password")}
+                  type="password"
+                  placeholder="Password"
+                  className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                  name="password"
+
+                />
+                {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+                <Input
+                  {...register("confirm_password")}
+                  type="password"
+                  placeholder="Konfirmasi Password"
+                  className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                  name="password"
+
+                />
+                {errors.confirm_password && <p className="text-red-500 text-sm">{errors.confirm_password.message}</p>}
+              </div>
+              <div className="space-x-2 flex justify-center items-center">
+                <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+                <span className="text-black">atau</span>
+                <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+              </div>
+              <Button  type="submit" className="w-full bg-secondary_color_1 hover:bg-primary_color">
+                Daftar
+              </Button>
+              <Button
+                onClick={() => handleSignUpWithGoogle()}
+                className="border border-[#3C74FF] bg-[#F3F9FF] rounded-sm w-full py-5"
+                variant="outline"
+              >
+                <Image
+                  src="/assets/google.svg"
+                  alt="google icon"
+                  width={20}
+                  height={20}
+                />
+                <p className="text-black">Daftar Dengan Google</p>
+              </Button>
+              <div>
+                <p className="text-black">
+                  Sudah punya akun?{" "}
+                  <span className="text-[#3C74FF] cursor-pointer">
+                    <Link className="hover:underline" href="/auth/login">Masuk</Link>
+                  </span>
+                </p>
+              </div>
+            </form>
           </div>
-          <div>
-            <Input
-              {...register("phone_number", { required: true })}
-              placeholder="Nomor Telepon...."
-              required
-              name="phone_number"
-            />
-            {errors.phone_number ? (
-              <span>{errors.phone_number.message}</span>
-            ) : null}
-          </div>
-          <div>
-            <Input
-              {...register("email", { required: true })}
-              placeholder="Email...."
-              required
-              name="email"
-            />
-            {errors.email ? <span>{errors.email.message}</span> : null}
-          </div>
-          <div>
-            <Input
-              {...register("password", { required: true })}
-              placeholder="Password...."
-              required
-              name="password"
-            />
-            {errors.password ? <span>{errors.password.message}</span> : null}
-          </div>
-          <Button className="font-bold" type="submit">
-            Sign Up
-          </Button>
-          <Button onClick={handleSignUpWithGoogle}>Sign Up with Google</Button>
-        </form>
-      </div>
-    </div>
+        </div>
   );
 }

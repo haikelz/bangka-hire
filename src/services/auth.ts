@@ -6,6 +6,11 @@ export async function createAccount(
 ) {
   try {
     const response = await axiosClient.post("/auth/sign-up", data);
+
+    // cek status dari response
+    if(response.data.status_code === 200) {
+      window.location.reload();
+    }
     return response.data;
   } catch (err: any) {
     throw new Error(err.response?.data?.message);
@@ -28,7 +33,10 @@ export async function loginAccount(
 ) {
   try {
     const response = await axiosClient.post("/auth/login", data);
-    window.location.reload(); // reload page
+    // cek status dari response
+    if (response.data.status_code === 200) {
+      window.location.reload();
+    }
     return response.data;
   } catch (err: any) {
     throw new Error(err.response?.data?.message);

@@ -3,11 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Link from "next/link";
+
 
 export function LoginFormJobApplicant() {
   const {
@@ -16,7 +21,8 @@ export function LoginFormJobApplicant() {
     setValue,
     handleSubmit,
     register,
-  } = useForm({
+  } = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -31,15 +37,25 @@ export function LoginFormJobApplicant() {
         email: getValues("email"),
         password: getValues("password"),
       }),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries().then(() => {
-        setTimeout(() => {
-          toast({
-            title: "Sukses login!",
-            description: "Kamu akan dialihkan ke halaman dashboard!",
-          });
-        }, 1000);
-      });
+    onSuccess: async (response) => {
+      // cek status dari response
+      if(response.status_code === 400) {
+        return toast({
+          title: "Gagal login!",
+          description: response.message,
+          variant: "destructive",
+        });
+      }
+
+      await queryClient.invalidateQueries()
+        .then(() => {
+          setTimeout(() => {
+            toast({
+              title: "Sukses login!",
+              description: "Kamu akan dialihkan ke halaman dashboard!",
+            });
+          }, 1000);
+        })
     },
     onError: (data) => {
       return toast({
@@ -64,8 +80,8 @@ export function LoginFormJobApplicant() {
             Bangka Belitung.
           </p>
         </div>
-        <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
+        <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-2">
             <Input
               {...register("email")}
               type="email"
@@ -73,6 +89,9 @@ export function LoginFormJobApplicant() {
               className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
               name="email"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
             <Input
               {...register("password")}
               type="password"
@@ -80,14 +99,19 @@ export function LoginFormJobApplicant() {
               className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
               name="password"
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
+
           <div className="space-x-2 flex justify-center items-center">
             <div className="w-full border border-[#3C74FF] h-[1px]"></div>
             <span className="text-black">atau</span>
             <div className="w-full border border-[#3C74FF] h-[1px]"></div>
           </div>
-          <Button type="submit" className="w-full">
-            Login
+
+          <Button type="submit" className="w-full bg-secondary_color_1 hover:bg-primary_color ">
+            Masuk
           </Button>
           <Button
             onClick={() =>
@@ -106,6 +130,24 @@ export function LoginFormJobApplicant() {
             />
             <p className="text-black">Lanjut Dengan Google</p>
           </Button>
+          {/* nge link ke daftar akun */}
+          <div>
+            <p className="text-black">
+              Belum punya akun?{" "}
+              <span className="text-primary_color">
+                <Link className="hover:underline" href={"/auth/sign-up"}>Daftar Sekarang</Link>
+              </span>
+            </p>
+          </div>
+          {/* daftar sebagai employeer */}
+          <div>
+            <p className="text-black">
+              Daftar sebagai{" "}
+              <span className="text-primary_color">
+                <Link className="hover:underline" href={"/auth/sign-up"}>Employeer ?</Link>
+              </span>
+            </p>
+          </div>
         </form>
       </div>
     </div>

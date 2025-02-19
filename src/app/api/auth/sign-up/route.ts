@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { full_name, phone_number, email, password } = await req.json();
+  const { full_name, phone_number, email, password, confirm_password } = await req.json();
 
   const existingJobApplicant = await db.user.findUnique({
     where: {
@@ -18,6 +18,15 @@ export async function POST(req: NextRequest) {
       message: "Email yang kamu masukkan sudah terdaftar!",
     });
   }
+
+  // pengecekan password dan confirm password
+  if (password !== confirm_password) {
+    return NextResponse.json({
+      status_code: 400,
+      message: "Konfirmasi Password yang kamu masukkan tidak sama!",
+    });
+  }
+
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
