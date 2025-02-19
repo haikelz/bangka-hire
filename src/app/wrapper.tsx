@@ -13,7 +13,7 @@ export default function Wrapper({ children }: ChildrenProps) {
       <ReactQueryDevtools />
       <LazyMotion features={domAnimation}>
         <AnimatePresence mode="wait">
-          <div className="w-full">
+          <div className="w-full min-h-svh">
             <m.div
               className="w-full"
               transition={{ duration: 0.3 }}

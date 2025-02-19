@@ -5,13 +5,11 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { createAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export function SignUpFormJobApplicant() {
-  const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({
@@ -58,10 +56,15 @@ export function SignUpFormJobApplicant() {
     await signUpMutation.mutateAsync();
   }
 
+  function handleSignUpWithGoogle() {
+    Cookies.set("sign-up-role", "job_applicant", { expires: 7 });
+    signIn("google", { redirect: false, callbackUrl: "/" });
+  }
+
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md">
           <div>
             <Input
               {...register("full_name", { required: true })}
@@ -103,8 +106,8 @@ export function SignUpFormJobApplicant() {
           <Button className="font-bold" type="submit">
             Sign Up
           </Button>
+          <Button onClick={handleSignUpWithGoogle}>Sign Up with Google</Button>
         </form>
-        <Button onClick={() => signIn("google")}>Sign Up with Google</Button>
       </div>
     </div>
   );

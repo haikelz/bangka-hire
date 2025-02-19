@@ -11,4 +11,9 @@ export async function createAccount(
   return response.data;
 }
 
-export async function login(data: JobApplicantProps) {}
+export async function loginAccount(
+  data: Pick<JobApplicantProps, "email" | "password">
+) {
+  const response = await axiosClient.post("/auth/login", data);
+  return response.data;
+}

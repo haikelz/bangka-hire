@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import Wrapper from "./wrapper";
 
@@ -23,16 +24,23 @@ export const metadata: Metadata = {
     "Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan !",
 };
 
-export default function RootLayout({ children }: ChildrenProps) {
+export default async function RootLayout({ children }: ChildrenProps) {
+  const headerList = headers();
+  const pathname = (await headerList).get("x-current-path") as string;
+
+  const excludedPages = ["/dashboard", "/admin", "/404", "/auth"].some((str) =>
+    pathname.includes(str)
+  );
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.className} ${geistMono.variable} antialiased text-white`}
       >
         <Wrapper>
-          <Header />
+          {!excludedPages ? <Header /> : null}
           {children}
-          <Footer />
+          {!excludedPages ? <Footer /> : null}
         </Wrapper>
         <Toaster />
       </body>
