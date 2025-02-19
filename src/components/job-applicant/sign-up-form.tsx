@@ -2,14 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useUser from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { createAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export function SignUpFormJobApplicant() {
+  const router = useRouter();
+  const session = useUser();
+
+  if (session) {
+    router.push("/");
+  }
+
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({

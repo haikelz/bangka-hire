@@ -2,14 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useUser from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { loginAccount } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export function LoginFormJobApplicant() {
+  const router = useRouter();
+  const session = useUser();
+
+  if (session) {
+    router.push("/");
+  }
+
   const {
     getValues,
     formState: { errors },
@@ -70,21 +79,21 @@ export function LoginFormJobApplicant() {
               {...register("email")}
               type="email"
               placeholder="Email"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+              className="border border-primary_color focus:border-primary_color text-black"
               name="email"
             />
             <Input
               {...register("password")}
               type="password"
               placeholder="Password"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+              className="border border-primary_color focus:border-primary_color text-black"
               name="password"
             />
           </div>
           <div className="space-x-2 flex justify-center items-center">
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+            <div className="w-full border border-primary_color h-[1px]"></div>
             <span className="text-black">atau</span>
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+            <div className="w-full border border-primary_color h-[1px]"></div>
           </div>
           <Button type="submit" className="w-full">
             Login
@@ -95,7 +104,7 @@ export function LoginFormJobApplicant() {
                 callbackUrl: "/dashboard",
               })
             }
-            className="border border-[#3C74FF] bg-[#F3F9FF] rounded-sm w-full py-5"
+            className="border border-primary_color bg-[#F3F9FF] rounded-sm w-full py-5"
             variant="outline"
           >
             <Image
