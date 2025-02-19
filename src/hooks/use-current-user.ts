@@ -1,9 +1,18 @@
-"use client";
+import { useEffect, useState } from "react";
 
-import { useSession } from "next-auth/react";
+export default function useUser() {
+  const [user, setUser] = useState(null);
 
-export function useCurrentUser() {
-  // mengambil data user yang sedang login
-  const { data: session } = useSession();
-  return session?.user;
+  useEffect(() => {
+    fetch("/api/auth/user-current")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status_code === 200) {
+          setUser(data.user);
+        }
+      })
+      .catch(() => setUser(null));
+  }, []);
+
+  return user;
 }

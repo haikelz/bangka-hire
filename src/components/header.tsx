@@ -6,10 +6,17 @@ import Image from "next/image";
 import logo from "../../public/assets/logo.png";
 import NavLink from "./nav-link";
 import { motion } from "framer-motion";
+import { signOut, useSession } from 'next-auth/react';
+import useUser from '@/hooks/use-current-user';
+import { logoutAccount } from '@/services/auth';
+
+
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,10 +50,15 @@ export default function Header() {
         </div>
 
         {/* Login dan sign up */}
-        <div className="hidden md:flex md:gap-5 xl:gap-10">
-          <NavLink href="/auth/login">MASUK</NavLink>
-          <NavLink href="/auth/sign-up">UNTUK PEMBERI KERJA</NavLink>
+          <div className="hidden md:flex md:gap-5 xl:gap-10">
+            <NavLink href="/auth/login">MASUK</NavLink>
+            <NavLink href="/auth/sign-up">UNTUK PEMBERI KERJA</NavLink>
+          </div>
+
+        <div>
+          <button onClick={() => logoutAccount()}>LOGOUT</button>
         </div>
+
 
         {/* Menu Hamburger */}
         <div className="md:hidden">
@@ -96,6 +108,7 @@ export default function Header() {
             <NavLink href="/">BERANDA</NavLink>
             <NavLink href="/review-vacancy-provider">REVIEW PERUSAHAAN</NavLink>
             <div className="border-t border-primary_color my-2" />
+            {/* jika user sudah login */}
             <NavLink href="/login">MASUK</NavLink>
             <NavLink href="/sign-up">UNTUK PEMBERI KERJA</NavLink>
           </div>
