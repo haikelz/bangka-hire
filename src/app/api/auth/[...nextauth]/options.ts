@@ -5,6 +5,7 @@ import {
 } from "@/lib/constants";
 import db from "@/lib/db";
 import type { Awaitable, NextAuthOptions, User } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import { cookies } from "next/headers";
 
@@ -154,3 +155,6 @@ export const options: NextAuthOptions = {
     },
   },
 };
+
+export default NextAuth(options)
+
