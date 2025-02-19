@@ -14,7 +14,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Users {
+model users {
   id            String   @id @default(cuid())
   email         String   @unique
   full_name     String
@@ -24,9 +24,11 @@ model Users {
   role          String
   cv            String?
   image         String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
+
+
 
 
 

@@ -11,8 +11,6 @@ export async function POST(req: NextRequest) {
   //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   // }
 
-
-
   const { full_name, phone_number, email, password } = await req.json();
 
   const existingJobApplicant = await db.users.findUnique({
