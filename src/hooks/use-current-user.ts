@@ -12,7 +12,7 @@ export default function useUser() {
         }
       })
       .catch(() => setUser(null));
-  }, []);
+  }, [setUser]);
 
   return user;
 }

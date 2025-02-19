@@ -8,14 +8,16 @@ export async function GET(req: NextRequest) {
 
   if (!authToken) {
     return NextResponse.json(
-      { status_code: 401, message: "User tidak login!" },
+      { status_code: 401, message: "User belum login!" },
       { status: 401 }
     );
   }
 
   try {
     // Decode Base64
-    const decoded = JSON.parse(Buffer.from(authToken, "base64").toString());
+    const decoded = JSON.parse(atob(authToken));
+
+    console.log(decoded);
 
     // Cek apakah session sudah expired
     if (new Date(decoded.expires) < new Date()) {

@@ -2,19 +2,27 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useUser from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAccount } from "@/services/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export function LoginFormJobApplicant() {
+  const router = useRouter();
+  const session = useUser();
+
+  if (session) {
+    router.push("/");
+  }
+
   const {
     getValues,
     formState: { errors },
@@ -39,7 +47,7 @@ export function LoginFormJobApplicant() {
       }),
     onSuccess: async (response) => {
       // cek status dari response
-      if(response.status_code === 400) {
+      if (response.status_code === 400) {
         return toast({
           title: "Gagal login!",
           description: response.message,
@@ -47,15 +55,16 @@ export function LoginFormJobApplicant() {
         });
       }
 
-      await queryClient.invalidateQueries()
-        .then(() => {
-          setTimeout(() => {
-            toast({
-              title: "Sukses login!",
-              description: "Kamu akan dialihkan ke halaman dashboard!",
-            });
-          }, 1000);
-        })
+      await queryClient.invalidateQueries().then(() => {
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+
+        toast({
+          title: "Sukses login!",
+          description: "Kamu akan dialihkan ke halaman dashboard!",
+        });
+      });
     },
     onError: (data) => {
       return toast({
@@ -86,7 +95,7 @@ export function LoginFormJobApplicant() {
               {...register("email")}
               type="email"
               placeholder="Email"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+              className="border border-primary_color focus:border-primary_color text-black"
               name="email"
             />
             {errors.email && (
@@ -96,7 +105,7 @@ export function LoginFormJobApplicant() {
               {...register("password")}
               type="password"
               placeholder="Password"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+              className="border border-primary_color focus:border-primary_color text-black"
               name="password"
             />
             {errors.password && (
@@ -105,12 +114,15 @@ export function LoginFormJobApplicant() {
           </div>
 
           <div className="space-x-2 flex justify-center items-center">
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+            <div className="w-full border border-primary_color h-[1px]"></div>
             <span className="text-black">atau</span>
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
+            <div className="w-full border border-primary_color h-[1px]"></div>
           </div>
 
-          <Button type="submit" className="w-full bg-secondary_color_1 hover:bg-primary_color ">
+          <Button
+            type="submit"
+            className="w-full bg-secondary_color_1 hover:bg-primary_color "
+          >
             Masuk
           </Button>
           <Button
@@ -119,7 +131,7 @@ export function LoginFormJobApplicant() {
                 callbackUrl: "/dashboard",
               })
             }
-            className="border border-[#3C74FF] bg-[#F3F9FF] rounded-sm w-full py-5"
+            className="border border-primary_color bg-[#F3F9FF] rounded-sm w-full py-5"
             variant="outline"
           >
             <Image
@@ -135,7 +147,9 @@ export function LoginFormJobApplicant() {
             <p className="text-black">
               Belum punya akun?{" "}
               <span className="text-primary_color">
-                <Link className="hover:underline" href={"/auth/sign-up"}>Daftar Sekarang</Link>
+                <Link className="hover:underline" href={"/auth/sign-up"}>
+                  Daftar Sekarang
+                </Link>
               </span>
             </p>
           </div>
@@ -144,7 +158,9 @@ export function LoginFormJobApplicant() {
             <p className="text-black">
               Daftar sebagai{" "}
               <span className="text-primary_color">
-                <Link className="hover:underline" href={"/auth/sign-up"}>Employeer ?</Link>
+                <Link className="hover:underline" href={"/auth/sign-up"}>
+                  Employeer ?
+                </Link>
               </span>
             </p>
           </div>

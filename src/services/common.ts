@@ -1,8 +1,10 @@
 import db from "@/lib/db";
-import { JobApplyProps } from "@/types";
+import { CommentProps, JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
 
-export async function createApplyJob(data : Omit<JobApplyProps, "user_id" | "job_id">) {
+export async function createApplyJob(
+  data: Omit<JobApplyProps, "user_id" | "job_id">
+) {
   const response = await axiosClient.post("/job-applicant/apply-job", data);
   return response.data;
 }
@@ -25,13 +27,13 @@ export async function getJobApplicant(page = 1) {
           select: {
             user: {
               select: {
-                full_name: true // mengambil nama perusahaan
-              }
+                full_name: true, // mengambil nama perusahaan
+              },
             },
-            city: true // mengambil kota perusahaan seperti pangkal pinang, sungailiat
-          }
-        }
-      }
+            city: true, // mengambil kota perusahaan seperti pangkal pinang, sungailiat
+          },
+        },
+      },
     });
 
     const totalItems = await db.job.count(); // menghitung total item
@@ -41,10 +43,17 @@ export async function getJobApplicant(page = 1) {
       data,
       totalItems,
       totalPages,
-      currentPage: page
+      currentPage: page,
     };
   } catch (error) {
-    throw new Error('Gagal mengambil data lowongan kerja');
+    throw new Error("Gagal mengambil data lowongan kerja");
   }
 }
 
+export async function createReviewJobVacancyProvider(data: CommentProps) {
+  try {
+    // const response = await db.comment.create({data:{company:data }})
+  } catch (err) {
+    throw new Error("Gagal membuat review perusahaan!");
+  }
+}

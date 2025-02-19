@@ -2,15 +2,11 @@ import { JobApplicantProps } from "@/types";
 import { axiosClient } from "./axios";
 
 export async function createAccount(
-  data: Omit<JobApplicantProps, "id" | "cv">
+  data: Omit<JobApplicantProps, "id" | "cv"> & { confirm_password: string }
 ) {
   try {
     const response = await axiosClient.post("/auth/sign-up", data);
 
-    // cek status dari response
-    if(response.data.status_code === 200) {
-      window.location.reload();
-    }
     return response.data;
   } catch (err: any) {
     throw new Error(err.response?.data?.message);
