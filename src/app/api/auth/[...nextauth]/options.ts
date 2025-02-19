@@ -45,11 +45,11 @@ export const options: NextAuthOptions = {
     async jwt({ token, user, account, trigger, session }) {
       if (account && user) {
         if (account.provider === "google") {
-          const existingJobApplicant = await db.users.findUnique({
+          const existingJobApplicant = await db.user.findUnique({
             where: { email: user.email as string },
           });
 
-          const existingJobVacancyProvider = await db.users.findUnique({
+          const existingJobVacancyProvider = await db.user.findUnique({
             where: { email: user.email as string },
           });
 
@@ -94,14 +94,14 @@ export const options: NextAuthOptions = {
 
         const signUpRole = (await cookies()).get("sign-up-role")?.value;
 
-        const existingJobApplicant = await db.users.findUnique({
+        const existingJobApplicant = await db.user.findUnique({
           where: {
             email: user.email as string,
             google_oauth: true,
             role: "job_applicant",
           },
         });
-        const existingJobVacancyProvider = await db.users.findUnique({
+        const existingJobVacancyProvider = await db.user.findUnique({
           where: {
             email: user.email as string,
             google_oauth: true,
@@ -119,7 +119,7 @@ export const options: NextAuthOptions = {
         }
 
         if (!existingJobApplicant && signUpRole === "job_applicant") {
-          await db.users.create({
+          await db.user.create({
             data: {
               email: user.email as string,
               full_name: user.name as string,
@@ -136,7 +136,7 @@ export const options: NextAuthOptions = {
           !existingJobVacancyProvider &&
           signUpRole === "job_vacancy_provider"
         ) {
-          await db.users.create({
+          await db.user.create({
             data: {
               email: user.email as string,
               full_name: user.name as string,

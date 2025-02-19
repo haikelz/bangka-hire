@@ -3,18 +3,9 @@ import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-<<<<<<< HEAD
-  const session = await getServerSession(options());
-
-  // if (!session || !session.user) {
-  //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  // }
-
-=======
->>>>>>> 0ec0b15c624fdbdb85fece7ddb08c12a46f1bd30
   const { full_name, phone_number, email, password } = await req.json();
 
-  const existingJobApplicant = await db.users.findUnique({
+  const existingJobApplicant = await db.user.findUnique({
     where: {
       email,
     },
@@ -29,7 +20,7 @@ export async function POST(req: NextRequest) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.users.create({
+  await db.user.create({
     data: {
       full_name,
       phone_number,

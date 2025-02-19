@@ -14,20 +14,91 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model users {
-  id            String   @id @default(cuid())
-  email         String   @unique
+model User {
+  id            String           @id @default(cuid())
+  email         String          @unique
   full_name     String
-  phone_number  String
-  password      String?
-  google_oauth  Boolean  @default(false)
+  phone_number  String?
+  password      String
+  google_oauth  Boolean         @default(false)
   role          String
   cv            String?
   image         String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relations
+  jobs          UsersOnJobs[] // Relasi ke table user on jobs untuk mengetahui user yang sudah lamaran ke loker yang diinginkan
+  comments      Comment[]
+  profile       ProfilCompany?
+
+  @@map("users")
 }
 
+model UsersOnJobs {
+  id            Int            @id @default(autoincrement())
+  user          User           @relation(fields: [user_id], references: [id])
+  user_id       String
+  job           Job            @relation(fields: [jobs_id], references: [id])
+  jobs_id       String
+
+  @@map("users_on_jobs")
+}
+
+model Job {
+  id             String        @id @default(cuid())
+  company        ProfilCompany @relation(fields: [company_id], references: [id])
+  company_id     String
+  position_job   String
+  city           String
+  responsibilty  String
+  qualification  String
+  salary         String
+  status_work    String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relasi ke table user on jobs untuk mengambil data user yang sudah kirim lamaran ke loker yang diinginkan
+  users          UsersOnJobs[]
+
+  @@map("jobs")
+}
+
+model Comment {
+  id          String        @id @default(cuid())
+  user        User          @relation(fields: [user_id], references: [id])
+  user_id     String
+  company     ProfilCompany @relation(fields: [company_id], references: [id])
+  company_id  String
+  body        String
+  rating      Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("comments")
+}
+
+model ProfilCompany {
+  id                  String    @id @default(cuid())
+  user               User      @relation(fields: [user_id], references: [id])
+  user_id            String    @unique
+  description_company String
+  street             String
+  city               String
+  total_employers    String
+  gmail              String
+  facebook           String?
+  instagram          String?
+  linkedin           String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Relations
+  comments           Comment[]
+  jobs               Job[]
+
+  @@map("profil_company")
+}
 
 
 

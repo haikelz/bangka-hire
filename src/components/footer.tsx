@@ -8,7 +8,7 @@ import Layout from "./container";
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary_color_1 text-white w-full py-10">
+    <footer className="bg-secondary_color_1 text-white w-full py-10 mt-24">
       <Layout>
         <div className="flex flex-col justify-center gap-10 sm:gap-5 md:gap-10 md:flex-row md:justify-between md:items-start">
           {/* logo dan sosmed */}
