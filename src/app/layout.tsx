@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import Wrapper from "./wrapper";
+import ClientLayout from "@/components/client-layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,23 +26,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: ChildrenProps) {
-  const headerList = headers();
-  const pathname = (await headerList).get("x-current-path") as string;
-
-  const excludedPages = ["/dashboard", "/admin", "/404", "/auth"].some((str) =>
-    pathname.includes(str)
-  );
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.className} ${geistMono.variable} antialiased text-black`}
       >
-        <Wrapper>
-          {!excludedPages && <Header /> }
-          {children}
-          {!excludedPages && <Footer /> }
-        </Wrapper>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         <Toaster />
       </body>
     </html>
