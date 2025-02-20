@@ -1,7 +1,7 @@
+import { createSession } from "@/app/actions";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-import { createSession } from "../sign-up/route";
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();

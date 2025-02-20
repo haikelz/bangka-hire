@@ -2,7 +2,6 @@ import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
-//
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
     // ambil data user yang sedang login saat ini
