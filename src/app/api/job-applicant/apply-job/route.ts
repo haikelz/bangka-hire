@@ -1,22 +1,23 @@
 import db from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+//
+export async function POST(req: NextRequest) {
   try {
     // ambil data user yang sedang login saat ini
     const session = await getServerSession();
 
     // pengecekan bila belum login
     if (!session || !session.user) {
-      return res.json({
+      return NextResponse.json({
         status_code: 401,
         message: "Kamu belum login!",
       });
     }
 
     // ambil user_id dan juga job_id dari json
-    const { job_id } = await req.body;
+    const { job_id } = await req.json();
 
     // buat relasi antara user dan job
     const existingJobApplicant = await db.usersOnJobs.findFirst({
@@ -28,7 +29,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     // pengecekan bila relasi sudah ada
     if (existingJobApplicant) {
-      return res.json({
+      return NextResponse.json({
         status_code: 400,
         message: "Lowongan kerja sudah kamu daftar!",
       });
@@ -42,12 +43,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.json({
+    return NextResponse.json({
       status_code: 200,
       message: "Sukses mendaftar lowongan kerja!",
     });
   } catch (error) {
-    return res.json({
+    return NextResponse.json({
       status_code: 400,
       message: "Gagal mendaftar lowongan kerja!",
     });

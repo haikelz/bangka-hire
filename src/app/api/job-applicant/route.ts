@@ -1,10 +1,10 @@
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   try {
-    const { password, full_name, email, phone_number } = req.body;
+    const { password, full_name, email, phone_number } = await req.json();
 
     const existingJobApplicant = await db.user.findUnique({
       where: {
@@ -13,7 +13,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     });
 
     if (existingJobApplicant) {
-      return res.json({
+      return NextResponse.json({
         status_code: 400,
         message: "Email yang kamu masukkan sudah terdaftar!",
       });
@@ -31,12 +31,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.json({
+    return NextResponse.json({
       status_code: 200,
       message: "Berhasil membuat akun!",
     });
   } catch (err) {
-    return res.json({
+    return NextResponse.json({
       status_code: 500,
       message: "Sepertinya ada kesalahan disisi server!",
     });

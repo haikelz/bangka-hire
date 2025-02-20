@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   // Ambil cookie "auth-token"
   const authCookies = await cookies();
   const authToken = authCookies.get("auth-token")?.value;
