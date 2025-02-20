@@ -19,10 +19,6 @@ export function LoginFormJobApplicant() {
   const router = useRouter();
   const session = useUser();
 
-  if (session) {
-    router.push("/");
-  }
-
   const {
     getValues,
     formState: { errors },

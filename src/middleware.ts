@@ -1,8 +1,21 @@
+import NextAuth from "next-auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+
+
+export function middleware(request : NextRequest) {
+  const { nextUrl } = request
   const authToken = request.cookies.get("auth-token");
+  const isLogin = !!authToken
+  const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
+
+
+  // redirect ke home jika sudah login
+  if (isAuthPage && isLogin) {
+    // redirect ke home
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   if (request.nextUrl.pathname.startsWith("/dashboard")) {
     if (!authToken) {
@@ -34,5 +47,6 @@ export const config = {
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
     "/dashboard/:path*",
+    "/auth/:path*"
   ],
 };

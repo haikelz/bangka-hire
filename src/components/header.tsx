@@ -15,6 +15,7 @@ import { logoutAccount } from '@/services/auth';
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
+  const user = useUser()
 
 
 

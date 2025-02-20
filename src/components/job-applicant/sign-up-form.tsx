@@ -20,10 +20,6 @@ export function SignUpFormJobApplicant() {
   const router = useRouter();
   const session = useUser();
 
-  if (session) {
-    router.push("/");
-  }
-
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({
