@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useUser from "@/hooks/use-current-user";
+import { useUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { signUpSchema } from "@/lib/schemas/auth-schema";
 import { createAccount } from "@/services/auth";

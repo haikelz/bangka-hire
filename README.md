@@ -12,26 +12,27 @@
 ├── public
 ├── src
 │   ├── app
-│   │   ├── favicon.ico
-│   │   ├── jobs
-│   │   │   ├── [job]
 │   ├── components
+│   ├── hooks
 │   ├── lib
 │   ├── store
 │   ├── types
+│   ├── middleware.ts
 ```
 
 ## Technologies
 
 ### Frontend
 
-- Next JS 15 app directory.
-- Tailwind CSS.
-- Framer Motion.
-- Jotai.
+- Next JS 15 app directory
+- Tailwind CSS with shadcn/ui
+- Framer Motion
+- Jotai
+-
 
 ### Backend
 
+- Supabase
 - Prisma
 
 ## Getting Started
