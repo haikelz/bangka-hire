@@ -9,9 +9,13 @@ import { useForm } from "react-hook-form";
 import { useUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
 import { UserProps } from "@/types";
+import { atom, useAtom } from "jotai";
 import { FacebookIcon, InstagramIcon, MailIcon, StarIcon } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import CardResultJob from "../card-result-job";
+
+const ratingAtom = atom<number>(0);
 
 export function DetailJobVacancyProviderPage() {
   const user = useUser() as unknown as UserProps;
@@ -19,6 +23,7 @@ export function DetailJobVacancyProviderPage() {
   const [companyTab, setCompanyTab] = useState<"deskripsi" | "pekerjaan">(
     "deskripsi"
   );
+  const [rating, setRating] = useAtom(ratingAtom);
 
   const {
     getValues,
@@ -125,13 +130,22 @@ export function DetailJobVacancyProviderPage() {
                       .fill(null)
                       .map((_, index) => index + 1)
                       .map((item) => (
-                        <StarIcon
-                          className="stroke-secondary_color_1"
+                        <button
+                          type="button"
+                          aria-label={`Star ${item}`}
                           key={item}
-                        />
+                          onClick={() => setRating(item)}
+                        >
+                          <StarIcon
+                            className={cn(
+                              "stroke-secondary_color_1",
+                              item <= rating ? "fill-secondary_color_1" : ""
+                            )}
+                          />
+                        </button>
                       ))}
                   </div>
-                  <div className="flex justify-center items-center w-full space-x-8 mt-4">
+                  <div className="flex justify-center items-center w-full space-x-8 mt-4 mb-7">
                     <Input
                       placeholder="Tulis Ulasan"
                       className="border border-primary_color focus:border-primary_color text-black"
@@ -146,13 +160,34 @@ export function DetailJobVacancyProviderPage() {
                     </Button>
                   </div>
                 </form>
-                <div className="flex w-full flex-col mt-7 justify-start items-start">
-                  <div className="border-primary_color border px-2 bg-white py-2 w-full rounded-sm">
-                    <StarIcon
-                      width={16}
-                      height={16}
-                      className="fill-secondary_color_1 stroke-secondary_color_1"
-                    />
+                <div className="flex w-full flex-col justify-start items-start">
+                  <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
+                    <div>
+                      <div className="flex w-full justify-between items-start">
+                        <div className="flex justify-center items-center w-fit space-x-2">
+                          <Image
+                            src="/assets/logo.png"
+                            alt="comment"
+                            width={50}
+                            height={50}
+                          />
+                          <p>Syahrul</p>
+                        </div>
+                        <p>12.05</p>
+                      </div>
+                      <div className="flex justify-center items-center w-fit space-x-2">
+                        <span>4</span>
+                        <StarIcon
+                          width={16}
+                          height={16}
+                          className="fill-secondary_color_1 stroke-secondary_color_1"
+                        />
+                      </div>
+                      <p>
+                        ipsum dolor sit amet consectetur. Donec porta sem netus
+                        diam fermentum porta amet elit.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
