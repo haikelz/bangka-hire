@@ -6,7 +6,7 @@ import logo from "../../public/assets/logo.png";
 export default function CardSearchJobVacancyProvider() {
   return (
     <Link
-      href={"/job-providers/adwad"}
+      href={"/job-vacancy-providers/adwad"}
       className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color"
     >
       {/* Logo company */}

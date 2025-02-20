@@ -5,5 +5,5 @@ export default function SearchJob() {
     <div>
       <SearchJobVacancyProviderPage />
     </div>
-  )
+  );
 }

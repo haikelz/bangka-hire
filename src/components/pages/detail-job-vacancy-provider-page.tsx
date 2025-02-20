@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { useUser } from "@/hooks/use-current-user";
+import { cn } from "@/lib/utils";
 import { UserProps } from "@/types";
 import { FacebookIcon, InstagramIcon, MailIcon, StarIcon } from "lucide-react";
 import { useState } from "react";
@@ -62,7 +63,7 @@ export function DetailJobVacancyProviderPage() {
 
   return (
     <>
-      <div className="rounded-sm bg-secondary_color_2 px-6 py-4">
+      <div className="rounded-sm bg-secondary_color_2 px-7 py-6">
         <div>
           <div className="flex space-y-0.5 flex-col justify-between items-center w-fit">
             <div className="flex space-x-2 justify-between items-center w-fit">
@@ -83,20 +84,26 @@ export function DetailJobVacancyProviderPage() {
               <div className="flex justify-center items-center w-fit space-x-10">
                 <h3
                   onClick={() => setCompanyTab("deskripsi")}
-                  className="hover:text-secondary_color_1 text-xl font-bold cursor-pointer"
+                  className={cn(
+                    "hover:text-secondary_color_1 text-xl font-bold cursor-pointer",
+                    companyTab === "deskripsi" ? "text-secondary_color_1" : ""
+                  )}
                 >
                   Deskripsi
                 </h3>
                 <h3
                   onClick={() => setCompanyTab("pekerjaan")}
-                  className="hover:text-secondary_color_1 text-xl font-bold cursor-pointer"
+                  className={cn(
+                    "hover:text-secondary_color_1 text-xl font-bold cursor-pointer",
+                    companyTab === "pekerjaan" ? "text-secondary_color_1" : ""
+                  )}
                 >
                   Pekerjaan
                 </h3>
               </div>
             </div>
             {companyTab === "deskripsi" ? (
-              <div>
+              <div className="w-full py-7">
                 <p className="font-bold">Tentang Perusahaan</p>
                 <div className="mt-6">
                   <h3 className="text-black text-xl font-bold">Hubungi Kami</h3>
@@ -150,7 +157,7 @@ export function DetailJobVacancyProviderPage() {
                 </div>
               </div>
             ) : companyTab === "pekerjaan" ? (
-              <div className="w-full">
+              <div className="w-full py-7">
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
                   {[...Array(8)].map((_, i) => (
                     <CardResultJob key={i} />
