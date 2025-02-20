@@ -42,17 +42,15 @@ export function DetailJobVacancyProviderPage() {
       }),*/
     onSuccess: async () => {
       await queryClient.invalidateQueries().then(() => {
-        setTimeout(() => {
-          toast({
-            title: "Sukses login!",
-            description: "Kamu akan dialihkan ke halaman dashboard!",
-          });
-        }, 1000);
+        toast({
+          title: "Sukses login!",
+          description: "Kamu akan dialihkan ke halaman dashboard!",
+        });
       });
     },
     onError: (data) => {
       return toast({
-        title: "Gagal login!",
+        title: "Gagal memberikan review!",
         description: data.message,
       });
     },

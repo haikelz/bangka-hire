@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAccount } from "@/services/auth";
@@ -17,12 +16,10 @@ import { z } from "zod";
 
 export function LoginFormJobApplicant() {
   const router = useRouter();
-  const session = useUser();
 
   const {
     getValues,
     formState: { errors },
-    setValue,
     handleSubmit,
     register,
   } = useForm<z.infer<typeof loginSchema>>({
