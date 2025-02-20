@@ -40,7 +40,7 @@ export default function Header() {
           {/* menu navbar */}
           <div className="hidden md:flex md:gap-5 xl:gap-10">
             <NavLink href="/">BERANDA</NavLink>
-            <NavLink href="/review-vacancy-provider">CARI PERUSAHAAN</NavLink>
+            <NavLink href="/review-job-vacancy-provider">CARI PERUSAHAAN</NavLink>
           </div>
         </div>
 
@@ -96,7 +96,7 @@ export default function Header() {
         >
           <div className="flex flex-col p-4 gap-4">
             <NavLink href="/">BERANDA</NavLink>
-            <NavLink href="/review-vacancy-provider">REVIEW PERUSAHAAN</NavLink>
+            <NavLink href="/review-job-vacancy-provider">REVIEW PERUSAHAAN</NavLink>
             <div className="border-t border-primary_color my-2" />
             {/* jika user sudah login */}
             <NavLink href="/login">MASUK</NavLink>
