@@ -1,12 +1,14 @@
-import Image from "next/image";
-import hero from "../../../public/assets/hero.png";
-import CardResultJob from "../card-result-job";
-import Layout from "../container";
-import FormSearchJob from "../form-search-job";
 
-export default function HomePage() {
+import hero from "../../../public/assets/cari-perusahaan.png";
+import Image from "next/image";
+import Layout from "../container";
+import { Input } from "../ui/input";
+import { Search } from "lucide-react";
+import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
+
+export function SearchJobVacancyProviderPage() {
   return (
-    <div className="xl:space-y-14">
+    <div className="space-y-8 xl:space-y-14">
       {/* Gambar dan tagline */}
       <div className="w-full h-52 sm:h-full">
         {/* Tagline */}
@@ -16,17 +18,15 @@ export default function HomePage() {
               {/* tagline singkat */}
               <div className="md:space-y-6 space-y-2 w-full sm:w-2/3 lg:w-1/2 lg:pt-16 py-4 sm:py-10 text-white">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">
-                  Temukan karier impianmu{" "}
-                  <span className="bg-gradient-to-r to-[#FFED3C] from-[#FF3C86] bg-clip-text text-transparent">
-                    dengan Mudah!
-                  </span>
+                  Explore lebih banyak perusahaan
                 </h1>
-                <p className="text-sm lg:text-base xl:text-lg">
-                  Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai
-                  langkah pertamamu menuju masa depan !
-                </p>
+                <form action="">
+                  <div className="relative">
+                    <Input type="text" placeholder="Cari perusahaan" className="w-full text-xs md:text-sm xl:text-base md:w-[80%] xl:w-1/2 px-8 md:px-9 py-1 md:py-4 lg:py-6 bg-white text-gray-500 font-medium focus:border-none focus:outline-none" />
+                    <Search width={20} color="#6b7280" className="absolute top-1 left-2 md:top-[5px] lg:top-3 lg:left-3"/>
+                  </div>
+                </form>
               </div>
-
               {/* Gambar */}
               <Image
                 src={hero}
@@ -39,18 +39,14 @@ export default function HomePage() {
       </div>
 
       <Layout>
-        {/* Search Bar dan filter */}
-        <div className="bg-secondary_color_1 rounded-lg p-10 my-12">
-          <FormSearchJob />
-        </div>
-
-        {/* Card Job */}
+        {/* Kumpulan card cari perushaan */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
           {[...Array(8)].map((_, i) => (
-            <CardResultJob key={i} />
+              <CardSearchJobVacancyProvider key={i} />
           ))}
         </div>
       </Layout>
+
     </div>
-  );
+  )
 }

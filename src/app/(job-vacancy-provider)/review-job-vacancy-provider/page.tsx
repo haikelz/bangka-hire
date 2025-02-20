@@ -1,10 +1,9 @@
-import Layout from "@/components/container";
-import { DetailJobVacancyProviderPage } from "@/components/pages/detail-job-vacancy-provider-page";
+import { SearchJobVacancyProviderPage } from "@/components/pages/search-job-vacancy-provider-page";
 
-export default async function ReviewJobVacancyProvider() {
+export default function SearchJob() {
   return (
-    <Layout>
-      <DetailJobVacancyProviderPage />
-    </Layout>
-  );
+    <div>
+      <SearchJobVacancyProviderPage />
+    </div>
+  )
 }
