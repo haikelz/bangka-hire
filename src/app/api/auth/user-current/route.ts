@@ -17,8 +17,6 @@ export async function GET(req: NextRequest) {
     // Decode Base64
     const decoded = JSON.parse(atob(authToken));
 
-    console.log(decoded);
-
     // Cek apakah session sudah expired
     if (new Date(decoded.expires) < new Date()) {
       return NextResponse.json(

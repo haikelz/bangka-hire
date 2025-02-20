@@ -50,9 +50,21 @@ export async function getJobApplicant(page = 1) {
   }
 }
 
+export async function getJobVacancyProvider(id: string) {
+  try {
+    const response = await db.user.findUnique({
+      where: { role: "job_vacancy", id },
+    });
+
+    return response;
+  } catch (error) {
+    throw new Error("Gagal mendapatkan data perusahaan!");
+  }
+}
+
 export async function createReviewJobVacancyProvider(data: CommentProps) {
   try {
-    // const response = await db.comment.create({data:{company:data }})
+    // const response = await db.comment.create({ data: { ...data } });
   } catch (err) {
     throw new Error("Gagal membuat review perusahaan!");
   }

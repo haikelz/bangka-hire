@@ -1,8 +1,8 @@
+import Image from "next/image";
+import hero from "../../../public/assets/hero.png";
 import CardResultJob from "../card-result-job";
 import Layout from "../container";
-import hero from "../../../public/assets/hero.png";
 import FormSearchJob from "../form-search-job";
-import Image from "next/image";
 
 export default function HomePage() {
   return (

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 
-export default function useUser() {
+export function useUser() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
