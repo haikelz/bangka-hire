@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const jobAtom = atom({});
+export const ratingAtom = atom<number>(0);
