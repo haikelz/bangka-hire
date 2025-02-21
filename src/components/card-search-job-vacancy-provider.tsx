@@ -5,19 +5,6 @@ import logo from "../../public/assets/logo.png";
 
 export default function CardSearchJobVacancyProvider() {
   return (
-<<<<<<< HEAD
-    <Link href={"/job-vacancy-providers/adwad"} className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">
-        {/* Logo company */}
-        <div className="flex items-start justify-between">
-          <Image className="w-16 md:w-24" src={logo} alt="Logo" />
-          {/* rating dan ulasan */}
-          <div className="flex items-center gap-3 text-[10px] md:text-xs">
-              {/* rating */}
-              <div className="flex items-center gap-1">
-                <p>4</p>
-                <Star fill="yellow" stroke="none" className="w-4" />
-              </div>
-=======
     <Link
       href={"/job-vacancy-providers/adwad"}
       className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color"
@@ -32,7 +19,6 @@ export default function CardSearchJobVacancyProvider() {
             <p>4</p>
             <Star fill="yellow" stroke="none" className="w-4" />
           </div>
->>>>>>> 64197ec89ed7489efd61fe1a937e8aa345a550db
 
           {/* ulasan */}
           <div>

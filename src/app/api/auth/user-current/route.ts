@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
+
     return NextResponse.json({
       status_code: 200,
       user: decoded.user,

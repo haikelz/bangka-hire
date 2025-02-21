@@ -1,20 +1,18 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
+import { getCurrentUser } from "@/services/auth";
+import { useQuery } from "@tanstack/react-query";
 
-export function useUser() {
-  const [user, setUser] = useState(null);
+export function useCurrentUser() {
+  const { data, ...rest } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+    retry: false,
+    staleTime: 1000 * 60 * 5, // Cache selama 5 menit
+  });
 
-  useEffect(() => {
-    fetch("/api/auth/user-current")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status_code === 200) {
-          setUser(data.user);
-        }
-      })
-      .catch(() => setUser(null));
-  }, [setUser]);
-
-  return user;
+  return {
+    user: data?.user,
+    ...rest,
+  }
 }

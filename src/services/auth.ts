@@ -13,6 +13,20 @@ export async function createAccount(
   }
 }
 
+// mendapatkan user sudah login saat ini
+export async function getCurrentUser() {
+  try {
+    const response = await axiosClient.get("/auth/user-current");
+    if (response.data.status_code === 200) {
+      // return data user tanpa password
+      delete response.data.user.password;
+      return response.data;
+    }
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message);
+  }
+}
+
 // logic logout
 export async function logoutAccount() {
   try {

@@ -11,6 +11,8 @@ export type JobApplyProps = {
 
 export type JobApplicantProps = {
   id: string;
+  image?: string;
+  role?: string;
   email: string;
   full_name: string;
   phone_number: string;

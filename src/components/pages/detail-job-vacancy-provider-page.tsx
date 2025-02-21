@@ -6,7 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
-import { useUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
 import { UserProps } from "@/types";
 import { atom, useAtom } from "jotai";
@@ -18,7 +18,7 @@ import CardResultJob from "../card-result-job";
 const ratingAtom = atom<number>(0);
 
 export function DetailJobVacancyProviderPage() {
-  const user = useUser() as unknown as UserProps;
+  const user = useCurrentUser() as unknown as UserProps;
 
   const [companyTab, setCompanyTab] = useState<"deskripsi" | "pekerjaan">(
     "deskripsi"
