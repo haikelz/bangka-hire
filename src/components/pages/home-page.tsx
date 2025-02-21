@@ -9,11 +9,9 @@ import FormSearchJob from "../form-search-job";
 
 export default function HomePage() {
   const { data, isPending, isError } = useQuery({
-    queryKey: ["data"],
+    queryKey: ["get-jobs"],
     queryFn: async () => await getJobs(1, 1),
     refetchOnWindowFocus: false,
-    retry: false,
-    staleTime: 1000 * 60 * 5,
   });
 
   if (isPending) return <p>fsdf</p>;
@@ -37,7 +35,7 @@ export default function HomePage() {
         </div>
       ) : (
         <p className="text-xl font-bold text-center">
-          Saat ini Belum ada lowongan kerja!
+          Saat ini belum ada lowongan kerja!
         </p>
       )}
     </Layout>

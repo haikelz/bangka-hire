@@ -152,7 +152,10 @@ export function LoginFormJobApplicant() {
             <p className="text-black">
               Daftar sebagai{" "}
               <span className="text-primary_color">
-                <Link className="hover:underline" href={"/auth/sign-up-job-vacancy-provider"}>
+                <Link
+                  className="hover:underline"
+                  href={"/auth/sign-up-job-vacancy-provider"}
+                >
                   Employeer ?
                 </Link>
               </span>

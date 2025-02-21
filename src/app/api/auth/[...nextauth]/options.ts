@@ -87,7 +87,7 @@ export const options: NextAuthOptions = {
 
       return token;
     },
-    async session({ session, token } : any) {
+    async session({ session, token }: any) {
       if (token) {
         session.user.id = token.id;
         session.user.google_oauth = true;
