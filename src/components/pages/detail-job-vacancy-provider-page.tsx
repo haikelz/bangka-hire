@@ -1,13 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
-import { ratingAtom } from "@/store";
-import { UserProps } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { companyTabAtom } from "@/store";
+import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -17,15 +13,12 @@ import {
   StarIcon,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CardResultJob from "../card-result-job";
+import { ReviewJobVacancyProviderForm } from "../job-vacancy-provider/review-job-vacancy-provider-form";
 
 export function DetailJobVacancyProviderPage({ id }: { id: string }) {
-  const [companyTab, setCompanyTab] = useState<"deskripsi" | "pekerjaan">(
-    "deskripsi"
-  );
-  const [rating, setRating] = useAtom(ratingAtom);
+  const [companyTab, setCompanyTab] = useAtom(companyTabAtom);
 
   const {
     getValues,
@@ -39,35 +32,6 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     },
   });
 
-  const queryClient = useQueryClient();
-
-  const loginMutation = useMutation({
-    mutationFn: async () => {},
-    /*await createReviewJobVacancyProvider({
-      body: getValues("review"),
-      company: {},
-      user,
-      }),*/
-    onSuccess: async () => {
-      await queryClient.invalidateQueries().then(() => {
-        toast({
-          title: "Sukses login!",
-          description: "Kamu akan dialihkan ke halaman dashboard!",
-        });
-      });
-    },
-    onError: (data) => {
-      return toast({
-        title: "Gagal memberikan review!",
-        description: data.message,
-      });
-    },
-  });
-
-  async function onSubmit() {
-    await loginMutation.mutateAsync();
-  }
-
   const { data, isPending, isError } = useQuery({
     queryKey: [id],
     queryFn: async () => await getJobVacancyProvider(id),
@@ -78,8 +42,6 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
 
   if (isPending) return <p>fsdf</p>;
   if (isError) return <p>sdfsdf</p>;
-
-  const company = data?.data as UserProps;
 
   return (
     <>
@@ -362,42 +324,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                     </div>
                   </div>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="space-x-2 mt-6 flex justify-center items-center w-fit">
-                    {Array(5)
-                      .fill(null)
-                      .map((_, index) => index + 1)
-                      .map((item) => (
-                        <button
-                          type="button"
-                          aria-label={`Star ${item}`}
-                          key={item}
-                          onClick={() => setRating(item)}
-                        >
-                          <StarIcon
-                            className={cn(
-                              "stroke-secondary_color_1",
-                              item <= rating ? "fill-secondary_color_1" : ""
-                            )}
-                          />
-                        </button>
-                      ))}
-                  </div>
-                  <div className="flex justify-center items-center w-full flex-col md:space-y-0 md:flex-row md:space-x-8 mt-4 mb-7 space-y-3">
-                    <Input
-                      placeholder="Tulis Ulasan"
-                      className="border border-primary_color focus:border-primary_color text-black"
-                    />
-                    <Button
-                      type="submit"
-                      className="border border-primary_color bg-[#F3F9FF] rounded-sm md:w-fit w-full"
-                      size="lg"
-                      variant="outline"
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                </form>
+                <ReviewJobVacancyProviderForm />
                 <div className="flex w-full flex-col justify-start items-start">
                   <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
                     <div className="space-y-1">

@@ -30,7 +30,7 @@ export default function Footer() {
             <h1 className="font-bold">Quick Link</h1>
             <div className="flex flex-col gap-1 mt-2">
               <Link href="/">Beranda</Link>
-              <Link href="/review-vacancy-provider">Review Perusahaan</Link>
+              <Link href="/job-vacancy-providers">Cari Perusahaan</Link>
             </div>
           </div>
 
