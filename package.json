@@ -2,14 +2,14 @@
   "name": "bangka-hire",
   "version": "1.0.0",
   "private": true,
-  "description": "BabelHire",
-  "homepage": "",
+  "description": "Bangka Hire",
+  "homepage": "https://bangka-hire.ekel.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/haikelz/babel-hire"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"

@@ -1,10 +1,9 @@
-
-import hero from "../../../public/assets/cari-perusahaan.png";
+import { Search } from "lucide-react";
 import Image from "next/image";
+import hero from "../../../public/assets/cari-perusahaan.png";
+import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
 import Layout from "../container";
 import { Input } from "../ui/input";
-import { Search } from "lucide-react";
-import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
 
 export function SearchJobVacancyProviderPage() {
   return (
@@ -22,8 +21,16 @@ export function SearchJobVacancyProviderPage() {
                 </h1>
                 <form action="">
                   <div className="relative">
-                    <Input type="text" placeholder="Cari perusahaan" className="w-full text-xs md:text-sm xl:text-base md:w-[80%] xl:w-1/2 px-8 md:px-9 py-1 md:py-4 lg:py-6 bg-white text-gray-500 font-medium focus:border-none focus:outline-none" />
-                    <Search width={20} color="#6b7280" className="absolute top-1 left-2 md:top-[5px] lg:top-3 lg:left-3"/>
+                    <Input
+                      type="text"
+                      placeholder="Cari perusahaan"
+                      className="w-full text-xs md:text-sm xl:text-base md:w-[80%] xl:w-1/2 px-8 md:px-9 py-1 md:py-4 lg:py-6 bg-white text-gray-500 font-medium focus:border-none focus:outline-none"
+                    />
+                    <Search
+                      width={20}
+                      color="#6b7280"
+                      className="absolute top-1 left-2 md:top-[5px] lg:top-3 lg:left-3"
+                    />
                   </div>
                 </form>
               </div>
@@ -42,11 +49,10 @@ export function SearchJobVacancyProviderPage() {
         {/* Kumpulan card cari perushaan */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
           {[...Array(8)].map((_, i) => (
-              <CardSearchJobVacancyProvider key={i} />
+            <CardSearchJobVacancyProvider key={i} />
           ))}
         </div>
       </Layout>
-
     </div>
-  )
+  );
 }

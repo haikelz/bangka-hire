@@ -3,6 +3,7 @@
 import { useUser } from "@/hooks/use-current-user";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import logo from "../../public/assets/logo.png";
 import NavLink from "./nav-link";
@@ -35,7 +36,9 @@ export default function Header() {
       <nav className="flex justify-between items-center w-full md:max-w-[1366px] xl:mx-auto py-2 px-4 lg:px-[30px] 2xl:px-0">
         {/* Logo dan menu navbar */}
         <div className="flex items-center md:gap-5 xl:gap-10">
-          <Image className="w-20 md:w-24 xl:w-32" src={logo} alt="logo" />
+          <Link href="/">
+            <Image className="w-20 md:w-24 xl:w-32" src={logo} alt="logo" />
+          </Link>
 
           {/* menu navbar */}
           <div className="hidden md:flex md:gap-5 xl:gap-10">

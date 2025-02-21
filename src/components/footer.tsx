@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="bg-secondary_color_1 text-white w-full py-10 mt-16">
       <Layout>
-        <div className="flex flex-col justify-center gap-10 sm:gap-5 md:gap-10 md:flex-row md:justify-between md:items-start">
+        <div className="flex flex-col justify-center gap-6 md:gap-10 md:flex-row md:justify-between md:items-start">
           {/* logo dan sosmed */}
           <div className="space-y-4 flex md:block flex-col justify-center items-center">
             <Image src={logo2} alt="logo" />
@@ -26,18 +26,18 @@ export default function Footer() {
           </div>
 
           {/* menu navbar */}
-          <div className="sm:space-y-6 flex gap-10 sm:gap-[100px] md:inline-block md:gap-0 items-center text-sm lg:text-base">
+          <div className="sm:space-y-4 flex flex-col w-fit justify-center md:inline-block md:gap-0 items-start text-sm lg:text-base">
             <h1 className="font-bold">Quick Link</h1>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 mt-2">
               <Link href="/">Beranda</Link>
               <Link href="/review-vacancy-provider">Review Perusahaan</Link>
             </div>
           </div>
 
           {/* Hubungi Kami */}
-          <div className="sm:space-y-6 flex gap-5 sm:gap-20 md:gap-0 md:inline-block items-center text-sm lg:text-base">
+          <div className="sm:space-y-4 flex flex-col w-fit justify-center md:inline-block md:gap-0 items-start text-sm lg:text-base">
             <h1 className="font-bold">Hubungi Kami</h1>
-            <div className="space-y-1">
+            <div className="space-y-1 mt-2">
               <p>Pangkal Pinang, Bangka Belitung</p>
               <p>babelhire@gmail.com</p>
               <p>0812-3456-7890</p>
