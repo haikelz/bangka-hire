@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 
 export default function CardSearchJobVacancyProvider() {
   return (
-    <Link href={"/review-job-vacancy-provider/adwad"} className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">
+    <Link href={"/job-vacancy-providers/adwad"} className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">
         {/* Logo company */}
         <div className="flex items-start justify-between">
           <Image className="w-16 md:w-24" src={logo} alt="Logo" />
