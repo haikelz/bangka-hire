@@ -28,7 +28,10 @@ export type JobVacancyProvider = {
   password: string;
 };
 
-export type UserProps = JobApplicantProps & JobVacancyProvider;
+export type UserProps = JobApplicantProps &
+  JobVacancyProvider & {
+    profile: ProfilCompanyProps;
+  };
 
 export type UsersOnJobsProps = {
   id: number;
