@@ -1,6 +1,6 @@
 import { SearchJobVacancyProviderPage } from "@/components/pages/search-job-vacancy-provider-page";
 
-export default async function SearchJob() {
+export default function SearchJob() {
   return (
     <div>
       <SearchJobVacancyProviderPage />

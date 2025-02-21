@@ -1,9 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-// import { getJobVacancyProvider } from "@/services/common";
+import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
-// import { useQuery } from "@tanstack/react-query";
+import { UserProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns/format";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -13,6 +15,7 @@ import {
   StarIcon,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import CardResultJob from "../card-result-job";
 import { ReviewJobVacancyProviderForm } from "../job-vacancy-provider/review-job-vacancy-provider-form";
@@ -32,7 +35,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     },
   });
 
-  /*const { data, isPending, isError } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: [id],
     queryFn: async () => await getJobVacancyProvider(id),
     refetchOnWindowFocus: false,
@@ -41,7 +44,9 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   });
 
   if (isPending) return <p>fsdf</p>;
-  if (isError) return <p>sdfsdf</p>;*/
+  if (isError) return <p>sdfsdf</p>;
+
+  const jobVacancyProvider = data?.data.data as UserProps;
 
   return (
     <>
@@ -234,7 +239,9 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               height={77}
             />
             <div className="space-y-1">
-              <h3 className="font-bold text-xl">HiRex</h3>
+              <h3 className="font-bold text-xl">
+                {jobVacancyProvider.full_name}
+              </h3>
               <div className="flex space-x-4 justify-center items-center w-fit">
                 <div className="flex justify-center items-center w-fit space-x-2">
                   <span>4.8</span>
@@ -245,7 +252,9 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   />
                   <p>Total Penilaian</p>
                 </div>
-                <p className="underline">16 Ulasan</p>
+                <p className="underline">
+                  {jobVacancyProvider.comments?.length} Ulasan
+                </p>
               </div>
               <div className="space-x-1 flex justify-center items-center w-fit">
                 <Image
@@ -254,7 +263,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   width={16}
                   height={16}
                 />
-                <p>Web dan Teknologi </p>
+                <p>Web dan Teknologi</p>
               </div>
               <div className="space-x-1 flex justify-center items-center w-fit">
                 <Image
@@ -263,11 +272,14 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   width={16}
                   height={16}
                 />
-                <p>Bangka Induk, Bangka Belitung</p>
+                <p>{jobVacancyProvider.profile?.city ?? "-"}</p>
               </div>
               <div className="flex justify-center items-center space-x-2 w-fit">
                 <Calendar className="" width={16} height={16} />
-                <p>Bergabung sejak Desember 2024</p>
+                <p>
+                  Bergabung sejak{" "}
+                  {format("MMMM YYYY", new Date().toISOString())}
+                </p>
               </div>
             </div>
           </div>
@@ -299,12 +311,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <div className="space-y-2">
                   <p className="font-bold">Tentang Perusahaan</p>
                   <p className="text-justify">
-                    HireX adalah Perusahaan yang bergerak di bidang web dan
-                    teknologi. saat ini sedang membutuhkan UI/UX Desainer
-                    sebagai pendukung tim dibidang web dan teknologi Lorem ipsum
-                    dolor sit amet consectetur. Donec porta sem netus diam
-                    fermentum porta amet elit. Adipiscing elementum suspendisse
-                    pulvinar enim proin ornare fringilla ullamcorper adipiscing.
+                    {jobVacancyProvider.profile?.description_company ?? "-"}
                   </p>
                 </div>
                 <div className="mt-6">
@@ -312,14 +319,22 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <p className="font-bold text-black mt-3">Alamat</p>
-                      <p>Jl. Ahmad Yani, No sekian dari 11/9</p>
+                      <p>{jobVacancyProvider.profile?.street ?? "-"}</p>
                     </div>
                     <div className="space-y-2">
                       <p className="font-bold text-black">Media Sosial</p>
                       <div className="flex justify-center items-center space-x-2 w-fit">
-                        <InstagramIcon width={16} height={16} />
-                        <FacebookIcon width={16} height={16} />
-                        <MailIcon width={16} height={16} />
+                        <Link
+                          href={jobVacancyProvider.profile?.instagram ?? ""}
+                        >
+                          <InstagramIcon width={16} height={16} />
+                        </Link>
+                        <Link href={jobVacancyProvider.profile?.facebook ?? ""}>
+                          <FacebookIcon width={16} height={16} />
+                        </Link>
+                        <Link href={jobVacancyProvider.profile?.gmail ?? ""}>
+                          <MailIcon width={16} height={16} />
+                        </Link>
                       </div>
                     </div>
                   </div>

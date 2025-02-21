@@ -9,29 +9,22 @@ export type JobApplyProps = {
   job_id: string;
 };
 
-export type JobApplicantProps = {
+export type UserProps = {
   id: string;
   image?: string;
-  role?: string;
+  role?: "job_vacancy_provider" | "job_applicant" | "admin";
   email: string;
   full_name: string;
   phone_number: string;
   password: string;
-  cv: string; // s3 url
+  cv?: string; // s3 url
+  google_oauth: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  profile: ProfilCompanyProps;
+  comments: CommentProps[];
+  jobs: UsersOnJobsProps[];
 };
-
-export type JobVacancyProvider = {
-  id: string;
-  email: string;
-  full_name: string;
-  phone_number: string;
-  password: string;
-};
-
-export type UserProps = JobApplicantProps &
-  JobVacancyProvider & {
-    profile: ProfilCompanyProps;
-  };
 
 export type UsersOnJobsProps = {
   id: number;
@@ -83,4 +76,9 @@ export type CommentProps = {
   updatedAt: Date;
   user: UserProps;
   company: ProfilCompanyProps;
+};
+
+export type APIRouteParamsProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };

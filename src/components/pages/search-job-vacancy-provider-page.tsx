@@ -1,3 +1,8 @@
+"use client";
+
+import { getJobVacancyProviders } from "@/services/common";
+import { UserProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import hero from "../../../public/assets/cari-perusahaan.png";
@@ -6,6 +11,19 @@ import Layout from "../container";
 import { Input } from "../ui/input";
 
 export function SearchJobVacancyProviderPage() {
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["job-vacancy-providers"],
+    queryFn: async () => await getJobVacancyProviders(),
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isPending) return <p>sdf</p>;
+  if (isError) return <p>SEmentera</p>;
+
+  const jobVacancyProviders = data.data.data as UserProps[];
+
   return (
     <div className="space-y-8 xl:space-y-14">
       {/* Gambar dan tagline */}
@@ -48,8 +66,8 @@ export function SearchJobVacancyProviderPage() {
       <Layout>
         {/* Kumpulan card cari perushaan */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-          {[...Array(8)].map((_, i) => (
-            <CardSearchJobVacancyProvider key={i} />
+          {jobVacancyProviders.map((item, i) => (
+            <CardSearchJobVacancyProvider key={i} data={item} />
           ))}
         </div>
       </Layout>

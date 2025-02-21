@@ -1,19 +1,20 @@
 import db from "@/lib/db";
+import { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-type Props = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export async function GET(req: NextRequest, { params }: Props) {
-  const { id } = await params;
+export async function GET(req: NextRequest, props: APIRouteParamsProps) {
+  const { id } = await props.params;
 
   try {
     const response = await db.user.findUnique({
       where: { role: "job_vacancy_provider", id },
       omit: {
         password: false,
+      },
+      include: {
+        comments: true,
+        profile: true,
+        jobs: true,
       },
     });
 
@@ -23,6 +24,9 @@ export async function GET(req: NextRequest, { params }: Props) {
       data: response,
     });
   } catch (error) {
-    throw new Error("Gagal mendapatkan data perusahaan!");
+    return NextResponse.json({
+      status_code: 500,
+      message: "Gagal mendapatkan data perusahaan!",
+    });
   }
 }

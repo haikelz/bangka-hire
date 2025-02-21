@@ -1,13 +1,8 @@
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-type Props = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
 // mengambil semua data job di database
-export async function GET(req: NextRequest, props: Props) {
+export async function GET(req: NextRequest) {
   const page: number = Number(req?.nextUrl?.searchParams.get("page") as string);
   const limit: number = Number(
     req?.nextUrl?.searchParams.get("limit") as string
