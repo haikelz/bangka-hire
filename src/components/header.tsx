@@ -42,7 +42,7 @@ export default function Header() {
 
   return (
     <header
-      className={`bg-white text-primary_color sticky top-0 z-50 ${
+      className={`bg-white/70 backdrop-blur-md text-primary_color sticky top-0 z-50 ${
         isScroll ? "border-b border-primary_color" : ""
       } duration-200 ease-in-out`}
     >

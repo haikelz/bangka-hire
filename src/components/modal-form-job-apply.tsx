@@ -48,8 +48,8 @@ export default function ModalFormJobApply({
           <div>
             <Label htmlFor="email">No Handphone</Label>
             <Input
-              id="email"
-              type="email"
+              id="no_hp"
+              type="no_hp"
               placeholder="Masukkan no handphone Anda"
             />
           </div>
