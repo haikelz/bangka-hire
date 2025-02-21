@@ -52,11 +52,8 @@ export async function getJobApplicant(page = 1) {
 
 export async function getJobVacancyProvider(id: string) {
   try {
-    const response = await db.user.findUnique({
-      where: { role: "job_vacancy", id },
-    });
-
-    return response;
+    const response = await axiosClient.get(`/job-vacancy-provider/${id}`);
+    return response.data;
   } catch (error) {
     throw new Error("Gagal mendapatkan data perusahaan!");
   }
