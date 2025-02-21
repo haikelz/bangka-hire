@@ -1,3 +1,7 @@
+"use client";
+
+// import { getJobs } from "@/services/common";
+// import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import hero from "../../../public/assets/hero.png";
 import CardResultJob from "../card-result-job";
@@ -5,6 +9,19 @@ import Layout from "../container";
 import FormSearchJob from "../form-search-job";
 
 export default function HomePage() {
+  /*
+  Use this code below to get all available jobs
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["data"],
+    queryFn: async () => await getJobs(1, 1),
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isPending) return <p>fsdf</p>;
+  if (isError) return <p>sdfsdf</p>;*/
+
   return (
     <div className="xl:space-y-14">
       {/* Gambar dan tagline */}

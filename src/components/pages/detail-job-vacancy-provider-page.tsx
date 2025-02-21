@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { getJobVacancyProvider } from "@/services/common";
+// import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -32,7 +32,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     },
   });
 
-  const { data, isPending, isError } = useQuery({
+  /*const { data, isPending, isError } = useQuery({
     queryKey: [id],
     queryFn: async () => await getJobVacancyProvider(id),
     refetchOnWindowFocus: false,
@@ -41,7 +41,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   });
 
   if (isPending) return <p>fsdf</p>;
-  if (isError) return <p>sdfsdf</p>;
+  if (isError) return <p>sdfsdf</p>;*/
 
   return (
     <>

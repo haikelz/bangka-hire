@@ -1,4 +1,3 @@
-import db from "@/lib/db";
 import { CommentProps, JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
 
@@ -10,41 +9,10 @@ export async function createApplyJob(
 }
 
 // mengambil semua data job di database
-export async function getJobApplicant(page = 1) {
+export async function getJobs(page = 1, limit = 8) {
   try {
-    const limit = 8; // jumlah item perhalaman kel ambik 8 bai ok
-    const skip = (page - 1) * limit; // menghitung skip
-
-    // ambil data semua lowongan kerja di database
-    const data = await db.job.findMany({
-      take: limit,
-      skip: skip,
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        company: {
-          select: {
-            user: {
-              select: {
-                full_name: true, // mengambil nama perusahaan
-              },
-            },
-            city: true, // mengambil kota perusahaan seperti pangkal pinang, sungailiat
-          },
-        },
-      },
-    });
-
-    const totalItems = await db.job.count(); // menghitung total item
-    const totalPages = Math.ceil(totalItems / limit); // menghitung total halaman
-
-    return {
-      data,
-      totalItems,
-      totalPages,
-      currentPage: page,
-    };
+    const response = await axiosClient.get(`/jobs?page=${page}&limit=${limit}`);
+    return response;
   } catch (error) {
     throw new Error("Gagal mengambil data lowongan kerja");
   }
