@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
-import { signUpSchema } from "@/lib/schemas/auth-schema";
-import { createAccount } from "@/services/auth";
+import { signUpSchemaJobVacancy } from "@/lib/schemas/auth-schema";
+import { createAccount, createAccountForJobVacancy } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
@@ -16,15 +15,14 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export function SignUpFormJobApplicant() {
+export function SignUpFormJobVacancyProvider() {
   const router = useRouter();
-  const session = useCurrentUser();
 
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({
     mutationFn: async () =>
-      await createAccount({
+      await createAccountForJobVacancy({
         phone_number: getValues("phone_number"),
         full_name: getValues("full_name"),
         email: getValues("email"),
@@ -65,8 +63,8 @@ export function SignUpFormJobApplicant() {
     getValues,
     register,
     handleSubmit,
-  } = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<z.infer<typeof signUpSchemaJobVacancy>>({
+    resolver: zodResolver(signUpSchemaJobVacancy),
     defaultValues: {
       phone_number: "",
       email: "",
@@ -84,7 +82,7 @@ export function SignUpFormJobApplicant() {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 7);
 
-    setCookie("sign-up-role", "job_applicant", {
+    setCookie("sign-up-role", "job_vacancy_provider", {
       expires: expirationDate,
     });
     signIn("google", { redirect: false, callbackUrl: "/" });
@@ -96,10 +94,10 @@ export function SignUpFormJobApplicant() {
         <Image src="/assets/logo.png" alt="logo" width={138.72} height={77} />
         <div className="space-y-2">
           <h3 className="text-black text-xl font-bold">
-            Selamat Datang! Pencari Kerja
+            Selamat Datang! Pemberi Kerja
           </h3>
           <p className="text-black">
-            Daftar sekarang dan mulai jelajahi pekerjaan tanpa batas.
+            Daftar sekarang dan mulai cari karyawan yang berkualitas di seluruh Bangka Belitung.
           </p>
         </div>
         <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
@@ -107,7 +105,7 @@ export function SignUpFormJobApplicant() {
             <Input
               {...register("full_name")}
               type="text"
-              placeholder="Nama Lengkap"
+              placeholder="Nama Perusahaan/Nama Toko"
               className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
               name="full_name"
             />

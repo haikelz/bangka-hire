@@ -4,10 +4,15 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const authToken = request.cookies.get("auth-token");
   const isLogin = !!authToken;
+
+  // khusus yang login lewat akun google ni kel
+  const authTokenGoogle = request.cookies.get("next-auth.session-token");
+  const isLoginGoogle = !!authTokenGoogle
+
   const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
 
   // redirect ke home jika sudah login
-  if (isAuthPage && isLogin) {
+  if (isAuthPage && (isLogin || isLoginGoogle)) {
     // redirect ke home
     return NextResponse.redirect(new URL("/", request.url));
   }

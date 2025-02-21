@@ -1,6 +1,6 @@
 "use client"
 
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import NavLink from "./nav-link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -10,11 +10,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { logoutAccount } from "@/services/auth";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
 
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { user} = useCurrentUser() as { user: UserProps };
+  const userGoogle = useCurrentUserGoogle();
 
   // membuat navbar tertutup setiap kali pindah halaman
   useEffect(() => {
@@ -142,10 +145,53 @@ export function MobileNavbar() {
                   <p>Logout</p>
                 </div>
               </div>
-            ) : (
+            ) :
+            userGoogle ? (
+              <div className="space-y-3">
+                {/* pengecekan role */}
+                <h1 className="font-bold">
+                  {userGoogle.role === "job_applicant" ? "Hai!! Pelamar Kerja" : "Hai!! Pemberi Kerja"}
+                </h1>
+
+                <div className="flex items-center gap-2 cursor-default">
+                    <Avatar>
+                    {userGoogle?.image ? (
+                      <Image width={40} height={40} src={userGoogle.image} alt="avatar" />
+                    ) : (
+                      <AvatarFallback className="bg-primary_color text-white">
+                        {userGoogle.name
+                          ?.split(" ")
+                          .map((name) => name[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2)}
+                      </AvatarFallback>
+                    )}
+                    </Avatar>
+
+                    {/* nama user dan juga gmail */}
+                    <div className="text-sm font-medium">
+                      <p>{userGoogle.name}</p>
+                      <p>{userGoogle.email}</p>
+                    </div>
+                </div>
+
+                {/* menu profil dan logout */}
+                <Link href="/profile" className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out">
+                    <User className="w-6 h-6" />
+                    <p>Edit Profile</p>
+                </Link>
+                {/* logout */}
+                <div onClick={() => signOut()} className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out">
+                  <LogOut className="w-6 h-6" />
+                  <p>Logout</p>
+                </div>
+              </div>
+            )
+            : (
               <>
                 <NavLink href="/auth/login">MASUK</NavLink>
-                <NavLink href="/auth/sign-up">UNTUK PEMBERI KERJA</NavLink>
+                <NavLink href="/auth/sign-up-job-vacancy-provider">UNTUK PEMBERI KERJA</NavLink>
               </>
             )}
 

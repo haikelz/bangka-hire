@@ -2,6 +2,7 @@
 
 import { getCurrentUser } from "@/services/auth";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 export function useCurrentUser() {
   const { data, ...rest } = useQuery({
@@ -15,4 +16,10 @@ export function useCurrentUser() {
     user: data?.user,
     ...rest,
   }
+}
+
+// mengambil data user khusus yang login lewat google
+export function useCurrentUserGoogle() {
+  const { data: session} = useSession();
+  return session?.user
 }

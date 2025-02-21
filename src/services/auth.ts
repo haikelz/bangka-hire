@@ -13,6 +13,19 @@ export async function createAccount(
   }
 }
 
+// create account untuk perusahaan
+export async function createAccountForJobVacancy(
+  data: Omit<JobApplicantProps, "id" | "cv"> & { confirm_password: string }
+) {
+  try {
+    const response = await axiosClient.post("/auth/sign-up-job-vacancy-provider", data);
+
+    return response.data;
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message);
+  }
+}
+
 // mendapatkan user sudah login saat ini
 export async function getCurrentUser() {
   try {

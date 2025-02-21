@@ -9,17 +9,22 @@ import NextAuth from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import { cookies } from "next/headers";
 
+interface UserGoogle extends User {
+  google_oauth: boolean;
+}
+
 export const options: NextAuthOptions = {
   theme: {
     colorScheme: "auto",
   },
   providers: [
     GoogleProvider({
-      profile(profile: GoogleProfile): Awaitable<User> {
+      profile(profile: GoogleProfile): Awaitable<UserGoogle> {
         return {
           ...profile,
           role: profile.role,
           name: profile.name,
+          google_oauth: true,
           id: profile.sub,
           image: profile.picture,
         };
@@ -56,19 +61,22 @@ export const options: NextAuthOptions = {
 
           if (existingJobApplicant) {
             token.id = existingJobApplicant.id;
-            token.role = "job_applicant";
+            token.google_oauth = existingJobApplicant.google_oauth;
+            token.role = existingJobApplicant.role;
           } else if (existingJobVacancyProvider) {
             token.id = existingJobVacancyProvider.id;
-            token.role = "job_vacancy_provider";
+            token.google_oauth = existingJobVacancyProvider.google_oauth;
+            token.role = existingJobVacancyProvider.role;
           }
         }
 
         return {
           ...token,
-          id: user.id,
+          id: token.id,
           email: user.email,
+          google_oauth: true,
           name: user.name,
-          picture: user.image,
+          image: user.image,
           role: user.role || token.role,
         };
       }
@@ -79,9 +87,10 @@ export const options: NextAuthOptions = {
 
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token } : any) {
       if (token) {
         session.user.id = token.id;
+        session.user.google_oauth = true;
         session.user.role = token.role;
         session.user.image = token.picture as string;
       }

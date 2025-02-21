@@ -1,3 +1,6 @@
+"use client"
+
+
 import Image from "next/image";
 import kirim from "../../public/assets/kirim-lamaran-icon.svg";
 import { Button } from "./ui/button";
@@ -10,6 +13,8 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { UserProps } from "@/types";
 
 type ModalFormJobApplyProps = {
   openModal: boolean;
@@ -20,6 +25,9 @@ export default function ModalFormJobApply({
   openModal,
   setOpenModal,
 }: ModalFormJobApplyProps) {
+  const { user } = useCurrentUser() as { user: UserProps };
+
+
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
       {/* Tombol untuk membuka modal */}
@@ -41,16 +49,17 @@ export default function ModalFormJobApply({
 
         <div className="space-y-4">
           <div>
-            <Label htmlFor="name">Nama Lengkap</Label>
-            <Input id="name" placeholder="Masukkan nama lengkap Anda" />
+            <Label htmlFor="full_name">Nama Lengkap</Label>
+            <Input id="full_name" name="full_name" placeholder="Masukkan nama lengkap Anda" defaultValue={user?.full_name} />
           </div>
 
           <div>
-            <Label htmlFor="email">No Handphone</Label>
+            <Label htmlFor="phone_number">No Handphone</Label>
             <Input
-              id="no_hp"
-              type="no_hp"
+              id="phone_number"
+              name="phone_number"
               placeholder="Masukkan no handphone Anda"
+              defaultValue={user?.phone_number}
             />
           </div>
 

@@ -58,3 +58,50 @@ export const signUpSchema = z.object({
       message: "Nama lengkap hanya boleh mengandung huruf dan spasi",
     }),
 });
+
+export const signUpSchemaJobVacancy = z.object({
+  email: z
+    .string({
+      required_error: "Email harus diisi",
+      invalid_type_error: "Email harus berupa text",
+    })
+    .email({
+      message: "Format email tidak valid",
+    }),
+
+  phone_number: z
+    .string({
+      required_error: "Nomor telepon harus diisi",
+      invalid_type_error: "Nomor telepon harus berupa angka",
+    })
+    .regex(/^0[1-9][0-9]{8,11}$/, {
+      message:
+        "Nomor telepon tidak valid, harus dimulai dengan 0 dan terdiri dari 10-13 angka",
+    }),
+
+  password: z
+    .string({
+      required_error: "Password harus diisi",
+      invalid_type_error: "Password harus berupa text",
+    })
+    .min(6, {
+      message: "Password minimal 6 karakter",
+    }),
+
+  confirm_password: z.string({
+    required_error: "Konfirmasi password harus diisi",
+    invalid_type_error: "Konfirmasi password harus berupa text",
+  }),
+
+  full_name: z
+    .string({
+      required_error: "Nama perusahaan harus diisi",
+      invalid_type_error: "Nama perusahaan harus berupa text",
+    })
+    .min(3, {
+      message: "Nama perusahaan minimal 3 karakter",
+    })
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: "Nama perusahaan hanya boleh mengandung huruf dan spasi",
+    }),
+});
