@@ -10,13 +10,13 @@ export async function GET() {
 
     return NextResponse.json({
       status_code: 200,
-      message: "Sukses mendapatkan seluruh pelamar kerja!",
+      message: "Sukses mendapatkan data seluruh pelamar kerja!",
       data: response,
     });
   } catch (err) {
     return NextResponse.json({
       status_code: 500,
-      message: "Gagal mendapatkan seluruh pelamar kerja!",
+      message: "Gagal mendapatkan data seluruh pelamar kerja!",
     });
   }
 }

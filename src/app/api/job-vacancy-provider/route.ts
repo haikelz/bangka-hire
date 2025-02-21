@@ -20,13 +20,13 @@ export async function GET() {
 
     return NextResponse.json({
       status_code: 200,
-      message: "Sukses mendapatkan seluruh perusahaan!",
+      message: "Sukses mendapatkan data seluruh perusahaan!",
       data: response,
     });
   } catch (err) {
     return NextResponse.json({
       status_code: 500,
-      message: "Gagal mendapatkan seluruh perusahaan!",
+      message: "Gagal mendapatkan data seluruh perusahaan!",
     });
   }
 }
