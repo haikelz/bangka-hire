@@ -2,18 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { createReviewJobVacancyProvider } from "@/services/common";
 import { ratingAtom } from "@/store";
+import { UserProps } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { StarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-export function ReviewJobVacancyProviderForm() {
+export function ReviewJobVacancyProviderForm({ id }: { id: string }) {
   const [rating, setRating] = useAtom(ratingAtom);
-
-  const queryClient = useQueryClient();
+  const { user } = useCurrentUser() as { user: UserProps };
 
   const {
     getValues,
@@ -27,13 +29,16 @@ export function ReviewJobVacancyProviderForm() {
     },
   });
 
-  const reviewJobVacancyProvider = useMutation({
-    mutationFn: async () => {},
-    /*await createReviewJobVacancyProvider({
-      body: getValues("review"),
-      company: {},
-      user,
-      }),*/
+  const queryClient = useQueryClient();
+
+  const reviewJobVacancyProviderMutation = useMutation({
+    mutationFn: async () =>
+      await createReviewJobVacancyProvider({
+        user_id: "cm7gcpiua0004uiyc75rocw2u",
+        company_id: id,
+        body: getValues("comment"),
+        rating: rating,
+      }),
     onSuccess: async () => {
       await queryClient.invalidateQueries().then(() => {
         toast({
@@ -50,7 +55,7 @@ export function ReviewJobVacancyProviderForm() {
   });
 
   async function onSubmit() {
-    await reviewJobVacancyProvider.mutateAsync();
+    await reviewJobVacancyProviderMutation.mutateAsync();
   }
 
   return (
@@ -80,7 +85,8 @@ export function ReviewJobVacancyProviderForm() {
           {...register("comment")}
           name="comment"
           placeholder="Tulis Ulasan"
-          className="border border-primary_color focus:border-primary_color text-black"
+          required
+          className="border border-primary_color focus:border-primary_color text-black bg-white"
         />
         <Button
           type="submit"

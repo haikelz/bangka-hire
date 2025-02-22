@@ -36,9 +36,16 @@ export async function getJobVacancyProviders() {
   }
 }
 
-export async function createReviewJobVacancyProvider(data: CommentProps) {
+export async function createReviewJobVacancyProvider(
+  data: Pick<CommentProps, "user_id" | "company_id" | "rating" | "body">
+) {
   try {
-    // const response = await db.comment.create({ data: { ...data } });
+    const response = await axiosClient.post(
+      "/job-applicant/create-review-job-vacancy-provider",
+      data
+    );
+
+    return response;
   } catch (err) {
     throw new Error("Gagal membuat review perusahaan!");
   }

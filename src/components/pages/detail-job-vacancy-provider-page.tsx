@@ -149,7 +149,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                     </div>
                   </div>
                 </div>
-                <ReviewJobVacancyProviderForm />
+                <ReviewJobVacancyProviderForm id={id} />
                 {jobVacancyProvider.comments &&
                 jobVacancyProvider.comments.length ? (
                   jobVacancyProvider.comments.map((comment) => (
