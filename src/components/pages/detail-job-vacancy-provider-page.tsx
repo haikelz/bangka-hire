@@ -19,6 +19,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import CardResultJob from "../card-result-job";
 import { ReviewJobVacancyProviderForm } from "../job-vacancy-provider/review-job-vacancy-provider-form";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { IsPendingClient } from "../react-query/is-pending-client";
 
 export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const [companyTab, setCompanyTab] = useAtom(companyTabAtom);
@@ -43,8 +45,8 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <p>fsdf</p>;
-  if (isError) return <p>sdfsdf</p>;
+  if (isPending) return <IsPendingClient className="h-svh" />;
+  if (isError) return <IsErrorClient />;
 
   const jobVacancyProvider = data?.data.data as UserProps;
 
