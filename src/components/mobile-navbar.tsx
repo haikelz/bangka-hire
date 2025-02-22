@@ -16,7 +16,7 @@ import Image from "next/image";
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const { user} = useCurrentUser() as { user: UserProps };
+  const { user } = useCurrentUser() as { user: UserProps };
   const userGoogle = useCurrentUserGoogle();
 
   // membuat navbar tertutup setiap kali pindah halaman

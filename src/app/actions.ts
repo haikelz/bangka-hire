@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
  * @param data
  */
 export async function createSession<T>(data: T): Promise<void> {
+
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + 7);
 
