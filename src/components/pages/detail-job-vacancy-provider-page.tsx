@@ -197,11 +197,17 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               </div>
             ) : companyTab === "pekerjaan" ? (
               <div className="w-full py-7">
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-                  {jobVacancyProvider.jobs.map((item, i) => (
-                    <CardResultJob data={item.job} key={i} />
-                  ))}
-                </div>
+                {jobVacancyProvider.jobs && jobVacancyProvider.jobs.length ? (
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
+                    {jobVacancyProvider.jobs.map((item, i) => (
+                      <CardResultJob data={item.job} key={i} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xl font-bold text-center">
+                    Saat ini belum ada lowongan kerja!
+                  </p>
+                )}
               </div>
             ) : null}
           </div>

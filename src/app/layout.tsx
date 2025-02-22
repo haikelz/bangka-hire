@@ -1,9 +1,13 @@
 import ClientLayout from "@/components/client-layout";
 import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
+import { setDefaultOptions } from "date-fns";
+import { id } from "date-fns/locale";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+setDefaultOptions({ locale: id });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

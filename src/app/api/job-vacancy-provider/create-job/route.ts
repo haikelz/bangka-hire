@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const {} = await req.json();
     return NextResponse.json({
       status_code: 200,
-      message: "Sukses membuat perusahaan!",
+      message: "Sukses membuat pekerjaan!",
     });
   } catch (error) {
     return NextResponse.json({
