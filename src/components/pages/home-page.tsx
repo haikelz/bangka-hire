@@ -6,18 +6,21 @@ import { useQuery } from "@tanstack/react-query";
 import CardResultJob from "../card-result-job";
 import Layout from "../container";
 import FormSearchJob from "../form-search-job";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { IsPendingClient } from "../react-query/is-pending-client";
 
 export default function HomePage() {
   const { data, isPending, isError } = useQuery({
     queryKey: ["get-jobs"],
     queryFn: async () => await getJobs(1, 1),
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
-  if (isPending) return <p>fsdf</p>;
-  if (isError) return <p>sdfsdf</p>;
+  if (isPending) return <IsPendingClient className="my-10 h-52" />;
+  if (isError) return <IsErrorClient />;
 
-  const jobVacancies = data.data.data as JobProps[];
+  const jobVacancies = data?.data?.data as JobProps[];
 
   return (
     <Layout>

@@ -5,16 +5,19 @@ import { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
 import Layout from "../container";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { IsPendingClient } from "../react-query/is-pending-client";
 
 export function SearchJobVacancyProviderPage() {
   const { data, isPending, isError } = useQuery({
     queryKey: ["job-vacancy-providers"],
     queryFn: async () => await getJobVacancyProviders(),
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
-  if (isPending) return <p>sdf</p>;
-  if (isError) return <p>SEmentera</p>;
+  if (isPending) return <IsPendingClient className="my-10 h-64" />;
+  if (isError) return <IsErrorClient />;
 
   const jobVacancyProviders = data?.data?.data as UserProps[];
 

@@ -9,6 +9,25 @@ export type JobApplyProps = {
   job_id: string;
 };
 
+export type JobApplicantProps = {
+  id: string;
+  image?: string;
+  role?: string;
+  email: string;
+  full_name: string;
+  phone_number: string;
+  password: string;
+  cv: string; // s3 url
+};
+
+export type JobVacancyProviderProps = {
+  id: string;
+  email: string;
+  full_name: string;
+  phone_number: string;
+  password: string;
+};
+
 export type UserProps = {
   id: string;
   image?: string;

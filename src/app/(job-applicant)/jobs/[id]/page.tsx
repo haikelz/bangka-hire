@@ -1,11 +1,7 @@
 import DetailJobPage from "@/components/pages/detail-job-page";
+import { APIRouteParamsProps } from "@/types";
 
-type Props = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export default async function Job({ params }: Props) {
+export default async function Job({ params }: APIRouteParamsProps) {
   const { id } = await params;
 
   return (

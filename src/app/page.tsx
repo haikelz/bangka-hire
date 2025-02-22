@@ -5,7 +5,7 @@ import hero from "../../public/assets/hero.png";
 
 export default async function Home() {
   return (
-    <div>
+    <main>
       <div className="xl:space-y-14">
         {/* Gambar dan tagline */}
         <div className="w-full h-52 sm:h-full">
@@ -39,6 +39,6 @@ export default async function Home() {
         </div>
       </div>
       <HomePage />
-    </div>
+    </main>
   );
 }
