@@ -38,7 +38,7 @@ export default function HomePage() {
         </div>
       ) : (
         <p className="text-xl font-bold text-center">
-          Saat ini belum ada lowongan kerja!
+          Belum ada lowongan kerja!
         </p>
       )}
     </Layout>

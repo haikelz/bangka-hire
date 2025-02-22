@@ -5,7 +5,7 @@ import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
 import { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns/format";
+import { format, formatDate } from "date-fns/format";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
 import CardResultJob from "../card-result-job";
 import { ReviewJobVacancyProviderForm } from "../job-vacancy-provider/review-job-vacancy-provider-form";
 import { IsErrorClient } from "../react-query/is-error-client";
@@ -24,18 +23,6 @@ import { IsPendingClient } from "../react-query/is-pending-client";
 
 export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const [companyTab, setCompanyTab] = useAtom(companyTabAtom);
-
-  const {
-    getValues,
-    formState: { errors },
-    setValue,
-    handleSubmit,
-    register,
-  } = useForm({
-    defaultValues: {
-      comment: "",
-    },
-  });
 
   const { data, isPending, isError } = useQuery({
     queryKey: [id],
@@ -163,37 +150,48 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   </div>
                 </div>
                 <ReviewJobVacancyProviderForm />
-                <div className="flex w-full flex-col justify-start items-start">
-                  <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
-                    <div className="space-y-1">
-                      <div className="flex w-full justify-between items-start">
-                        <div className="flex justify-center items-center w-fit space-x-2">
-                          <Image
-                            className="rounded-full"
-                            src="/assets/logo.png"
-                            alt="comment"
-                            width={50}
-                            height={50}
-                          />
-                          <p>Syahrul</p>
+                {jobVacancyProvider.comments &&
+                jobVacancyProvider.comments.length ? (
+                  jobVacancyProvider.comments.map((comment) => (
+                    <div className="flex w-full flex-col justify-start items-start">
+                      <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
+                        <div className="space-y-1">
+                          <div className="flex w-full justify-between items-start">
+                            <div className="flex justify-center items-center w-fit space-x-2">
+                              <Image
+                                className="rounded-full"
+                                src={comment.user.image ?? ""}
+                                alt="comment"
+                                width={50}
+                                height={50}
+                              />
+                              <p>{comment.user.full_name}</p>
+                            </div>
+                            <p>
+                              {formatDate(comment.user.createdAt, "MMMM yyyy")}
+                            </p>
+                          </div>
+                          <div className="flex justify-center items-center w-fit space-x-1">
+                            <span>4</span>
+                            <StarIcon
+                              width={16}
+                              height={16}
+                              className="fill-secondary_color_1 stroke-secondary_color_1"
+                            />
+                          </div>
+                          <p className="text-justify">
+                            ipsum dolor sit amet consectetur. Donec porta sem
+                            netus diam fermentum porta amet elit.
+                          </p>
                         </div>
-                        <p>12.05</p>
                       </div>
-                      <div className="flex justify-center items-center w-fit space-x-1">
-                        <span>4</span>
-                        <StarIcon
-                          width={16}
-                          height={16}
-                          className="fill-secondary_color_1 stroke-secondary_color_1"
-                        />
-                      </div>
-                      <p className="text-justify">
-                        ipsum dolor sit amet consectetur. Donec porta sem netus
-                        diam fermentum porta amet elit.
-                      </p>
                     </div>
-                  </div>
-                </div>
+                  ))
+                ) : (
+                  <p className="text-xl font-bold text-center">
+                    Belum ada ulasan!
+                  </p>
+                )}
               </div>
             ) : companyTab === "pekerjaan" ? (
               <div className="w-full py-7">
@@ -205,7 +203,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   </div>
                 ) : (
                   <p className="text-xl font-bold text-center">
-                    Saat ini belum ada lowongan kerja!
+                    Belum ada lowongan kerja!
                   </p>
                 )}
               </div>

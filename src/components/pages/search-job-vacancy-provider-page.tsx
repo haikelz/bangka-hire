@@ -34,7 +34,7 @@ export function SearchJobVacancyProviderPage() {
         </Layout>
       ) : (
         <p className="text-xl font-bold text-center">
-          Saat ini belum ada perusahaan yang ditampilkan!
+          Belum ada perusahaan yang ditampilkan!
         </p>
       )}
     </>
