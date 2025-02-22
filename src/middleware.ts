@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { NODE_ENV } from "./lib/constants";
 
 const AuthRouters =[
   "/auth/:path*",
@@ -13,8 +14,15 @@ export function middleware(request: NextRequest) {
   const isLogin = !!authToken;
 
   // khusus yang login lewat akun google ni kel
-  const authTokenGoogle = request.cookies.get("next-auth.session-token");
-  const isLoginGoogle = !!authTokenGoogle
+  // Detect the condition of Website("development" || "production")
+  // Why using this approach? Because the default name next-auth token between development and production are different
+  // @see https://next-auth.js.org/v3/configuration/options#jwt-helper
+  const authTokenGoogle = request.cookies.get(
+    NODE_ENV === "development"
+      ? "next-auth.session-token"
+      : "__Secure-next-auth.session-token"
+  );
+  const isLoginGoogle = !!authTokenGoogle;
 
   const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
 

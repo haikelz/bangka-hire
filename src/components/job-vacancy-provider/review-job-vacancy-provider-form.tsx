@@ -37,8 +37,7 @@ export function ReviewJobVacancyProviderForm() {
     onSuccess: async () => {
       await queryClient.invalidateQueries().then(() => {
         toast({
-          title: "Sukses login!",
-          description: "Kamu akan dialihkan ke halaman dashboard!",
+          title: "Sukses menambahkan review!",
         });
       });
     },
@@ -76,8 +75,10 @@ export function ReviewJobVacancyProviderForm() {
             </button>
           ))}
       </div>
-      <div className="flex justify-center items-center w-full flex-col md:space-y-0 md:flex-row md:space-x-8 mt-4 mb-7 space-y-3">
+      <div className="flex justify-center items-start w-full flex-col md:space-y-0 md:flex-row md:space-x-8 mt-4 mb-7 space-y-3">
         <Input
+          {...register("comment")}
+          name="comment"
           placeholder="Tulis Ulasan"
           className="border border-primary_color focus:border-primary_color text-black"
         />

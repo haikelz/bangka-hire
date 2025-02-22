@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { signUpSchemaJobVacancy } from "@/lib/schemas/auth-schema";
-import { createAccount, createAccountForJobVacancy } from "@/services/auth";
+import { createAccountForJobVacancy } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
@@ -97,7 +97,8 @@ export function SignUpFormJobVacancyProvider() {
             Selamat Datang! Pemberi Kerja
           </h3>
           <p className="text-black">
-            Daftar sekarang dan mulai cari karyawan yang berkualitas di seluruh Bangka Belitung.
+            Daftar sekarang dan mulai cari karyawan yang berkualitas di seluruh
+            Bangka Belitung.
           </p>
         </div>
         <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>

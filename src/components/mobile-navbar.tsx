@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
-import NavLink from "./nav-link";
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { UserProps } from "@/types";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LogOut, User } from "lucide-react";
-import Link from "next/link";
 import { logoutAccount } from "@/services/auth";
+import { UserProps } from "@/types";
+import { motion } from "framer-motion";
+import { LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import NavLink from "./nav-link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,176 +27,196 @@ export function MobileNavbar() {
   // buat navbar menghilang pada saat user menscroll halaman window
   useEffect(() => {
     const handleScroll = () => {
-      if(isOpen) {
+      if (isOpen) {
         setTimeout(() => {
           setIsOpen(false);
-        }, 100)
+        }, 100);
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  })
+  });
 
-   const menuVariants = {
-      closed: {
-        rotate: 0,
-      },
-      open: {
-        rotate: 180,
-      },
-    };
+  const menuVariants = {
+    closed: {
+      rotate: 0,
+    },
+    open: {
+      rotate: 180,
+    },
+  };
 
   const Path = (props: any) => (
     <motion.span className="w-6 h-1 bg-primary_color rounded-lg" {...props} />
   );
   return (
     <>
-        {/* Menu Hamburger */}
-        <div className="md:hidden">
-          <motion.div
-            className="flex flex-col items-center justify-between h-6 cursor-pointer"
-            onClick={() => setIsOpen((prev) => !prev)}
-            initial="closed"
-            animate={isOpen ? "open" : "closed"}
-            variants={menuVariants}
-            transition={{ duration: 0.3 }}
-          >
-            <Path
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: 45, y: 10 },
-              }}
-              transition={{ duration: 0.3 }}
-            />
-            <Path
-              variants={{
-                closed: { opacity: 1 },
-                open: { opacity: 0 },
-              }}
-              transition={{ duration: 0.3 }}
-            />
-            <Path
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: -45, y: -10 },
-              }}
-              transition={{ duration: 0.3 }}
-            />
-          </motion.div>
-        </div>
-        {/* Akhir Menu Hamburger */}
-
-        {/* Menu navbar di mobile */}
+      {/* Menu Hamburger */}
+      <div className="md:hidden">
         <motion.div
-          className="md:hidden fixed top-[61px] left-0 w-full bg-white shadow-lg"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{
-            height: isOpen ? "auto" : 0,
-            opacity: isOpen ? 1 : 0,
-          }}
+          className="flex flex-col items-center justify-between h-6 cursor-pointer"
+          onClick={() => setIsOpen((prev) => !prev)}
+          initial="closed"
+          animate={isOpen ? "open" : "closed"}
+          variants={menuVariants}
           transition={{ duration: 0.3 }}
-          style={{ overflow: "hidden" }}
         >
-          <div className="flex flex-col p-4 gap-4">
-            <NavLink href="/">BERANDA</NavLink>
-            <NavLink href="/job-vacancy-providers">CARI PERUSAHAAN</NavLink>
-            <div className="border-t border-primary_color my-2" />
-            {/* jika user sudah login */}
-            {user ? (
-              <div className="space-y-3">
-                {/* pengecekan role */}
-                <h1 className="font-bold">
-                  {user.role === "job_applicant" ? "Hai!! Pelamar Kerja" : "Hai!! Pemberi Kerja"}
-                </h1>
-
-                <div className="flex items-center gap-2 cursor-default">
-                    <Avatar>
-                    {user?.image ? (
-                      <AvatarImage src={user.image} alt="avatar" />
-                    ) : (
-                      <AvatarFallback className="bg-primary_color text-white">
-                        {user?.full_name
-                          ?.split(" ")
-                          .map((name) => name[0])
-                          .join("")
-                          .toUpperCase()
-                          .slice(0, 2)}
-                      </AvatarFallback>
-                    )}
-                    </Avatar>
-
-                    {/* nama user dan juga gmail */}
-                    <div className="text-sm font-medium">
-                      <p>{user.full_name}</p>
-                      <p>{user.email}</p>
-                    </div>
-                </div>
-
-                {/* menu profil dan logout */}
-                <Link href="/profile" className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out">
-                    <User className="w-6 h-6" />
-                    <p>Edit Profile</p>
-                </Link>
-                {/* logout */}
-                <div onClick={() => logoutAccount()} className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out">
-                  <LogOut className="w-6 h-6" />
-                  <p>Logout</p>
-                </div>
-              </div>
-            ) :
-            userGoogle ? (
-              <div className="space-y-3">
-                {/* pengecekan role */}
-                <h1 className="font-bold">
-                  {userGoogle.role === "job_applicant" ? "Hai!! Pelamar Kerja" : "Hai!! Pemberi Kerja"}
-                </h1>
-
-                <div className="flex items-center gap-2 cursor-default">
-                    <Avatar>
-                    {userGoogle?.image ? (
-                      <Image width={40} height={40} src={userGoogle.image} alt="avatar" />
-                    ) : (
-                      <AvatarFallback className="bg-primary_color text-white">
-                        {userGoogle.name
-                          ?.split(" ")
-                          .map((name) => name[0])
-                          .join("")
-                          .toUpperCase()
-                          .slice(0, 2)}
-                      </AvatarFallback>
-                    )}
-                    </Avatar>
-
-                    {/* nama user dan juga gmail */}
-                    <div className="text-sm font-medium">
-                      <p>{userGoogle.name}</p>
-                      <p>{userGoogle.email}</p>
-                    </div>
-                </div>
-
-                {/* menu profil dan logout */}
-                <Link href="/profile" className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out">
-                    <User className="w-6 h-6" />
-                    <p>Edit Profile</p>
-                </Link>
-                {/* logout */}
-                <div onClick={() => signOut()} className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out">
-                  <LogOut className="w-6 h-6" />
-                  <p>Logout</p>
-                </div>
-              </div>
-            )
-            : (
-              <>
-                <NavLink href="/auth/login">MASUK</NavLink>
-                <NavLink href="/auth/sign-up-job-vacancy-provider">UNTUK PEMBERI KERJA</NavLink>
-              </>
-            )}
-
-          </div>
+          <Path
+            variants={{
+              closed: { rotate: 0, y: 0 },
+              open: { rotate: 45, y: 10 },
+            }}
+            transition={{ duration: 0.3 }}
+          />
+          <Path
+            variants={{
+              closed: { opacity: 1 },
+              open: { opacity: 0 },
+            }}
+            transition={{ duration: 0.3 }}
+          />
+          <Path
+            variants={{
+              closed: { rotate: 0, y: 0 },
+              open: { rotate: -45, y: -10 },
+            }}
+            transition={{ duration: 0.3 }}
+          />
         </motion.div>
+      </div>
+      {/* Akhir Menu Hamburger */}
+
+      {/* Menu navbar di mobile */}
+      <motion.div
+        className="md:hidden fixed top-[61px] left-0 w-full bg-white shadow-lg"
+        initial={{ height: 0, opacity: 0 }}
+        animate={{
+          height: isOpen ? "auto" : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+        style={{ overflow: "hidden" }}
+      >
+        <div className="flex flex-col p-4 gap-4">
+          <NavLink href="/">BERANDA</NavLink>
+          <NavLink href="/job-vacancy-providers">CARI PERUSAHAAN</NavLink>
+          <div className="border-t border-primary_color my-2" />
+          {/* jika user sudah login */}
+          {user ? (
+            <div className="space-y-3">
+              {/* pengecekan role */}
+              <h1 className="font-bold">
+                {user.role === "job_applicant"
+                  ? "Hai!! Pelamar Kerja"
+                  : "Hai!! Pemberi Kerja"}
+              </h1>
+
+              <div className="flex items-center gap-2 cursor-default">
+                <Avatar>
+                  {user?.image ? (
+                    <AvatarImage src={user.image} alt="avatar" />
+                  ) : (
+                    <AvatarFallback className="bg-primary_color text-white">
+                      {user?.full_name
+                        ?.split(" ")
+                        .map((name) => name[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+
+                {/* nama user dan juga gmail */}
+                <div className="text-sm font-medium">
+                  <p>{user.full_name}</p>
+                  <p>{user.email}</p>
+                </div>
+              </div>
+
+              {/* menu profil dan logout */}
+              <Link
+                href="/profile"
+                className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out"
+              >
+                <User className="w-6 h-6" />
+                <p>Edit Profile</p>
+              </Link>
+              {/* logout */}
+              <div
+                onClick={() => logoutAccount()}
+                className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out"
+              >
+                <LogOut className="w-6 h-6" />
+                <p>Logout</p>
+              </div>
+            </div>
+          ) : userGoogle ? (
+            <div className="space-y-3">
+              {/* pengecekan role */}
+              <h1 className="font-bold">
+                {userGoogle.role === "job_applicant"
+                  ? "Hai!! Pelamar Kerja"
+                  : "Hai!! Pemberi Kerja"}
+              </h1>
+
+              <div className="flex items-center gap-2 cursor-default">
+                <Avatar>
+                  {userGoogle?.image ? (
+                    <Image
+                      width={40}
+                      height={40}
+                      src={userGoogle.image}
+                      alt="avatar"
+                    />
+                  ) : (
+                    <AvatarFallback className="bg-primary_color text-white">
+                      {userGoogle.name
+                        ?.split(" ")
+                        .map((name) => name[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+
+                {/* nama user dan juga gmail */}
+                <div className="text-sm font-medium">
+                  <p>{userGoogle.name}</p>
+                  <p>{userGoogle.email}</p>
+                </div>
+              </div>
+
+              {/* menu profil dan logout */}
+              <Link
+                href="/profile"
+                className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out"
+              >
+                <User className="w-6 h-6" />
+                <p>Edit Profile</p>
+              </Link>
+              {/* logout */}
+              <div
+                onClick={() => signOut()}
+                className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out"
+              >
+                <LogOut className="w-6 h-6" />
+                <p>Logout</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <NavLink href="/auth/login">MASUK</NavLink>
+              <NavLink href="/auth/sign-up-job-vacancy-provider">
+                UNTUK PEMBERI KERJA
+              </NavLink>
+            </>
+          )}
+        </div>
+      </motion.div>
     </>
-  )
+  );
 }

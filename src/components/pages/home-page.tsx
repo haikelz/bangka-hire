@@ -1,73 +1,46 @@
 "use client";
 
-// import { getJobs } from "@/services/common";
-// import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import hero from "../../../public/assets/hero.png";
+import { getJobs } from "@/services/common";
+import { JobProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import CardResultJob from "../card-result-job";
 import Layout from "../container";
 import FormSearchJob from "../form-search-job";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { IsPendingClient } from "../react-query/is-pending-client";
 
 export default function HomePage() {
-  /*
-  Use this code below to get all available jobs
   const { data, isPending, isError } = useQuery({
-    queryKey: ["data"],
+    queryKey: ["get-jobs"],
     queryFn: async () => await getJobs(1, 1),
     refetchOnWindowFocus: false,
-    retry: false,
-    staleTime: 1000 * 60 * 5,
+    refetchOnReconnect: false,
   });
 
-  if (isPending) return <p>fsdf</p>;
-  if (isError) return <p>sdfsdf</p>;*/
+  if (isPending) return <IsPendingClient className="my-10 h-52" />;
+  if (isError) return <IsErrorClient />;
+
+  const jobVacancies = data?.data?.data as JobProps[];
 
   return (
-    <div className="xl:space-y-14">
-      {/* Gambar dan tagline */}
-      <div className="w-full h-52 sm:h-full">
-        {/* Tagline */}
-        <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-secondary_color_1 to-primary_color">
-          <Layout>
-            <div className="sm:flex w-full sm:justify-between sm:items-center lg:items-start">
-              {/* tagline singkat */}
-              <div className="md:space-y-6 space-y-2 w-full sm:w-2/3 lg:w-1/2 lg:pt-16 py-4 sm:py-10 text-white">
-                <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">
-                  Temukan karier impianmu{" "}
-                  <span className="bg-gradient-to-r to-[#FFED3C] from-[#FF3C86] bg-clip-text text-transparent">
-                    dengan Mudah!
-                  </span>
-                </h1>
-                <p className="text-sm lg:text-base xl:text-lg">
-                  Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai
-                  langkah pertamamu menuju masa depan !
-                </p>
-              </div>
-
-              {/* Gambar */}
-              <Image
-                src={hero}
-                alt="hero"
-                className="hidden sm:block sm:w-[40%] lg:w-1/2"
-              />
-            </div>
-          </Layout>
-        </div>
+    <Layout>
+      {/* Search Bar dan filter */}
+      <div className="bg-secondary_color_1 rounded-lg p-10 my-12">
+        <FormSearchJob />
       </div>
 
-      <Layout>
-        {/* Search Bar dan filter */}
-        <div className="bg-secondary_color_1 rounded-lg p-10 my-12">
-          <FormSearchJob />
-        </div>
-
-        {/* Card Job */}
+      {/* Card Job */}
+      {jobVacancies && jobVacancies.length ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-          {[...Array(8)].map((_, i) => (
-            <CardResultJob key={i} />
+          {jobVacancies.map((item, i) => (
+            <CardResultJob key={i} data={item} />
           ))}
         </div>
-      </Layout>
-    </div>
+      ) : (
+        <p className="text-xl font-bold text-center">
+          Belum ada lowongan kerja!
+        </p>
+      )}
+    </Layout>
   );
 }

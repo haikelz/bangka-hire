@@ -32,7 +32,16 @@ export async function getJobs(page = 1, limit = 8) {
 export async function getJobVacancyProvider(id: string) {
   try {
     const response = await axiosClient.get(`/job-vacancy-provider/${id}`);
-    return response.data;
+    return response;
+  } catch (error) {
+    throw new Error("Gagal mendapatkan data perusahaan!");
+  }
+}
+
+export async function getJobVacancyProviders() {
+  try {
+    const response = await axiosClient.get(`/job-vacancy-provider`);
+    return response;
   } catch (error) {
     throw new Error("Gagal mendapatkan data perusahaan!");
   }
