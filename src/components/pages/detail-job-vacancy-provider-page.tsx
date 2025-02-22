@@ -5,7 +5,7 @@ import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
 import { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { format, formatDate } from "date-fns/format";
+import { format } from "date-fns/format";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -152,41 +152,43 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <ReviewJobVacancyProviderForm id={id} />
                 {jobVacancyProvider.comments &&
                 jobVacancyProvider.comments.length ? (
-                  jobVacancyProvider.comments.map((comment) => (
-                    <div className="flex w-full flex-col justify-start items-start">
-                      <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
-                        <div className="space-y-1">
-                          <div className="flex w-full justify-between items-start">
-                            <div className="flex justify-center items-center w-fit space-x-2">
-                              <Image
+                  <div className="space-y-6">
+                    {jobVacancyProvider.comments.map((comment) => (
+                      <div className="flex w-full flex-col justify-start items-start">
+                        <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
+                          <div className="space-y-1">
+                            <div className="flex w-full justify-between items-start">
+                              <div className="flex justify-center items-center w-fit space-x-2">
+                                {/*<Image
                                 className="rounded-full"
                                 src={comment.user.image ?? ""}
                                 alt="comment"
                                 width={50}
                                 height={50}
-                              />
-                              <p>{comment.user.full_name}</p>
+                                />*/}
+                                {/*<p>{comment.user.full_name}</p>*/}
+                              </div>
+                              <p>
+                                {/*formatDate(comment.user.createdAt, "MMMM yyyy")*/}
+                              </p>
                             </div>
-                            <p>
-                              {formatDate(comment.user.createdAt, "MMMM yyyy")}
+                            <div className="flex justify-center items-center w-fit space-x-1">
+                              <span>4</span>
+                              <StarIcon
+                                width={16}
+                                height={16}
+                                className="fill-secondary_color_1 stroke-secondary_color_1"
+                              />
+                            </div>
+                            <p className="text-justify">
+                              ipsum dolor sit amet consectetur. Donec porta sem
+                              netus diam fermentum porta amet elit.
                             </p>
                           </div>
-                          <div className="flex justify-center items-center w-fit space-x-1">
-                            <span>4</span>
-                            <StarIcon
-                              width={16}
-                              height={16}
-                              className="fill-secondary_color_1 stroke-secondary_color_1"
-                            />
-                          </div>
-                          <p className="text-justify">
-                            ipsum dolor sit amet consectetur. Donec porta sem
-                            netus diam fermentum porta amet elit.
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-xl font-bold text-center">
                     Belum ada ulasan!

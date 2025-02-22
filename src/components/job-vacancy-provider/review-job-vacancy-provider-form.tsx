@@ -34,8 +34,8 @@ export function ReviewJobVacancyProviderForm({ id }: { id: string }) {
   const reviewJobVacancyProviderMutation = useMutation({
     mutationFn: async () =>
       await createReviewJobVacancyProvider({
-        user_id: "cm7gcpiua0004uiyc75rocw2u",
-        company_id: id,
+        user_id: "cm7g45z270001vba4fy6omuhz",
+        company_id: "cm7gdjlfp0000uin0najtsxd2",
         body: getValues("comment"),
         rating: rating,
       }),

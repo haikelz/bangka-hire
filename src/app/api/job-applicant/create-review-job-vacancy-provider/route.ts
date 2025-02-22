@@ -2,15 +2,10 @@ import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { user_id, company_id, body, rating } = await req.json();
-  console.log(rating);
+  const data = await req.json();
+  console.log(data);
   await db.comment.create({
-    data: {
-      user_id,
-      company_id,
-      body,
-      rating,
-    },
+    data,
   });
 
   return NextResponse.json({
