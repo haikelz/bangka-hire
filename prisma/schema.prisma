@@ -19,6 +19,7 @@ model User {
   email         String          @unique
   full_name     String
   phone_number  String?
+  description   String?
   password      String
   google_oauth  Boolean         @default(false)
   role          String
@@ -85,7 +86,7 @@ model ProfilCompany {
   street             String
   city               String
   total_employers    String
-  gmail              String
+  gmail              String?
   facebook           String?
   instagram          String?
   linkedin           String?

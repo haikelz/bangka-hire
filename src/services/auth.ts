@@ -2,7 +2,7 @@ import { JobApplicantProps } from "@/types";
 import { axiosClient } from "./axios";
 
 export async function createAccount(
-  data: Omit<JobApplicantProps, "id" | "cv"> & { confirm_password: string }
+  data: Omit<JobApplicantProps, "id" | "cv" > & { confirm_password: string }
 ) {
   try {
     const response = await axiosClient.post("/auth/sign-up", data);
@@ -12,6 +12,7 @@ export async function createAccount(
     throw new Error(err.response?.data?.message);
   }
 }
+
 
 // create account untuk perusahaan
 export async function createAccountForJobVacancy(

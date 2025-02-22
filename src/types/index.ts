@@ -4,6 +4,13 @@ export type ChildrenProps = {
   children: ReactNode;
 };
 
+export type EditProfileUser = {
+  description? : string;
+  user_id?: string;
+  full_name?: string;
+  phone_number?: string;
+}
+
 export type JobApplyProps = {
   user_id: string;
   job_id: string;
@@ -16,6 +23,7 @@ export type JobApplicantProps = {
   email: string;
   full_name: string;
   phone_number: string;
+  description?: string;
   password: string;
   cv: string; // s3 url
 };

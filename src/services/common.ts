@@ -1,5 +1,16 @@
-import { CommentProps, JobApplyProps } from "@/types";
+import { CommentProps, EditProfileUser, JobApplicantProps, JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
+
+// edit profile untuk user
+export async function editProfile(data: EditProfileUser) {
+  try {
+    const response = await axiosClient.put("/job-applicant/edit-profile", data);
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Gagal mengedit profile!");
+  }
+}
 
 export async function createApplyJob(
   data: Omit<JobApplyProps, "user_id" | "job_id">

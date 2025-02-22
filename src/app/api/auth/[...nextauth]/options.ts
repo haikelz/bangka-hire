@@ -62,9 +62,11 @@ export const options: NextAuthOptions = {
           if (existingJobApplicant) {
             token.id = existingJobApplicant.id;
             token.google_oauth = existingJobApplicant.google_oauth;
+            token.description = existingJobApplicant.description;
             token.role = existingJobApplicant.role;
           } else if (existingJobVacancyProvider) {
             token.id = existingJobVacancyProvider.id;
+            token.description = existingJobVacancyProvider.description;
             token.google_oauth = existingJobVacancyProvider.google_oauth;
             token.role = existingJobVacancyProvider.role;
           }
@@ -75,6 +77,7 @@ export const options: NextAuthOptions = {
           id: token.id,
           email: user.email,
           google_oauth: true,
+          description: token.description,
           name: user.name,
           image: user.image,
           role: user.role || token.role,
@@ -91,6 +94,7 @@ export const options: NextAuthOptions = {
       if (token) {
         session.user.id = token.sub;
         session.user.google_oauth = true;
+        session.user.description = token.description;
         session.user.role = token.role;
         session.user.image = token.picture as string;
       }

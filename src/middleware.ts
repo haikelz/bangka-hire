@@ -2,6 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { NODE_ENV } from "./lib/constants";
 
+const AuthRouters =[
+  "/auth/:path*",
+  "/profile",
+  "/profile/:path*",
+  "/dashboard"
+]
+
 export function middleware(request: NextRequest) {
   const authToken = request.cookies.get("auth-token");
   const isLogin = !!authToken;
