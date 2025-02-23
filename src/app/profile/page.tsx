@@ -34,6 +34,10 @@ export default function EditProfile () {
       staleTime: 1000 * 60 * 5,
   });
 
+  console.log
+
+
+
   const [openModal, setOpenModal] = useState(false)
   const [openModalTentangSaya, setOpenModalTentangSaya] = useState(false)
 
@@ -53,7 +57,7 @@ export default function EditProfile () {
             <Avatar className="w-24 h-24 md:w-32 md:h-32">
               {/* Gambar */}
               {data?.user.image ? (
-                <AvatarImage src={data.user.image} alt="avatar" referrerPolicy="no-referrer"/>
+                <AvatarImage src={data?.user.image} alt="avatar" referrerPolicy="no-referrer"/>
               ) : (
                 <AvatarFallback className="bg-primary_color text-white text-2xl">
                   {data?.user.full_name
@@ -69,7 +73,7 @@ export default function EditProfile () {
             {/* Nama email dan no hp */}
             <div className="space-y-3 md:space-y-6">
               <div className="flex items-center gap-2">
-                <h1 className="font-bold text-lg md:text-xl">{data?.user.full_name}</h1>
+                <h1 className="font-bold text-lg md:text-xl">{data?.user?.full_name}</h1>
                 <ModalFormEditProfile openModal={openModal} setOpenModal={setOpenModal} userInfo={data?.user} />
               </div>
 
@@ -77,7 +81,7 @@ export default function EditProfile () {
               {/* No WhatsApp */}
               <div className="text-[10px] md:text-xs">
                 <p>WhatsApp</p>
-                <p>{!data?.user.phone_number ? "-" : data?.user.phone_number }</p>
+                <p>{!data?.user.phone_number ? "-" : data?.user?.phone_number }</p>
               </div>
 
               {/* Email */}
@@ -105,7 +109,7 @@ export default function EditProfile () {
 
             <Textarea
               placeholder="Beritahu hal menarik tentang dirimu"
-              defaultValue={data?.user.description}
+              defaultValue={data?.user?.description}
               className="border-primary_color text-black text-sm md:text-base focus:outline-none focus:border-none"
               readOnly
               rows={9}

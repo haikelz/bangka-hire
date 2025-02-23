@@ -77,7 +77,6 @@ export const options: NextAuthOptions = {
           id: token.id,
           email: user.email,
           google_oauth: true,
-          description: token.description,
           full_name: user.name,
           image: user.image,
           role: user.role || token.role,
@@ -92,9 +91,8 @@ export const options: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (token) {
-        session.user.id = token.sub;
+        session.user.id = token.id as string; // jangan di ganti kel buat update user ni
         session.user.google_oauth = true;
-        session.user.description = token.description;
         session.user.role = token.role;
         session.user.image = token.picture as string;
       }
