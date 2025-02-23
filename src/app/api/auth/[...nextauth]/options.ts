@@ -92,7 +92,7 @@ export const options: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (token) {
-        session.user.id = token.id;
+        session.user.id = token.sub;
         session.user.google_oauth = true;
         session.user.description = token.description;
         session.user.role = token.role;

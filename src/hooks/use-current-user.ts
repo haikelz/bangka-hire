@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { getCurrentUser } from "@/services/auth";
 import { useQuery } from "@tanstack/react-query";
@@ -15,11 +15,11 @@ export function useCurrentUser() {
   return {
     user: data?.user,
     ...rest,
-  }
+  };
 }
 
 // mengambil data user khusus yang login lewat google
 export function useCurrentUserGoogle() {
-  const { data: session} = useSession();
-  return session?.user
+  const { data: session } = useSession();
+  return session?.user;
 }
