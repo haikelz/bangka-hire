@@ -34,9 +34,6 @@ export default function EditProfilePage () {
       staleTime: 1000 * 60 * 5,
   });
 
-  console.log
-
-
 
   const [openModal, setOpenModal] = useState(false)
   const [openModalTentangSaya, setOpenModalTentangSaya] = useState(false)

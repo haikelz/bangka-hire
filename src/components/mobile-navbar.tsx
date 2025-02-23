@@ -12,12 +12,30 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import NavLink from "./nav-link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { getUserPrisma } from "@/services/common";
+import { useQuery } from "@tanstack/react-query";
+import { IsPendingClient } from "./react-query/is-pending-client";
 
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { user } = useCurrentUser() as { user: UserProps };
   const userGoogle = useCurrentUserGoogle();
+
+  const userId = user?.id || userGoogle?.id;
+
+  // ambil data user dari server
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["user_id", userId],
+    queryFn: async () => {
+      // di cek dulu apakah userID sudah ada atau belum
+      if (!userId) return null
+      return await getUserPrisma(userId)
+    },
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
 
   // membuat navbar tertutup setiap kali pindah halaman
   useEffect(() => {
@@ -104,24 +122,29 @@ export function MobileNavbar() {
           <NavLink href="/job-vacancy-providers">CARI PERUSAHAAN</NavLink>
           <div className="border-t border-primary_color my-2" />
           {/* jika user sudah login */}
-          {user ? (
+          {isPending ? (
+            <div>
+              <IsPendingClient className="h-8" />
+            </div>
+          ) :
+          data?.user ? (
             <div className="space-y-3">
               {/* pengecekan role */}
               <h1 className="font-bold">
-                {user.role === "job_applicant"
+                {data.user.role === "job_applicant"
                   ? "Hai!! Pelamar Kerja"
                   : "Hai!! Pemberi Kerja"}
               </h1>
 
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
-                  {user?.image ? (
-                    <AvatarImage src={user.image} alt="avatar" referrerPolicy="no-referrer" />
+                  {data.user.image ? (
+                    <AvatarImage src={data.user.image} alt="avatar" referrerPolicy="no-referrer" />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">
-                      {user?.full_name
+                      {data.user.full_name
                         ?.split(" ")
-                        .map((name) => name[0])
+                        .map((name : any) => name[0])
                         .join("")
                         .toUpperCase()
                         .slice(0, 2)}
@@ -131,8 +154,8 @@ export function MobileNavbar() {
 
                 {/* nama user dan juga gmail */}
                 <div className="text-sm font-medium">
-                  <p>{user.full_name}</p>
-                  <p>{user.email}</p>
+                  <p>{data.user.full_name}</p>
+                  <p>{data.user.email}</p>
                 </div>
               </div>
 
@@ -147,61 +170,6 @@ export function MobileNavbar() {
               {/* logout */}
               <div
                 onClick={() => logoutAccount()}
-                className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out"
-              >
-                <LogOut className="w-6 h-6" />
-                <p>Logout</p>
-              </div>
-            </div>
-          ) : userGoogle ? (
-            <div className="space-y-3">
-              {/* pengecekan role */}
-              <h1 className="font-bold">
-                {userGoogle.role === "job_applicant"
-                  ? "Hai!! Pelamar Kerja"
-                  : "Hai!! Pemberi Kerja"}
-              </h1>
-
-              <div className="flex items-center gap-2 cursor-default">
-                <Avatar>
-                  {userGoogle?.image ? (
-                    <AvatarImage
-                      width={40}
-                      height={40}
-                      src={userGoogle.image}
-                      alt="avatar"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <AvatarFallback className="bg-primary_color text-white">
-                      {userGoogle.name
-                        ?.split(" ")
-                        .map((name) => name[0])
-                        .join("")
-                        .toUpperCase()
-                        .slice(0, 2)}
-                    </AvatarFallback>
-                  )}
-                </Avatar>
-
-                {/* nama user dan juga gmail */}
-                <div className="text-sm font-medium">
-                  <p>{userGoogle.name}</p>
-                  <p>{userGoogle.email}</p>
-                </div>
-              </div>
-
-              {/* menu profil dan logout */}
-              <Link
-                href="/profile"
-                className="border border-primary_color flex items-center gap-2 hover:bg-primary_color hover:text-white p-2 rounded-lg duration-300 ease-in-out"
-              >
-                <User className="w-6 h-6" />
-                <p>Edit Profile</p>
-              </Link>
-              {/* logout */}
-              <div
-                onClick={() => signOut()}
                 className="border border-red-500 text-red-500 flex items-center cursor-pointer gap-2 hover:bg-red-500 hover:text-white p-2 rounded-lg duration-300 ease-in-out"
               >
                 <LogOut className="w-6 h-6" />

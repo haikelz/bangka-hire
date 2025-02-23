@@ -9,6 +9,7 @@ export type EditProfileUser = {
   user_id?: string;
   full_name?: string;
   phone_number?: string;
+  google_oauth?: boolean;
 }
 
 export type JobApplyProps = {

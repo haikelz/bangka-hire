@@ -20,14 +20,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { getUserPrisma } from "@/services/common";
+import { useQuery } from "@tanstack/react-query";
+import { IsPendingClient } from "./react-query/is-pending-client";
 
 export default function Header() {
   const [isScroll, setIsScroll] = useState(false);
+  const router = useRouter()
   const { user } = useCurrentUser() as { user: UserProps };
   const [open, setOpen] = useState(false);
 
   const userGoogle = useCurrentUserGoogle();
 
+  const userId = user?.id || userGoogle?.id;
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["user_id", userId],
+    queryFn: async () => {
+      // di cek dulu apakah userID sudah ada atau belum
+      if (!userId) return null
+      return await getUserPrisma(userId)
+    },
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
 
   // membuat dropdown menu tertutup saat di mode mobile
   useEffect(() => {
@@ -70,17 +88,21 @@ export default function Header() {
         </div>
 
         {/* pada saat user sudah login */}
-        {user ? (
+        {isPending ?
+        <div>
+          <IsPendingClient className="hidden md:block md:w-36 md:h-12" />
+        </div>
+        : data?.user ? (
           <>
             <div className="hidden items-center md:flex md:gap-5 ">
               {/* image user dan nama lengkap user berserta dengan gmail */}
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
-                  {user?.image ? (
-                    <AvatarImage src={user.image} alt="avatar" />
+                  {data?.user.image ? (
+                    <AvatarImage src={data.user.image} alt="avatar" referrerPolicy="no-referrer" />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">
-                      {user?.full_name
+                      {data.user.full_name
                         ?.split(" ")
                         .map((name: string) => name[0])
                         .join("")
@@ -92,8 +114,8 @@ export default function Header() {
 
                 {/* nama user dan juga gmail */}
                 <div className="text-[10px] md:text-xs lg:text-sm font-medium">
-                  <p>{user.full_name}</p>
-                  <p>{user.email}</p>
+                  <p>{data.user.full_name}</p>
+                  <p>{data.user.email}</p>
                 </div>
               </div>
 
@@ -108,7 +130,7 @@ export default function Header() {
                     className="w-56 bg-secondary_color_2 p-1 text-xs md:text-sm"
                   >
                     <DropdownMenuLabel>
-                      {user.role === "job_applicant"
+                      {data.user.role === "job_applicant"
                         ? "Hai!! Pelamar Kerja"
                         : "Hai!! Pemberi Kerja"}
                     </DropdownMenuLabel>
@@ -136,77 +158,8 @@ export default function Header() {
               </div>
             </div>
           </>
-        ) : userGoogle ? (
-          <div className="hidden items-center md:flex md:gap-5 ">
-            {/* image user dan nama lengkap user berserta dengan gmail */}
-            <div className="flex items-center gap-2 cursor-default">
-              <Avatar>
-                {userGoogle.image ? (
-                  <AvatarImage
-                    width={40}
-                    height={40}
-                    src={userGoogle.image}
-                    alt="avatar"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <AvatarFallback className="bg-primary_color text-white">
-                    {userGoogle.name
-                      ?.split(" ")
-                      .map((name: string) => name[0])
-                      .join("")
-                      .toUpperCase()
-                      .slice(0, 2)}
-                  </AvatarFallback>
-                )}
-              </Avatar>
-
-              {/* nama user dan juga gmail */}
-              <div className="text-[10px] md:text-xs lg:text-sm font-medium">
-                <p>{userGoogle.name}</p>
-                <p>{userGoogle.email}</p>
-              </div>
-            </div>
-
-            {/* button dropdown menu */}
-            <div className="text-[10px] md:text-xs lg:text-sm">
-              <DropdownMenu open={open} onOpenChange={setOpen}>
-                <DropdownMenuTrigger asChild>
-                  <SettingsIcon className="lg:w-10 cursor-pointer" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 bg-secondary_color_2 p-1 text-xs md:text-sm"
-                >
-                  <DropdownMenuLabel>
-                    {userGoogle.role === "job_applicant"
-                      ? "Hai!! Pelamar Kerja"
-                      : "Hai!! Pemberi Kerja"}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-primary_color" />
-                  <DropdownMenuItem className="hover:bg-primary_color hover:text-white">
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-2 w-full hover:bg-primary_color hover:text-white p-2 rounded-sm duration-200 ease-in-out"
-                    >
-                      <User className="w-4 h-4" />
-                      <p>Edit Profile</p>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <div
-                      onClick={() => signOut()}
-                      className="flex items-center gap-2 w-full text-red-500 hover:bg-red-500 hover:text-white p-2 rounded-sm duration-200 ease-in-out cursor-pointer"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <p>Logout</p>
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        ) : (
+        ) :
+        (
           // Login dan sign up
           <div className="hidden md:flex md:gap-5 xl:gap-10">
             <NavLink href="/auth/login">MASUK</NavLink>

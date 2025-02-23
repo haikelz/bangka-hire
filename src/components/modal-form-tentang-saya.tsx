@@ -31,16 +31,14 @@ export function ModalFormTentangSaya({
   setOpenModal,
   userInfo
 }: ModalFormTentangSayaProps) {
-  const router = useRouter();
-  const { user } = useCurrentUser() as { user: UserProps };
-  const userGoogle = useCurrentUserGoogle()
   const queryClient = useQueryClient();
 
   const editProfileMutation = useMutation({
     mutationFn: async () =>
       await editProfile({
         description: getValues("description"),
-        user_id: user.id || userGoogle?.id
+        user_id: userInfo?.id,
+        google_oauth: userInfo?.google_oauth,
       }),
     onSuccess: async (response) => {
       // cek status dari response

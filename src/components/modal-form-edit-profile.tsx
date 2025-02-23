@@ -30,7 +30,6 @@ export function ModalFormEditProfile({
   setOpenModal,
   userInfo
 }: ModalFormEditProfileProps) {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const editProfileMutation = useMutation({
@@ -38,7 +37,8 @@ export function ModalFormEditProfile({
       await editProfile({
         phone_number: getValues("phone_number"),
         full_name: getValues("full_name"),
-        user_id: userInfo?.id
+        user_id: userInfo?.id,
+        google_oauth: userInfo?.google_oauth,
       }),
     onSuccess: async (response) => {
       // cek status dari response

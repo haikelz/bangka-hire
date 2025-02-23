@@ -7,7 +7,7 @@ import { createSession } from "@/app/actions";
 
 
 export async function PUT(req: NextRequest) {
-    let { full_name, phone_number, user_id, description } = await req.json();
+    let { full_name, phone_number, user_id, description, google_oauth } = await req.json();
 
     const existingJobApplicant = await db.user.findUnique({
       where : {
@@ -50,8 +50,10 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    // update session user
-    await createSession(updatedJobApplicant);
+    // jika user menggunakan google oauth untuk login jangan crate session
+    if(!google_oauth){
+      await createSession(updatedJobApplicant);
+    }
 
     return NextResponse.json({
       status_code: 200,
