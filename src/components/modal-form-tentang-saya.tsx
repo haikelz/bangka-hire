@@ -15,15 +15,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editProfile } from "@/services/common";
 import { toast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { editProfileSchema, editProfileTentangSayaSchema } from "@/lib/schemas/common";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type ModalFormTentangSayaProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
+  userInfo?: UserProps;
 };
 
 export function ModalFormTentangSaya({
   openModal,
   setOpenModal,
+  userInfo
 }: ModalFormTentangSayaProps) {
   const router = useRouter();
   const { user } = useCurrentUser() as { user: UserProps };
@@ -70,7 +75,9 @@ export function ModalFormTentangSaya({
     getValues,
     register,
     handleSubmit,
-  } = useForm();
+  } = useForm<z.infer<typeof editProfileTentangSayaSchema>>({
+    resolver: zodResolver(editProfileTentangSayaSchema),
+  });
 
   async function onSubmit() {
     await editProfileMutation.mutateAsync();
@@ -81,7 +88,7 @@ export function ModalFormTentangSaya({
       {/* Tombol untuk membuka modal */}
       <DialogTrigger asChild>
         {/* Tombol Kirim Lamaran */}
-        <Image className="cursor-pointer w-6 h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
+        <Image className="cursor-pointer w-5 h-5 md:w-6 md:h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
       </DialogTrigger>
 
       {/* Konten Modal */}
@@ -90,10 +97,16 @@ export function ModalFormTentangSaya({
           Tentang Saya
         </DialogTitle>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6">
+          <div className="space-y-2 md:space-y-4">
             <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea {...register("description")} className="border-primary_color" id="description" name="description" placeholder="Beritahu hal menarik tentang dirimu" defaultValue={user?.description} rows={6} />
+              <Label htmlFor="description" className="text-xs md:text-base">Description</Label>
+              <Textarea {...register("description")} className="border-primary_color text-xs md:text-base" id="description" name="description"
+              placeholder="Beritahu hal menarik tentang dirimu" defaultValue={userInfo?.description} rows={6} />
+              {errors.description && (
+                <p className="text-xs md:text-sm text-red-600">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
 

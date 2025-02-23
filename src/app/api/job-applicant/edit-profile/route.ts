@@ -38,8 +38,6 @@ export async function PUT(req: NextRequest) {
       phone_number = existingJobApplicant.phone_number
     }
 
-    console.log(description)
-
     // update data user
     const updatedJobApplicant = await db.user.update({
       where: {

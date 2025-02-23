@@ -116,7 +116,7 @@ export function MobileNavbar() {
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
                   {user?.image ? (
-                    <AvatarImage src={user.image} alt="avatar" />
+                    <AvatarImage src={user.image} alt="avatar" referrerPolicy="no-referrer" />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">
                       {user?.full_name
@@ -165,11 +165,12 @@ export function MobileNavbar() {
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
                   {userGoogle?.image ? (
-                    <Image
+                    <AvatarImage
                       width={40}
                       height={40}
                       src={userGoogle.image}
                       alt="avatar"
+                      referrerPolicy="no-referrer"
                     />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">

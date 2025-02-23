@@ -2,12 +2,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { NODE_ENV } from "./lib/constants";
 
-const AuthRouters =[
-  "/auth/:path*",
-  "/profile",
-  "/profile/:path*",
-  "/dashboard"
-]
 
 export function middleware(request: NextRequest) {
   const authToken = request.cookies.get("auth-token");
@@ -32,8 +26,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  // di cek kalau user belum login dan mau akses halaman auth
+  if (!isLogin && !isLoginGoogle && ["/dashboard", "/profile"].some(path => request.nextUrl.pathname.startsWith(path))) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  // di cek kalau user belum login dan mau akses halaman dashboard
   if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    if (!authToken) {
+    if (!isLogin || !isLoginGoogle) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 

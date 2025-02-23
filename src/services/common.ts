@@ -1,6 +1,16 @@
 import { CommentProps, EditProfileUser, JobApplicantProps, JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
 
+// mendapatkan user saat ini dari database
+export async function getUserPrisma(id? : string) {
+  try {
+    const response = await axiosClient.get(`/get-user/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Gagal mendapatkan data user!");
+  }
+}
+
 // edit profile untuk user
 export async function editProfile(data: EditProfileUser) {
   try {

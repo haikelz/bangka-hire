@@ -79,7 +79,7 @@ model Comment {
 }
 
 model ProfilCompany {
-  id                  String    @id @default(cuid())
+  id                 String    @id @default(cuid())
   user               User      @relation(fields: [user_id], references: [id])
   user_id            String    @unique
   description_company String

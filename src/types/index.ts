@@ -43,6 +43,7 @@ export type UserProps = {
   email: string;
   full_name: string;
   phone_number: string;
+  description?: string;
   password: string;
   cv?: string; // s3 url
   google_oauth: boolean;

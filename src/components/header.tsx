@@ -28,6 +28,7 @@ export default function Header() {
 
   const userGoogle = useCurrentUserGoogle();
 
+
   // membuat dropdown menu tertutup saat di mode mobile
   useEffect(() => {
     const handleResize = () => {
@@ -141,11 +142,12 @@ export default function Header() {
             <div className="flex items-center gap-2 cursor-default">
               <Avatar>
                 {userGoogle.image ? (
-                  <Image
+                  <AvatarImage
                     width={40}
                     height={40}
                     src={userGoogle.image}
                     alt="avatar"
+                    referrerPolicy="no-referrer"
                   />
                 ) : (
                   <AvatarFallback className="bg-primary_color text-white">

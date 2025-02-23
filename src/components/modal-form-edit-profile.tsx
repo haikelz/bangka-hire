@@ -14,19 +14,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserProps } from "@/types";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { editProfileSchema } from "@/lib/schemas/common";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type ModalFormEditProfileProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
+  userInfo?: UserProps;
 };
 
 export function ModalFormEditProfile({
   openModal,
   setOpenModal,
+  userInfo
 }: ModalFormEditProfileProps) {
   const router = useRouter();
-  const { user } = useCurrentUser() as { user: UserProps };
-  const userGoogle = useCurrentUserGoogle()
   const queryClient = useQueryClient();
 
   const editProfileMutation = useMutation({
@@ -34,7 +37,7 @@ export function ModalFormEditProfile({
       await editProfile({
         phone_number: getValues("phone_number"),
         full_name: getValues("full_name"),
-        user_id: user.id || userGoogle?.id
+        user_id: userInfo?.id
       }),
     onSuccess: async (response) => {
       // cek status dari response
@@ -70,7 +73,9 @@ export function ModalFormEditProfile({
     getValues,
     register,
     handleSubmit,
-  } = useForm();
+  } = useForm<z.infer<typeof editProfileSchema>>({
+    resolver: zodResolver(editProfileSchema),
+  });
 
   async function onSubmit() {
     await editProfileMutation.mutateAsync();
@@ -81,20 +86,20 @@ export function ModalFormEditProfile({
       {/* Tombol untuk membuka modal */}
       <DialogTrigger asChild>
         {/* Tombol Kirim Lamaran */}
-        <Image className="cursor-pointer w-6 h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
+        <Image className="cursor-pointer w-5 h-5 md:w-6 md:h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
       </DialogTrigger>
 
       {/* Konten Modal */}
       <DialogContent className="max-w-sm sm:max-w-md rounded-lg">
         <DialogTitle className="flex items-center justify-center">
           {/* Gambar */}
-          <Avatar className="w-32 h-32">
+          <Avatar className="w-24 h-24 md:w-32 md:h-32">
               {/* Gambar */}
-              {user?.image ? (
-                <AvatarImage src={user.image} alt="avatar" />
+              {userInfo?.image ? (
+                <AvatarImage src={userInfo?.image} alt="avatar" />
               ) : (
                 <AvatarFallback className="bg-primary_color text-white text-2xl">
-                  {user?.full_name
+                  {userInfo?.full_name
                         ?.split(" ")
                         .map((name: string) => name[0])
                         .join("")
@@ -107,22 +112,32 @@ export function ModalFormEditProfile({
 
         {/* form edit profile */}
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
+          <div className="space-y-2 md:space-y-4">
             <div>
-              <Label htmlFor="full_name">Nama Lengkap</Label>
-              <Input {...register("full_name")} className="border-primary_color" id="full_name" name="full_name" placeholder="Masukkan nama lengkap Anda" defaultValue={user?.full_name} />
+              <Label htmlFor="full_name" className="text-xs md:text-base">Nama Lengkap</Label>
+              <Input {...register("full_name")} className="border-primary_color text-xs md:text-base" id="full_name" name="full_name" placeholder="Masukkan nama lengkap Anda" defaultValue={userInfo?.full_name} />
+              {errors.full_name && (
+                <p className="text-red-500 text-xs md:text-sm mt-1">
+                  {errors.full_name.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <Label htmlFor="phone_number">Whatsapp</Label>
+              <Label htmlFor="phone_number" className="text-xs md:text-base">Whatsapp</Label>
               <Input
                 {...register("phone_number")}
-                className="border-primary_color"
+                className="border-primary_color text-xs md:text-base"
                 id="phone_number"
                 name="phone_number"
                 placeholder="Masukkan no handphone Anda"
-                defaultValue={user?.phone_number}
+                defaultValue={userInfo?.phone_number}
               />
+              {errors.phone_number && (
+                <p className="text-red-500 text-xs md:text-sm mt-1">
+                  {errors.phone_number.message}
+                </p>
+              )}
             </div>
 
             <Button

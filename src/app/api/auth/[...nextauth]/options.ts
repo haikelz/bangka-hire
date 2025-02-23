@@ -78,7 +78,7 @@ export const options: NextAuthOptions = {
           email: user.email,
           google_oauth: true,
           description: token.description,
-          name: user.name,
+          full_name: user.name,
           image: user.image,
           role: user.role || token.role,
         };
