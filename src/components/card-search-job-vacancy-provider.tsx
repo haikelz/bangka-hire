@@ -9,6 +9,11 @@ export default function CardSearchJobVacancyProvider({
 }: {
   data: UserProps;
 }) {
+  // mencari jumlah rata rata rating
+  const averageRating =
+    data.comments.reduce((acc, comment) => acc + comment.rating, 0) /
+    data.comments.length;
+
   return (
     <Link
       href={`/job-vacancy-providers/${data.id}`}
@@ -21,7 +26,7 @@ export default function CardSearchJobVacancyProvider({
         <div className="flex items-center gap-3 text-[10px] md:text-xs">
           {/* rating */}
           <div className="flex items-center gap-1">
-            <p>4</p>
+            <p>{averageRating.toFixed(1) ?? 0}</p>
             <Star fill="yellow" stroke="none" className="w-4" />
           </div>
 

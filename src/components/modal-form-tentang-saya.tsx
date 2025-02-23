@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { editProfileSchema, editProfileTentangSayaSchema } from "@/lib/schemas/common";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 
 type ModalFormTentangSayaProps = {
   openModal: boolean;
@@ -97,13 +98,13 @@ export function ModalFormTentangSaya({
           Tentang Saya
         </DialogTitle>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-2 md:space-y-4">
+          <div className="space-y-2">
             <div>
               <Label htmlFor="description" className="text-xs md:text-base">Description</Label>
               <Textarea {...register("description")} className="border-primary_color text-xs md:text-base" id="description" name="description"
               placeholder="Beritahu hal menarik tentang dirimu" defaultValue={userInfo?.description} rows={6} />
               {errors.description && (
-                <p className="text-xs md:text-sm text-red-600">
+                <p className="text-xs md:text-sm text-red-600 mt-1">
                   {errors.description.message}
                 </p>
               )}
@@ -113,8 +114,13 @@ export function ModalFormTentangSaya({
             <Button
               type="submit"
               className="w-full bg-secondary_color_3 text-black hover:text-white hover:bg-secondary_color_1"
+              disabled={editProfileMutation.isPending}
             >
-              Simpan
+              {editProfileMutation.isPending ? (
+                <Loader className="w-6 h-6 animate-spin" /> // Icon loading
+              ) : (
+                "Simpan"
+              )}
             </Button>
           </div>
         </form>

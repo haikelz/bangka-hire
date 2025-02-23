@@ -7,6 +7,7 @@ import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAccount } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -114,9 +115,12 @@ export function LoginFormJobApplicant() {
 
           <Button
             type="submit"
-            className="w-full bg-secondary_color_1 hover:bg-primary_color "
+            className="w-full bg-secondary_color_1 hover:bg-primary_color"
+            disabled={loginMutation.isPending}
           >
-            Masuk
+            {loginMutation.isPending ?
+              <Loader className="w-7 h-7 animate-spin" /> : "Masuk"
+            }
           </Button>
           <Button
             type="button"

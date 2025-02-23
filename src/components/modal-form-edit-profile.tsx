@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { editProfileSchema } from "@/lib/schemas/common";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader, Loader2 } from "lucide-react";
 
 type ModalFormEditProfileProps = {
   openModal: boolean;
@@ -143,8 +144,13 @@ export function ModalFormEditProfile({
             <Button
               type="submit"
               className="w-full bg-secondary_color_3 text-black hover:text-white hover:bg-secondary_color_1"
+              disabled={editProfileMutation.isPending}
             >
-              Simpan
+              {editProfileMutation.isPending ? (
+                <Loader className="w-6 h-6 animate-spin" /> // Icon loading
+              ) : (
+                "Simpan"
+              )}
             </Button>
           </div>
         </form>

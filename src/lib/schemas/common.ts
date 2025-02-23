@@ -25,8 +25,7 @@ export const editProfileSchema = z.object({
 });
 
 export const editProfileTentangSayaSchema = z.object({
-  description: z.string({
-    required_error: "Deskripsi harus diisi",
-    invalid_type_error: "Deskripsi harus berupa text",
-  }),
+  description: z.string().min(5, {
+    message: "Deskripsikan dirimu dengan minimal 5 karakter",
+  })
 });

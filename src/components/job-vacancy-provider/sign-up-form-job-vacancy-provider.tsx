@@ -8,6 +8,7 @@ import { createAccountForJobVacancy } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
+import { Loader } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -166,8 +167,11 @@ export function SignUpFormJobVacancyProvider() {
           <Button
             type="submit"
             className="w-full bg-secondary_color_1 hover:bg-primary_color"
+            disabled={signUpMutation.isPending}
           >
-            Daftar
+            {signUpMutation.isPending ? (
+              <Loader className="h-7 w-7 animate-spin" />
+            ) : "Daftar"}
           </Button>
           <Button
             type="button"
