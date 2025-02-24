@@ -1,5 +1,4 @@
 import { JobProps } from "@/types";
-import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import location from "../../public/assets/location.png";
@@ -7,6 +6,7 @@ import logo from "../../public/assets/logo.png";
 import salary from "../../public/assets/salary.png";
 import status from "../../public/assets/status-work.png";
 import time from "../../public/assets/time.png";
+import { formatTanggal } from "./format-tanggal";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
   return (
@@ -54,7 +54,7 @@ export default function CardResultJob({ data }: { data: JobProps }) {
         {/* waktu posting */}
         <div className="flex items-center gap-2 text-sm sm:text-sm">
           <Image className="w-4" src={time} alt="Time" />
-          <p>{format(data.createdAt, "MMMM yyyy")} yang lalu</p>
+          <p>Di posting {formatTanggal(data.createdAt)}</p>
         </div>
       </div>
     </Link>

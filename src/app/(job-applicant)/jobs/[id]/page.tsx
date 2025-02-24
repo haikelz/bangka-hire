@@ -6,7 +6,7 @@ export default async function Job({ params }: APIRouteParamsProps) {
 
   return (
     <div>
-      <DetailJobPage id={id} />
+      <DetailJobPage job_id={id} />
     </div>
   );
 }

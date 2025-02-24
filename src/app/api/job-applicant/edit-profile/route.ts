@@ -7,13 +7,14 @@ import { createSession } from "@/app/actions";
 
 
 export async function PUT(req: NextRequest) {
-    let { full_name, phone_number, user_id, description, google_oauth } = await req.json();
+    let { full_name, phone_number, user_id, description,cv, google_oauth } = await req.json();
 
     const existingJobApplicant = await db.user.findUnique({
       where : {
         id: user_id
       }
     })
+
 
     // pengecekan bila user tidak ada di database
     if (!existingJobApplicant) {
@@ -23,9 +24,17 @@ export async function PUT(req: NextRequest) {
       });
     }
 
+    console.log(cv);
+
+
     // jika description kosong pakai description lama
     if (!description) {
       description = existingJobApplicant.description
+    }
+
+    // jika cv kosong pakai cv lama
+    if (!cv) {
+      cv = existingJobApplicant.cv
     }
 
     // jika full_name kosong pakai full_name lama
@@ -46,7 +55,8 @@ export async function PUT(req: NextRequest) {
       data: {
         full_name,
         phone_number,
-        description
+        description,
+        cv
       },
     });
 

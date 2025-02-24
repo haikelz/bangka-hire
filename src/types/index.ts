@@ -8,13 +8,15 @@ export type EditProfileUser = {
   description? : string;
   user_id?: string;
   full_name?: string;
+  cv?: string;
   phone_number?: string;
   google_oauth?: boolean;
 }
 
+
 export type JobApplyProps = {
-  user_id: string;
-  job_id: string;
+  user_id?: string;
+  job_id?: string;
 };
 
 export type JobApplicantProps = {
@@ -108,6 +110,6 @@ export type CommentProps = {
 };
 
 export type APIRouteParamsProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string, job_id: string, user_id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };

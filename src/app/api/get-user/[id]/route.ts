@@ -17,6 +17,7 @@ export async function GET(req: NextRequest, props : APIRouteParamsProps) {
       image: true,
       phone_number: true,
       description: true,
+      cv: true,
       role: true,
       google_oauth: true,
     }

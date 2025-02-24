@@ -20,11 +20,12 @@ import {
 } from "../ui/dropdown-menu";
 
 type DetailJobPageProps = {
-  id: string;
+  job_id: string;
 };
 
-export default function DetailJobPage({ id }: DetailJobPageProps) {
+export default function DetailJobPage({ job_id }: DetailJobPageProps) {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <Layout>
       {/* informasi pekerjaan singkat */}
@@ -140,7 +141,7 @@ export default function DetailJobPage({ id }: DetailJobPageProps) {
         </div>
 
         {/* modal form kirm lamaran */}
-        <ModalFormJobApply openModal={openModal} setOpenModal={setOpenModal} />
+        <ModalFormJobApply openModal={openModal} setOpenModal={setOpenModal} job_id={job_id} />
       </div>
     </Layout>
   );

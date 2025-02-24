@@ -29,3 +29,26 @@ export const editProfileTentangSayaSchema = z.object({
     message: "Deskripsikan dirimu dengan minimal 5 karakter",
   })
 });
+
+export const applyJobSchema = z.object({
+  cv: z
+  .any() // Bisa menerima file atau null, tapi akan divalidasi di bawah
+  .superRefine((file, ctx) => {
+    if (!file) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CV harus diisi",
+      });
+    } else if (!(file instanceof File)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CV harus berupa file PDF",
+      });
+    } else if (file.type !== "application/pdf") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CV harus berupa file PDF",
+      });
+    }
+  })
+});

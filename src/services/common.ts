@@ -11,6 +11,16 @@ export async function getUserPrisma(id? : string) {
   }
 }
 
+// cek user on jobs di database
+export async function getUserOnJobs(user_id: string, job_id: string) {
+  try {
+    const response = await axiosClient.get(`/job-applicant/user-on-jobs/${user_id}/${job_id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Gagal mendapatkan data user!");
+  }
+}
+
 // edit profile untuk user
 export async function editProfile(data: EditProfileUser) {
   try {
@@ -23,7 +33,7 @@ export async function editProfile(data: EditProfileUser) {
 }
 
 export async function createApplyJob(
-  data: Omit<JobApplyProps, "user_id" | "job_id">
+  data: JobApplyProps
 ) {
   const response = await axiosClient.post("/job-applicant/apply-job", data);
   return response.data;
