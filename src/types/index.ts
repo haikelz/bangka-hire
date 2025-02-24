@@ -17,6 +17,7 @@ export type EditProfileUser = {
 export type JobApplyProps = {
   user_id?: string;
   job_id?: string;
+  cv?: string;
 };
 
 export type JobApplicantProps = {

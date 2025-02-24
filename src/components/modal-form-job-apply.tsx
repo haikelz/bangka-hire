@@ -3,11 +3,11 @@
 import { useGetUserServer } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { applyJobSchema } from "@/lib/schemas/common";
-import { createApplyJob, editProfile, getUserOnJobs } from "@/services/common";
+import { createApplyJob, getUserOnJobs } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader, VerifiedIcon, X } from "lucide-react";
+import { Loader, LockIcon, VerifiedIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -88,33 +88,18 @@ export default function ModalFormJobApply({
   const queryClient = useQueryClient();
 
   const applyJobMutation = useMutation({
-    mutationFn: async () => {
-      const applyJobPromise = createApplyJob({
+    mutationFn: async () =>
+      await createApplyJob({
         user_id: user?.id,
         job_id: job_id,
-      });
-
-      const editProfilePromise = editProfile({
-        cv: fileName || "", // ubah cv menjadi string
-        google_oauth: user?.google_oauth,
-        user_id: user?.id,
-      });
-
-      // Jalankan dua fungsi bersamaan
-      const [applyJobResponse, editProfileResponse] = await Promise.all([
-        applyJobPromise,
-        editProfilePromise,
-      ]);
-
-      return { applyJobResponse, editProfileResponse };
-    },
-
-    onSuccess: async ({ applyJobResponse, editProfileResponse }) => {
+        cv: fileName || "",
+      }),
+    onSuccess: async (response) => {
       // cek status dari response
-      if (applyJobResponse.status_code === 400) {
+      if (response.status_code === 400) {
         return toast({
           title: "Gagal mengirim lamaran!",
-          description: applyJobResponse.message,
+          description: response.message,
           variant: "destructive",
         });
       }
@@ -170,13 +155,23 @@ export default function ModalFormJobApply({
               </div>
             )}
           </Button>
+        ) : user?.role === "job_vacancy_provider" || user?.role === "admin" ? (
+          <Button
+            className="bg-secondary_color_3 text-black px-12 hover:bg-secondary_color_1 hover:text-white"
+            disabled
+          >
+            <div className="flex items-center gap-2">
+              <LockIcon color="black" width={20} height={20} />
+              <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
+            </div>
+          </Button>
         ) : (
           <Button
             className="bg-secondary_color_3 text-black px-12 hover:bg-secondary_color_1 hover:text-white"
             disabled
           >
             <div className="flex items-center gap-2">
-              <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
+              <p className="font-medium">Login Untuk Akses</p>
             </div>
           </Button>
         )}
