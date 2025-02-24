@@ -2,15 +2,18 @@
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { logoutAccount } from "@/services/auth";
+import { getUserPrisma } from "@/services/common";
 import { UserProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { LogOut, SettingsIcon, User } from "lucide-react";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import logo from "../../public/assets/logo.png";
 import { MobileNavbar } from "./mobile-navbar";
 import NavLink from "./nav-link";
+import { IsPendingClient } from "./react-query/is-pending-client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -20,14 +23,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useRouter } from "next/navigation";
-import { getUserPrisma } from "@/services/common";
-import { useQuery } from "@tanstack/react-query";
-import { IsPendingClient } from "./react-query/is-pending-client";
 
 export default function Header() {
   const [isScroll, setIsScroll] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const { user } = useCurrentUser() as { user: UserProps };
   const [open, setOpen] = useState(false);
 
@@ -39,8 +38,8 @@ export default function Header() {
     queryKey: ["user_id", userId],
     queryFn: async () => {
       // di cek dulu apakah userID sudah ada atau belum
-      if (!userId) return null
-      return await getUserPrisma(userId)
+      if (!userId) return null;
+      return await getUserPrisma(userId);
     },
     refetchOnWindowFocus: false,
     retry: false,
@@ -88,18 +87,22 @@ export default function Header() {
         </div>
 
         {/* pada saat user sudah login */}
-        {isPending ?
-        <div>
-          <IsPendingClient className="hidden md:block md:w-36 md:h-12" />
-        </div>
-        : data?.user ? (
+        {isPending ? (
+          <div>
+            <IsPendingClient className="hidden md:block md:w-36 md:h-12" />
+          </div>
+        ) : data?.user ? (
           <>
             <div className="hidden items-center md:flex md:gap-5 ">
               {/* image user dan nama lengkap user berserta dengan gmail */}
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
                   {data?.user.image ? (
-                    <AvatarImage src={data.user.image} alt="avatar" referrerPolicy="no-referrer" />
+                    <AvatarImage
+                      src={data.user.image}
+                      alt="avatar"
+                      referrerPolicy="no-referrer"
+                    />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">
                       {data.user.full_name
@@ -158,8 +161,7 @@ export default function Header() {
               </div>
             </div>
           </>
-        ) :
-        (
+        ) : (
           // Login dan sign up
           <div className="hidden md:flex md:gap-5 xl:gap-10">
             <NavLink href="/auth/login">MASUK</NavLink>

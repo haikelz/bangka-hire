@@ -141,7 +141,11 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         </div>
 
         {/* modal form kirm lamaran */}
-        <ModalFormJobApply openModal={openModal} setOpenModal={setOpenModal} job_id={job_id} />
+        <ModalFormJobApply
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          job_id={job_id}
+        />
       </div>
     </Layout>
   );

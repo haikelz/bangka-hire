@@ -40,7 +40,6 @@ export async function POST(req: NextRequest) {
     },
   });
 
-
   await createSession(data);
 
   return NextResponse.json({

@@ -1,24 +1,19 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Textarea } from "./ui/textarea";
-import { UserProps } from "@/types";
-import { useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editProfile } from "@/services/common";
 import { toast } from "@/hooks/use-toast";
+import { editProfileTentangSayaSchema } from "@/lib/schemas/common";
+import { editProfile } from "@/services/common";
+import { UserProps } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { editProfileSchema, editProfileTentangSayaSchema } from "@/lib/schemas/common";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
 
 type ModalFormTentangSayaProps = {
   openModal: boolean;
@@ -29,7 +24,7 @@ type ModalFormTentangSayaProps = {
 export function ModalFormTentangSaya({
   openModal,
   setOpenModal,
-  userInfo
+  userInfo,
 }: ModalFormTentangSayaProps) {
   const queryClient = useQueryClient();
 
@@ -87,7 +82,13 @@ export function ModalFormTentangSaya({
       {/* Tombol untuk membuka modal */}
       <DialogTrigger asChild>
         {/* Tombol Kirim Lamaran */}
-        <Image className="cursor-pointer w-5 h-5 md:w-6 md:h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
+        <Image
+          className="cursor-pointer w-5 h-5 md:w-6 md:h-6"
+          src="/assets/trigger-edit.svg"
+          alt="Kirim Lamaran"
+          width={40}
+          height={40}
+        />
       </DialogTrigger>
 
       {/* Konten Modal */}
@@ -98,16 +99,24 @@ export function ModalFormTentangSaya({
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
             <div>
-              <Label htmlFor="description" className="text-xs md:text-base">Description</Label>
-              <Textarea {...register("description")} className="border-primary_color text-xs md:text-base" id="description" name="description"
-              placeholder="Beritahu hal menarik tentang dirimu" defaultValue={userInfo?.description} rows={6} />
+              <Label htmlFor="description" className="text-xs md:text-base">
+                Description
+              </Label>
+              <Textarea
+                {...register("description")}
+                className="border-primary_color text-xs md:text-base"
+                id="description"
+                name="description"
+                placeholder="Beritahu hal menarik tentang dirimu"
+                defaultValue={userInfo?.description}
+                rows={6}
+              />
               {errors.description && (
                 <p className="text-xs md:text-sm text-red-600 mt-1">
                   {errors.description.message}
                 </p>
               )}
             </div>
-
 
             <Button
               type="submit"
@@ -122,7 +131,6 @@ export function ModalFormTentangSaya({
             </Button>
           </div>
         </form>
-
       </DialogContent>
     </Dialog>
   );

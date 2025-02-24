@@ -1,5 +1,4 @@
 import db from "@/lib/db";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 //
@@ -25,8 +24,8 @@ export async function POST(req: NextRequest) {
   const existingJob = await db.job.findUnique({
     where: {
       id: job_id,
-    }
-  })
+    },
+  });
 
   if (!existingJob) {
     return NextResponse.json({
@@ -38,10 +37,10 @@ export async function POST(req: NextRequest) {
   // cek dulu apakah user sudah pernah melamar job ini
   const existingJobApplicant = await db.usersOnJobs.findFirst({
     where: {
-      user_id : user_id,
-      jobs_id : job_id
-    }
-  })
+      user_id: user_id,
+      jobs_id: job_id,
+    },
+  });
 
   // jika user sudah pernah melamar job ini, kembalikan pesan
   if (existingJobApplicant) {
@@ -55,14 +54,12 @@ export async function POST(req: NextRequest) {
   await db.usersOnJobs.create({
     data: {
       user_id: user_id,
-      jobs_id: job_id
-    }
-  })
+      jobs_id: job_id,
+    },
+  });
 
   return NextResponse.json({
     status_code: 200,
     message: "Sukses melamar job!",
   });
-
-
 }

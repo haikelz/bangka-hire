@@ -1,23 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useForm } from "react-hook-form";
-import { editProfile } from "@/services/common";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserProps } from "@/types";
 import { toast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { editProfileSchema } from "@/lib/schemas/common";
+import { editProfile } from "@/services/common";
+import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, Loader2 } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 type ModalFormEditProfileProps = {
   openModal: boolean;
@@ -28,7 +25,7 @@ type ModalFormEditProfileProps = {
 export function ModalFormEditProfile({
   openModal,
   setOpenModal,
-  userInfo
+  userInfo,
 }: ModalFormEditProfileProps) {
   const queryClient = useQueryClient();
 
@@ -87,7 +84,13 @@ export function ModalFormEditProfile({
       {/* Tombol untuk membuka modal */}
       <DialogTrigger asChild>
         {/* Tombol Kirim Lamaran */}
-        <Image className="cursor-pointer w-5 h-5 md:w-6 md:h-6" src="/assets/trigger-edit.svg" alt="Kirim Lamaran" width={40} height={40} />
+        <Image
+          className="cursor-pointer w-5 h-5 md:w-6 md:h-6"
+          src="/assets/trigger-edit.svg"
+          alt="Kirim Lamaran"
+          width={40}
+          height={40}
+        />
       </DialogTrigger>
 
       {/* Konten Modal */}
@@ -95,19 +98,19 @@ export function ModalFormEditProfile({
         <DialogTitle className="flex items-center justify-center">
           {/* Gambar */}
           <Avatar className="w-24 h-24 md:w-32 md:h-32">
-              {/* Gambar */}
-              {userInfo?.image ? (
-                <AvatarImage src={userInfo?.image} alt="avatar" />
-              ) : (
-                <AvatarFallback className="bg-primary_color text-white text-2xl">
-                  {userInfo?.full_name
-                        ?.split(" ")
-                        .map((name: string) => name[0])
-                        .join("")
-                        .toUpperCase()
-                        .slice(0, 2)}
-                </AvatarFallback>
-              )}
+            {/* Gambar */}
+            {userInfo?.image ? (
+              <AvatarImage src={userInfo?.image} alt="avatar" />
+            ) : (
+              <AvatarFallback className="bg-primary_color text-white text-2xl">
+                {userInfo?.full_name
+                  ?.split(" ")
+                  .map((name: string) => name[0])
+                  .join("")
+                  .toUpperCase()
+                  .slice(0, 2)}
+              </AvatarFallback>
+            )}
           </Avatar>
         </DialogTitle>
 
@@ -115,8 +118,17 @@ export function ModalFormEditProfile({
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2 md:space-y-4">
             <div>
-              <Label htmlFor="full_name" className="text-xs md:text-base">Nama Lengkap</Label>
-              <Input {...register("full_name")} className="border-primary_color text-xs md:text-base" id="full_name" name="full_name" placeholder="Masukkan nama lengkap Anda" defaultValue={userInfo?.full_name} />
+              <Label htmlFor="full_name" className="text-xs md:text-base">
+                Nama Lengkap
+              </Label>
+              <Input
+                {...register("full_name")}
+                className="border-primary_color text-xs md:text-base"
+                id="full_name"
+                name="full_name"
+                placeholder="Masukkan nama lengkap Anda"
+                defaultValue={userInfo?.full_name}
+              />
               {errors.full_name && (
                 <p className="text-red-500 text-xs md:text-sm mt-1">
                   {errors.full_name.message}
@@ -125,7 +137,9 @@ export function ModalFormEditProfile({
             </div>
 
             <div>
-              <Label htmlFor="phone_number" className="text-xs md:text-base">Whatsapp</Label>
+              <Label htmlFor="phone_number" className="text-xs md:text-base">
+                Whatsapp
+              </Label>
               <Input
                 {...register("phone_number")}
                 className="border-primary_color text-xs md:text-base"

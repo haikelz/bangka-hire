@@ -14,7 +14,11 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
       include: {
         comments: true,
         profile: true,
-        jobs: true,
+        jobs: {
+          where: {
+            user_id: id,
+          },
+        },
       },
     });
 

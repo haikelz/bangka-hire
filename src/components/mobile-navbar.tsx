@@ -2,19 +2,17 @@
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { logoutAccount } from "@/services/auth";
+import { getUserPrisma } from "@/services/common";
 import { UserProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { LogOut, User } from "lucide-react";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import NavLink from "./nav-link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { getUserPrisma } from "@/services/common";
-import { useQuery } from "@tanstack/react-query";
 import { IsPendingClient } from "./react-query/is-pending-client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,8 +27,8 @@ export function MobileNavbar() {
     queryKey: ["user_id", userId],
     queryFn: async () => {
       // di cek dulu apakah userID sudah ada atau belum
-      if (!userId) return null
-      return await getUserPrisma(userId)
+      if (!userId) return null;
+      return await getUserPrisma(userId);
     },
     refetchOnWindowFocus: false,
     retry: false,
@@ -126,8 +124,7 @@ export function MobileNavbar() {
             <div>
               <IsPendingClient className="h-8" />
             </div>
-          ) :
-          data?.user ? (
+          ) : data?.user ? (
             <div className="space-y-3">
               {/* pengecekan role */}
               <h1 className="font-bold">
@@ -139,12 +136,16 @@ export function MobileNavbar() {
               <div className="flex items-center gap-2 cursor-default">
                 <Avatar>
                   {data.user.image ? (
-                    <AvatarImage src={data.user.image} alt="avatar" referrerPolicy="no-referrer" />
+                    <AvatarImage
+                      src={data.user.image}
+                      alt="avatar"
+                      referrerPolicy="no-referrer"
+                    />
                   ) : (
                     <AvatarFallback className="bg-primary_color text-white">
                       {data.user.full_name
                         ?.split(" ")
-                        .map((name : any) => name[0])
+                        .map((name: any) => name[0])
                         .join("")
                         .toUpperCase()
                         .slice(0, 2)}

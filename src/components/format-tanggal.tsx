@@ -6,7 +6,9 @@ export function formatTanggal(createdAt: Date) {
   const now = new Date();
 
   // Hitung selisih waktu dalam hari
-  const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+  const diffInDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
   // Jika kurang dari 7 hari, tampilkan waktu relatif
   if (diffInDays < 7) {

@@ -171,7 +171,9 @@ export function SignUpFormJobVacancyProvider() {
           >
             {signUpMutation.isPending ? (
               <Loader className="h-7 w-7 animate-spin" />
-            ) : "Daftar"}
+            ) : (
+              "Daftar"
+            )}
           </Button>
           <Button
             type="button"

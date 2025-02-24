@@ -1,8 +1,8 @@
-import { CommentProps, EditProfileUser, JobApplicantProps, JobApplyProps } from "@/types";
+import { CommentProps, EditProfileUser, JobApplyProps } from "@/types";
 import { axiosClient } from "./axios";
 
 // mendapatkan user saat ini dari database
-export async function getUserPrisma(id? : string) {
+export async function getUserPrisma(id?: string) {
   try {
     const response = await axiosClient.get(`/get-user/${id}`);
     return response.data;
@@ -14,7 +14,9 @@ export async function getUserPrisma(id? : string) {
 // cek user on jobs di database
 export async function getUserOnJobs(user_id: string, job_id: string) {
   try {
-    const response = await axiosClient.get(`/job-applicant/user-on-jobs/${user_id}/${job_id}`);
+    const response = await axiosClient.get(
+      `/job-applicant/user-on-jobs/${user_id}/${job_id}`
+    );
     return response.data;
   } catch (error) {
     throw new Error("Gagal mendapatkan data user!");
@@ -32,9 +34,7 @@ export async function editProfile(data: EditProfileUser) {
   }
 }
 
-export async function createApplyJob(
-  data: JobApplyProps
-) {
+export async function createApplyJob(data: JobApplyProps) {
   const response = await axiosClient.post("/job-applicant/apply-job", data);
   return response.data;
 }

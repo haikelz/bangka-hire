@@ -154,7 +154,10 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 jobVacancyProvider.comments.length ? (
                   <div className="space-y-6">
                     {jobVacancyProvider.comments.map((comment) => (
-                      <div className="flex w-full flex-col justify-start items-start">
+                      <div
+                        key={comment.id}
+                        className="flex w-full flex-col justify-start items-start"
+                      >
                         <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
                           <div className="space-y-1">
                             <div className="flex w-full justify-between items-start">

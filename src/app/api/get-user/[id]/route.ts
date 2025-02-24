@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import { APIRouteParamsProps } from "@/types";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, props : APIRouteParamsProps) {
+export async function GET(req: NextRequest, props: APIRouteParamsProps) {
   const { id } = await props.params;
 
   const existingUser = await db.user.findUnique({
     where: {
-      id : id,
+      id: id,
     },
     select: {
       id: true,
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, props : APIRouteParamsProps) {
       cv: true,
       role: true,
       google_oauth: true,
-    }
+    },
   });
 
   // cek apakah user ada

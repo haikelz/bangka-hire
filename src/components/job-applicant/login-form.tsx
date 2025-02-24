@@ -118,9 +118,11 @@ export function LoginFormJobApplicant() {
             className="w-full bg-secondary_color_1 hover:bg-primary_color"
             disabled={loginMutation.isPending}
           >
-            {loginMutation.isPending ?
-              <Loader className="w-7 h-7 animate-spin" /> : "Masuk"
-            }
+            {loginMutation.isPending ? (
+              <Loader className="w-7 h-7 animate-spin" />
+            ) : (
+              "Masuk"
+            )}
           </Button>
           <Button
             type="button"
