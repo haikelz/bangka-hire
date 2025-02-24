@@ -12,7 +12,11 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
         password: false,
       },
       include: {
-        comments: true,
+        comments: {
+          include: {
+            user: true,
+          },
+        },
         profile: true,
         jobs: {
           where: {

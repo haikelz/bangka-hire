@@ -1,3 +1,4 @@
+import { calculateAverageRating } from "@/lib/number";
 import { UserProps } from "@/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
@@ -10,9 +11,10 @@ export default function CardSearchJobVacancyProvider({
   data: UserProps;
 }) {
   // mencari jumlah rata rata rating
-  const averageRating =
-    data.comments.reduce((acc, comment) => acc + comment.rating, 0) /
-    data.comments.length;
+  const averageRating = calculateAverageRating(
+    data.comments,
+    (comment) => comment.rating
+  );
 
   return (
     <Link
@@ -26,7 +28,7 @@ export default function CardSearchJobVacancyProvider({
         <div className="flex items-center gap-3 text-[10px] md:text-xs">
           {/* rating */}
           <div className="flex items-center gap-1">
-            <p>{averageRating.toFixed(1) ?? 0}</p>
+            <p>{averageRating ?? 0}</p>
             <Star fill="yellow" stroke="none" className="w-4" />
           </div>
 

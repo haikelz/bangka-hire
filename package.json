@@ -6,7 +6,7 @@
   "homepage": "https://bangka-hire.ekel.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/haikelz/babel-hire"
+    "url": "https://github.com/haikelz/bangka-hire"
   },
   "scripts": {
     "dev": "next dev --turbo",

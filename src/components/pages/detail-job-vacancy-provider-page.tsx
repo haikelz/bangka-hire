@@ -1,11 +1,12 @@
 "use client";
 
+import { calculateAverageRating } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
 import { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns/format";
+import { format, formatDate } from "date-fns/format";
 import { useAtom } from "jotai";
 import {
   Calendar,
@@ -37,6 +38,11 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
 
   const jobVacancyProvider = data?.data.data as UserProps;
 
+  const averageRating = calculateAverageRating(
+    jobVacancyProvider.comments,
+    (comment) => comment.rating
+  );
+
   return (
     <>
       <div className="rounded-sm bg-secondary_color_2 px-7 py-6">
@@ -54,7 +60,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               </h3>
               <div className="flex space-x-4 justify-center items-center w-fit">
                 <div className="flex justify-center items-center w-fit space-x-2">
-                  <span>4.8</span>
+                  <span>{averageRating}</span>
                   <StarIcon
                     width={16}
                     height={16}
@@ -159,20 +165,23 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                         className="flex w-full flex-col justify-start items-start"
                       >
                         <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
-                          <div className="space-y-1">
+                          <div className="space-y-3">
                             <div className="flex w-full justify-between items-start">
                               <div className="flex justify-center items-center w-fit space-x-2">
-                                {/*<Image
-                                className="rounded-full"
-                                src={comment.user.image ?? ""}
-                                alt="comment"
-                                width={50}
-                                height={50}
-                                />*/}
-                                {/*<p>{comment.user.full_name}</p>*/}
+                                <Image
+                                  className="rounded-full"
+                                  src={
+                                    comment.user.image ??
+                                    "/assets/fallback-user.svg"
+                                  }
+                                  alt="user comment"
+                                  width={30}
+                                  height={30}
+                                />
+                                <p>{comment.user.full_name}</p>
                               </div>
                               <p>
-                                {/*formatDate(comment.user.createdAt, "MMMM yyyy")*/}
+                                {formatDate(comment.createdAt, "dd MMMM yyyy")}
                               </p>
                             </div>
                             <div className="flex justify-center items-center w-fit space-x-1">
