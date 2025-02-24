@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 //
 export async function POST(req: NextRequest) {
   // ambil user_id dan juga job_id dari body request
-  const { user_id, job_id } = await req.json();
+  const { user_id, job_id, cv } = await req.json();
 
   // cek dulu apakah user ada
   const existingUser = await db.user.findUnique({
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   const existingJobApplicant = await db.usersOnJobs.findFirst({
     where: {
       user_id : user_id,
-      jobs_id : job_id
+      jobs_id : job_id,
     }
   })
 
@@ -55,7 +55,8 @@ export async function POST(req: NextRequest) {
   await db.usersOnJobs.create({
     data: {
       user_id: user_id,
-      jobs_id: job_id
+      jobs_id: job_id,
+      cv
     }
   })
 
