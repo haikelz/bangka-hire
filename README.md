@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Bangka Hire</h1>
-  <p>"Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan !",</p>
+  <p>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan!</p>
 </div>
 
 ## Folder structure
