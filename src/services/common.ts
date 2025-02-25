@@ -49,6 +49,16 @@ export async function getJobs(page = 1, limit = 8) {
   }
 }
 
+// mengambil detail job
+export async function getJobById(id: string) {
+  try {
+    const response = await axiosClient.get(`/jobs/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Gagal mendapatkan data lowongan kerja!");
+  }
+}
+
 export async function getJobVacancyProvider(id: string) {
   try {
     const response = await axiosClient.get(`/job-vacancy-provider/${id}`);

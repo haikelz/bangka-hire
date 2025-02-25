@@ -18,6 +18,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useQuery } from "@tanstack/react-query";
+import { getJobById } from "@/services/common";
+import { IsPendingClient } from "../react-query/is-pending-client";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { JobProps } from "@/types";
+import { calculateAverageRating } from "@/lib/number";
 
 type DetailJobPageProps = {
   job_id: string;
@@ -25,6 +31,33 @@ type DetailJobPageProps = {
 
 export default function DetailJobPage({ job_id }: DetailJobPageProps) {
   const [openModal, setOpenModal] = useState(false);
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["detail-job", job_id],
+    queryFn: async () => {
+      // di cek dulu apakah job id sudah ada
+      if (!job_id) return null;
+      return await getJobById(job_id);
+    },
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  })
+
+  const job = data?.data as JobProps
+
+  // mencari jumlah rata rata rating
+  const averageRating = function () {
+    if (job.company?.comments) {
+      return calculateAverageRating(job.company.comments, (comment : any) => comment.rating);
+    }
+
+    return 0
+  }
+
+  // kalau pending
+  if (isPending) return <IsPendingClient className="h-svh" />;
+  if (isError) return <IsErrorClient />;
 
   return (
     <Layout>
@@ -34,21 +67,30 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         <div className="flex justify-between items-center">
           {/* logo dan nama perusahaan, rating dan ulasan */}
           <div className="flex items-center gap-5">
-            <Image className="w-16 sm:w-20 md:w-32" src={logo} alt="Logo" />
+            {/* logo perusahaan */}
+            {job.company?.user.image ? (
+              <Image
+                className="w-16 sm:w-20 md:w-32"
+                src={job.company?.user.image}
+                alt="Logo"
+              />
+            ) : (
+              <Image className="w-16 sm:w-20 md:w-32" src={logo} alt="Logo" />
+            )}
             {/* posisi pekerjaan */}
             <div>
               <h1 className="font-bold sm:text-xl lg:text-2xl">
-                Customer Service
+                {job.position_job}
               </h1>
               <div className="flex items-center gap-3 font-medium text-xs sm:text-base">
-                <p>PT. BabelHire</p>
+                <p>{job.company?.user.full_name}</p>
                 {/* rating */}
                 <div className="flex items-center">
-                  <p>4</p>
+                  <p>{averageRating()}</p>
                   <Star fill="#2A72B3" stroke="none" />
                 </div>
 
-                <p className="underline">8 ulasan</p>
+                <p className="underline">{job.company?.comments.length} ulasan</p>
               </div>
             </div>
           </div>
@@ -80,7 +122,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={status} alt="Status" />
             <div>
               <p>Status Pekerjaan</p>
-              <p className="font-medium">Full Time</p>
+              <p className="font-medium">{job.status_work}</p>
             </div>
           </div>
           {/* salary */}
@@ -88,7 +130,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={salary} alt="Status" />
             <div>
               <p>Gaji</p>
-              <p className="font-medium">2.000.000 - 3.000.000</p>
+              <p className="font-medium">{job.salary}</p>
             </div>
           </div>
           {/* location */}
@@ -96,7 +138,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={location} alt="Status" />
             <div>
               <p>Lokasi</p>
-              <p className="font-medium">Pangkal Pinang</p>
+              <p className="font-medium">{job.company?.city}</p>
             </div>
           </div>
         </div>
@@ -108,12 +150,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         <div className="space-y-5">
           <h1 className="font-bold">Deskripsi Perusahaan</h1>
           <p>
-            Bangka Hire adalah Perusahaan yang bergerak di bidang web dan
-            teknologi. saat ini sedang membutuhkan UI/UX Desainer sebagai
-            pendukung tim dibidang web dan teknologi Lorem ipsum dolor sit amet
-            consectetur. Donec porta sem netus diam fermentum porta amet elit.
-            Adipiscing elementum suspendisse pulvinar enim proin ornare
-            fringilla ullamcorper adipiscing.
+            {job.company?.description_company}
           </p>
         </div>
 
@@ -124,9 +161,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         <div className="space-y-5">
           <h1 className="font-bold">Tanggung Jawab</h1>
           <ul className="list-disc pl-5">
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
+            <li>{job.responsibilty}</li>
           </ul>
         </div>
 
@@ -134,9 +169,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         <div className="space-y-5">
           <h1 className="font-bold">Kualifikasi</h1>
           <ul className="list-disc pl-5">
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
+            <li>{job.qualification}</li>
           </ul>
         </div>
 
