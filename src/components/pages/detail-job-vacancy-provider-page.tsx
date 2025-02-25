@@ -1,6 +1,5 @@
 "use client";
 
-import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { calculateAverageRating } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
@@ -25,10 +24,6 @@ import { IsPendingClient } from "../react-query/is-pending-client";
 
 export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const [companyTab, setCompanyTab] = useAtom(companyTabAtom);
-
-  const { user } = useCurrentUser();
-
-  const userGoogle = useCurrentUserGoogle();
 
   const { data, isPending, isError } = useQuery({
     queryKey: [id],
@@ -158,9 +153,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                     </div>
                   </div>
                 </div>
-                {user || userGoogle ? (
-                  <ReviewJobVacancyProviderForm id={id} />
-                ) : null}
+                <ReviewJobVacancyProviderForm id={id} />
                 {jobVacancyProvider.comments &&
                 jobVacancyProvider.comments.length ? (
                   <div className="space-y-6 mt-6">
