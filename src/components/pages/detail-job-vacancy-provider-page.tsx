@@ -4,7 +4,7 @@ import { calculateAverageRating } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
-import { CommentProps, UserProps } from "@/types";
+import { CommentProps, ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { format, formatDate } from "date-fns/format";
 import { useAtom } from "jotai";
@@ -36,7 +36,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   if (isPending) return <IsPendingClient className="h-svh" />;
   if (isError) return <IsErrorClient />;
 
-  const jobVacancyProvider = data?.data.data as UserProps;
+  const jobVacancyProvider = data?.data.data as ProfilCompanyProps;
 
   const averageRating = calculateAverageRating(
     jobVacancyProvider?.comments as CommentProps[],
@@ -56,7 +56,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
             />
             <div className="space-y-1">
               <h3 className="font-bold text-xl">
-                {jobVacancyProvider.user.full_name}
+                {jobVacancyProvider.user?.full_name}
               </h3>
               <div className="flex space-x-4 justify-center items-center w-fit">
                 <div className="flex justify-center items-center w-fit space-x-2">
@@ -69,7 +69,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   <p>Total Penilaian</p>
                 </div>
                 <p className="underline">
-                  {jobVacancyProvider.comments.length} Ulasan
+                  {jobVacancyProvider.comments?.length} Ulasan
                 </p>
               </div>
               <div className="space-x-1 flex justify-center items-center w-fit">
@@ -88,7 +88,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   width={16}
                   height={16}
                 />
-                <p>{jobVacancyProvider.user.profile?.city ?? "-"}</p>
+                <p>{jobVacancyProvider.user?.profile?.city ?? "-"}</p>
               </div>
               <div className="flex justify-center items-center space-x-2 w-fit">
                 <Calendar className="" width={16} height={16} />
