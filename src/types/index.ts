@@ -5,14 +5,13 @@ export type ChildrenProps = {
 };
 
 export type EditProfileUser = {
-  description? : string;
+  description?: string;
   user_id?: string;
   full_name?: string;
   cv?: string;
   phone_number?: string;
   google_oauth?: boolean;
-}
-
+};
 
 export type JobApplyProps = {
   user_id?: string;
@@ -55,7 +54,7 @@ export type UserProps = {
   updatedAt: Date;
   profile: ProfilCompanyProps;
   comments: CommentProps[];
-  jobs: UsersOnJobsProps[];
+  jobs: JobProps[];
 };
 
 export type UsersOnJobsProps = {
@@ -63,6 +62,7 @@ export type UsersOnJobsProps = {
   user: UserProps;
   user_id: string;
   job: JobProps;
+  cv?: string;
   jobs_id: string;
 };
 
@@ -93,9 +93,9 @@ export type ProfilCompanyProps = {
   linkedin?: string;
   createdAt: Date;
   updatedAt: Date;
-  user: UserProps;
-  comments: Comment[];
-  jobs: JobProps[];
+  user?: UserProps;
+  comments?: CommentProps[];
+  jobs?: JobProps[];
 };
 
 export type CommentProps = {
@@ -111,6 +111,6 @@ export type CommentProps = {
 };
 
 export type APIRouteParamsProps = {
-  params: Promise<{ id: string, job_id: string, user_id: string }>;
+  params: Promise<{ id: string; job_id: string; user_id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };

@@ -4,7 +4,7 @@ import { calculateAverageRating } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
-import { UserProps } from "@/types";
+import { CommentProps, UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { format, formatDate } from "date-fns/format";
 import { useAtom } from "jotai";
@@ -39,7 +39,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const jobVacancyProvider = data?.data.data as UserProps;
 
   const averageRating = calculateAverageRating(
-    jobVacancyProvider.comments,
+    jobVacancyProvider?.comments as CommentProps[],
     (comment) => comment.rating
   );
 
@@ -56,7 +56,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
             />
             <div className="space-y-1">
               <h3 className="font-bold text-xl">
-                {jobVacancyProvider.full_name}
+                {jobVacancyProvider.user.full_name}
               </h3>
               <div className="flex space-x-4 justify-center items-center w-fit">
                 <div className="flex justify-center items-center w-fit space-x-2">
@@ -69,7 +69,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   <p>Total Penilaian</p>
                 </div>
                 <p className="underline">
-                  {jobVacancyProvider.comments?.length} Ulasan
+                  {jobVacancyProvider.comments.length} Ulasan
                 </p>
               </div>
               <div className="space-x-1 flex justify-center items-center w-fit">
@@ -88,7 +88,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   width={16}
                   height={16}
                 />
-                <p>{jobVacancyProvider.profile?.city ?? "-"}</p>
+                <p>{jobVacancyProvider.user.profile?.city ?? "-"}</p>
               </div>
               <div className="flex justify-center items-center space-x-2 w-fit">
                 <Calendar className="" width={16} height={16} />
@@ -127,7 +127,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <div className="space-y-2">
                   <p className="font-bold">Tentang Perusahaan</p>
                   <p className="text-justify">
-                    {jobVacancyProvider.profile?.description_company ?? "-"}
+                    {jobVacancyProvider.description_company ?? "-"}
                   </p>
                 </div>
                 <div className="mt-6">
@@ -135,20 +135,18 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <p className="font-bold text-black mt-3">Alamat</p>
-                      <p>{jobVacancyProvider.profile?.street ?? "-"}</p>
+                      <p>{jobVacancyProvider.street ?? "-"}</p>
                     </div>
                     <div className="space-y-2">
                       <p className="font-bold text-black">Media Sosial</p>
                       <div className="flex justify-center items-center space-x-2 w-fit">
-                        <Link
-                          href={jobVacancyProvider.profile?.instagram ?? ""}
-                        >
+                        <Link href={jobVacancyProvider.instagram ?? ""}>
                           <InstagramIcon width={16} height={16} />
                         </Link>
-                        <Link href={jobVacancyProvider.profile?.facebook ?? ""}>
+                        <Link href={jobVacancyProvider.facebook ?? ""}>
                           <FacebookIcon width={16} height={16} />
                         </Link>
-                        <Link href={jobVacancyProvider.profile?.gmail ?? ""}>
+                        <Link href={jobVacancyProvider.gmail ?? ""}>
                           <MailIcon width={16} height={16} />
                         </Link>
                       </div>
@@ -158,7 +156,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <ReviewJobVacancyProviderForm id={id} />
                 {jobVacancyProvider.comments &&
                 jobVacancyProvider.comments.length ? (
-                  <div className="space-y-6">
+                  <div className="space-y-6 mt-6">
                     {jobVacancyProvider.comments.map((comment) => (
                       <div
                         key={comment.id}
@@ -185,17 +183,14 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                               </p>
                             </div>
                             <div className="flex justify-center items-center w-fit space-x-1">
-                              <span>4</span>
+                              <span>{comment.rating}</span>
                               <StarIcon
                                 width={16}
                                 height={16}
                                 className="fill-secondary_color_1 stroke-secondary_color_1"
                               />
                             </div>
-                            <p className="text-justify">
-                              ipsum dolor sit amet consectetur. Donec porta sem
-                              netus diam fermentum porta amet elit.
-                            </p>
+                            <p className="text-justify">{comment.body}</p>
                           </div>
                         </div>
                       </div>
@@ -212,7 +207,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 {jobVacancyProvider.jobs && jobVacancyProvider.jobs.length ? (
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
                     {jobVacancyProvider.jobs.map((item, i) => (
-                      <CardResultJob data={item.job} key={i} />
+                      <CardResultJob data={item} />
                     ))}
                   </div>
                 ) : (

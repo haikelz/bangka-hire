@@ -91,3 +91,14 @@ export async function createReviewJobVacancyProvider(
     throw new Error("Gagal membuat review perusahaan!");
   }
 }
+
+export async function getCommentsByCompanyId(id: string) {
+  try {
+    const response = await axiosClient.get(
+      `/job-vacancy-provider/${id}/comments`
+    );
+    return response;
+  } catch (err) {
+    throw new Error("Gagal mendapatkan ulasan tentang perusahaan!");
+  }
+}
