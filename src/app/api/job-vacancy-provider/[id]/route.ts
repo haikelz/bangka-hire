@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
           include: {
             company: {
               include: {
-                user: true,
+                user: { omit: { password: false } },
               },
             },
             users: true,
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
         },
         comments: {
           include: {
-            user: true,
+            user: { omit: { password: false } },
           },
         },
         user: {
