@@ -20,8 +20,6 @@ export async function PUT(req: NextRequest) {
     });
   }
 
-  console.log(cv);
-
   // jika description kosong pakai description lama
   if (!description) {
     description = existingJobApplicant.description;
