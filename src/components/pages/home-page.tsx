@@ -11,7 +11,7 @@ import { IsPendingClient } from "../react-query/is-pending-client";
 import { useAtomValue } from "jotai";
 import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../ui/pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +19,11 @@ export default function HomePage() {
   const valueSearch = useAtomValue(searchJob);
   const valueLocation = useAtomValue(valueFilterCity);
   const valueSalary = useAtomValue(valueFilterSalary);
+
+  // untuk fix tidak search jika sedang di page 2
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [valueSearch, valueLocation, valueSalary]);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["get-jobs", valueSearch, valueLocation, valueSalary, currentPage],
