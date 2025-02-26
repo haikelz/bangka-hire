@@ -124,7 +124,7 @@ export default function ModalFormJobApply({
   });
 
   // handleSubmit
-  async function onSubmit() {
+  async function onSubmit() {;
     await applyJobMutation.mutateAsync();
   }
 

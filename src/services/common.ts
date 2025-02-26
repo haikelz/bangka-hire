@@ -40,9 +40,9 @@ export async function createApplyJob(data: JobApplyProps) {
 }
 
 // mengambil semua data job di database
-export async function getJobs(page = 1, limit = 8) {
+export async function getJobs(page = 1, limit = 8, search = "", city = "", salary = "") {
   try {
-    const response = await axiosClient.get(`/jobs?page=${page}&limit=${limit}`);
+    const response = await axiosClient.get(`/jobs?search=${search}&city=${city}&salary=${salary}&page=${page}&limit=${limit}`);
     return response;
   } catch (error) {
     throw new Error("Gagal mengambil data lowongan kerja");

@@ -9,6 +9,14 @@ import time from "../../public/assets/time.png";
 import { formatTanggal } from "./format-tanggal";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
+  function formatRupiah(value: number) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  }
+
   return (
     <Link
       href={`/jobs/${data.id}`}
@@ -38,7 +46,7 @@ export default function CardResultJob({ data }: { data: JobProps }) {
           {/* salary */}
           <div className="flex items-center gap-2">
             <Image className="w-4" src={salary} alt="Salary" />
-            <p>{data.salary}</p>
+            <p> {formatRupiah(data.salary_min)} - {formatRupiah(data.salary_max)}</p>
           </div>
 
           {/* status work */}

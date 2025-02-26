@@ -1,9 +1,14 @@
 import db from "@/lib/db";
+import { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 // mengambil semua data job di database
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, props: APIRouteParamsProps) {
   try {
+    const search = req?.nextUrl?.searchParams.get("search") as string;
+    const city = req?.nextUrl?.searchParams.get("city") as string;
+    const salary = req?.nextUrl?.searchParams.get("salary") as string;
+
     const page: number = Number(
       req?.nextUrl?.searchParams.get("page") as string
     );
@@ -13,13 +18,54 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit; // menghitung skip
 
+
     // ambil data semua lowongan kerja di database
     const data = await db.job.findMany({
       take: limit,
       skip: skip,
-      orderBy: {
-        createdAt: "desc",
+      where: {
+        AND: [
+          search
+            ? {
+                OR: [
+                  {
+                    position_job: {
+                      contains: search, // mencari lowongan kerja berdasarkan posisi
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    company: {
+                      user: {
+                        full_name: {
+                          contains: search, // mencari lowongan kerja berdasarkan nama perusahaan
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                ],
+              }
+            : {},
+          city
+            ? {
+                company: {
+                  city: {
+                    contains: city,
+                    mode: "insensitive",
+                  },
+                },
+              }
+            : {},
+          salary === "Tertinggi" ? { salary_max: { gt: 0 } } : {},
+          salary === "Terendah" ? { salary_max: { gt: 1 } } : {},
+        ],
       },
+      orderBy: salary
+      ? {
+          salary_max: salary === "Tertinggi" ? "desc" : "asc",
+        }
+      : { createdAt: "desc" }, // secara default akan di urutkan dari terbaru
       include: {
         company: {
           select: {
@@ -34,7 +80,48 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const totalItems = await db.job.count(); // menghitung total item
+    // menhitung total items jika memang sudah di filter
+    const totalItems = await db.job.count({
+      where: {
+        AND: [
+          search
+            ? {
+                OR: [
+                  {
+                    position_job: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    company: {
+                      user: {
+                        full_name: {
+                          contains: search,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                ],
+              }
+            : {},
+          city
+            ? {
+                company: {
+                  city: {
+                    contains: city,
+                    mode: "insensitive",
+                  },
+                },
+              }
+            : {},
+          salary === "Tertinggi" ? { salary_max: { gt: 0 } } : {},
+          salary === "Terendah" ? { salary_max: { gt: 1 } } : {},
+        ],
+      },
+    });
+
     const totalPages = Math.ceil(totalItems / limit); // menghitung total halaman
 
     return NextResponse.json({
