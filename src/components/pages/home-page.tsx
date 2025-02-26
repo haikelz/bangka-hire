@@ -8,19 +8,30 @@ import Layout from "../container";
 import FormSearchJob from "../form-search-job";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
+import { useAtomValue } from "jotai";
+import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../ui/pagination";
+import { useState } from "react";
 
 export default function HomePage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  // value dari atom search
+  const valueSearch = useAtomValue(searchJob);
+  const valueLocation = useAtomValue(valueFilterCity);
+  const valueSalary = useAtomValue(valueFilterSalary);
+
   const { data, isPending, isError } = useQuery({
-    queryKey: ["get-jobs"],
-    queryFn: async () => await getJobs(1, 1),
+    queryKey: ["get-jobs", valueSearch, valueLocation, valueSalary, currentPage],
+    queryFn: async () => await getJobs(currentPage, 8, valueSearch, valueLocation, valueSalary),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <IsPendingClient className="my-10 h-52" />;
   if (isError) return <IsErrorClient />;
 
   const jobVacancies = data?.data?.data as JobProps[];
+  const totalPages = data?.data?.totalPages ?? 1;
 
   return (
     <Layout>
@@ -30,17 +41,46 @@ export default function HomePage() {
       </div>
 
       {/* Card Job */}
-      {jobVacancies && jobVacancies.length ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-          {jobVacancies.map((item, i) => (
-            <CardResultJob key={i} data={item} />
-          ))}
-        </div>
-      ) : (
-        <p className="text-xl font-bold text-center">
-          Belum ada lowongan kerja!
-        </p>
-      )}
+      {isPending ? <IsPendingClient className="my-10 h-52" /> :
+        jobVacancies.length ?
+        (
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
+              {jobVacancies.map((item, i) => (
+                <CardResultJob key={i} data={item} />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {(data?.data?.totalItems > 8 && totalPages > 1)  && (
+            <Pagination className="mt-10">
+              <PaginationContent className="flex justify-center items-center gap-2">
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${currentPage === 1 ? 'hidden' : ''}`}
+                  />
+                </PaginationItem>
+                <span className="font-medium text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev))}
+                    className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${currentPage === totalPages ? 'hidden' : ''}`}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
+          </>
+        ) : (
+          <p className="text-xl font-bold text-center">
+            Belum ada lowongan kerja!
+          </p>
+        )}
+
+
     </Layout>
   );
 }

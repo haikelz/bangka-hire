@@ -130,7 +130,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={salary} alt="Status" />
             <div>
               <p>Gaji</p>
-              <p className="font-medium">{job.salary}</p>
+              <p className="font-medium">10010000</p>
             </div>
           </div>
           {/* location */}

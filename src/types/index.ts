@@ -72,7 +72,8 @@ export type JobProps = {
   position_job: string;
   responsibilty: string;
   qualification: string;
-  salary: string;
+  salary_min: number;
+  salary_max: number;
   status_work: string;
   createdAt: Date;
   updatedAt: Date;

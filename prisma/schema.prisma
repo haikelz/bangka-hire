@@ -54,7 +54,8 @@ model Job {
   position_job   String
   responsibilty  String
   qualification  String
-  salary         String
+  salary_min         Int
+  salary_max         Int
   status_work    String
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
