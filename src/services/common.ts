@@ -55,7 +55,7 @@ export async function getJobs({
   search = "",
   city = "",
   salary = "",
-  companyId,
+  companyId = "",
 }: GetJobsParamProps) {
   try {
     const response = await axiosClient.get(
@@ -96,9 +96,9 @@ export async function getJobVacancyProvider(id: string) {
   }
 }
 
-export async function getJobVacancyProviders() {
+export async function getJobVacancyProviders(page : number, limit : number, searchCompany : string) {
   try {
-    const response = await axiosClient.get(`/job-vacancy-provider`);
+    const response = await axiosClient.get(`/job-vacancy-provider?search=${searchCompany}&page=${page}&limit=${limit}`);
     return response;
   } catch (error) {
     throw new Error("Gagal mendapatkan data perusahaan!");

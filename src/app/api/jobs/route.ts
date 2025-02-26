@@ -66,7 +66,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
                   mode: "insensitive",
                 },
               }
-            : {},
+            : {}
         ],
       },
       orderBy: salary
