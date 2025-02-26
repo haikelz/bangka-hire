@@ -17,6 +17,8 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
     );
     const companyId = req?.nextUrl?.searchParams.get("companyId") as string;
 
+    const isCompanyId = companyId !== "undefined";
+
     const skip = (page - 1) * limit; // menghitung skip
 
     // ambil data semua lowongan kerja di database
@@ -59,14 +61,16 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
             : {},
           salary === "Tertinggi" ? { salary_max: { gt: 0 } } : {},
           salary === "Terendah" ? { salary_max: { gt: 1 } } : {},
-          companyId
-            ? {
+          {
+            OR: [
+              {
                 company_id: {
-                  contains: companyId,
+                  contains: isCompanyId ? companyId : "",
                   mode: "insensitive",
                 },
-              }
-            : {}
+              },
+            ],
+          },
         ],
       },
       orderBy: salary

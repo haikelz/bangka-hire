@@ -66,7 +66,7 @@ export function ReviewJobVacancyProviderForm({ id, user, userGoogle }: Props) {
       });
     },
     onError: (data) => {
-      return toast({
+      toast({
         title: "Gagal memberikan review!",
         description: data.message,
       });

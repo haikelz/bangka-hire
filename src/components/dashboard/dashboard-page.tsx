@@ -22,13 +22,14 @@ export function DashboardPage() {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <IsPendingClient className="w-full min-h-svh h-full" />;
+  if (isPending)
+    return <IsPendingClient className="w-full mt-10 min-h-svh h-full" />;
   if (isError) return <IsErrorClient />;
 
   const jobs = data.data.data as JobProps[];
 
   return (
-    <section className="py-8 px-10">
+    <section className="px-8 py-8">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
         {jobs.map((item, i) => (
           <CardResultJob key={i} data={item} />
