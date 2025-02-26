@@ -1,5 +1,9 @@
 "use client";
 
+import { calculateAverageRating } from "@/lib/number";
+import { getJobById } from "@/services/common";
+import { JobProps } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { Eye, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +15,8 @@ import salary from "../../../public/assets/salary-detail.svg";
 import status from "../../../public/assets/status.svg";
 import Layout from "../container";
 import ModalFormJobApply from "../modal-form-job-apply";
+import { IsErrorClient } from "../react-query/is-error-client";
+import { IsPendingClient } from "../react-query/is-pending-client";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -18,12 +24,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
-import { getJobById } from "@/services/common";
-import { IsPendingClient } from "../react-query/is-pending-client";
-import { IsErrorClient } from "../react-query/is-error-client";
-import { JobProps } from "@/types";
-import { calculateAverageRating } from "@/lib/number";
 
 type DetailJobPageProps = {
   job_id: string;
@@ -42,18 +42,21 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
     refetchOnWindowFocus: false,
     retry: false,
     staleTime: 1000 * 60 * 5,
-  })
+  });
 
-  const job = data?.data as JobProps
+  const job = data?.data as JobProps;
 
   // mencari jumlah rata rata rating
   const averageRating = function () {
     if (job.company?.comments) {
-      return calculateAverageRating(job.company.comments, (comment : any) => comment.rating);
+      return calculateAverageRating(
+        job.company.comments,
+        (comment: any) => comment.rating
+      );
     }
 
-    return 0
-  }
+    return 0;
+  };
 
   // kalau pending
   if (isPending) return <IsPendingClient className="h-svh" />;
@@ -68,7 +71,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
           {/* logo dan nama perusahaan, rating dan ulasan */}
           <div className="flex items-center gap-5">
             {/* logo perusahaan */}
-            {job.company?.user.image ? (
+            {job.company?.user?.image ? (
               <Image
                 className="w-16 sm:w-20 md:w-32"
                 src={job.company?.user.image}
@@ -83,14 +86,16 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
                 {job.position_job}
               </h1>
               <div className="flex items-center gap-3 font-medium text-xs sm:text-base">
-                <p>{job.company?.user.full_name}</p>
+                <p>{job.company?.user?.full_name}</p>
                 {/* rating */}
                 <div className="flex items-center">
                   <p>{averageRating()}</p>
                   <Star fill="#2A72B3" stroke="none" />
                 </div>
 
-                <p className="underline">{job.company?.comments.length} ulasan</p>
+                <p className="underline">
+                  {job.company?.comments?.length} ulasan
+                </p>
               </div>
             </div>
           </div>
@@ -149,9 +154,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
         {/* Deskripsi Perusahaan */}
         <div className="space-y-5">
           <h1 className="font-bold">Deskripsi Perusahaan</h1>
-          <p>
-            {job.company?.description_company}
-          </p>
+          <p>{job.company?.description_company}</p>
         </div>
 
         {/* Line */}

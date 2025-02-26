@@ -3,17 +3,15 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const response = await db.user.findMany({
-      where: { role: "job_vacancy_provider" },
-      omit: { password: false },
+    const response = await db.profilCompany.findMany({
       include: {
         jobs: true,
         comments: true,
-        profile: {
-          select: {
-            city: true,
-            updatedAt: true,
+        user: {
+          include: {
+            profile: true,
           },
+          omit: { password: false },
         },
       },
     });

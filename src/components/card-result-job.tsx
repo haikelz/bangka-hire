@@ -28,7 +28,7 @@ export default function CardResultJob({ data }: { data: JobProps }) {
       <div className="text-black mt-1 space-y-2">
         <div className="text-primary_color">
           <h3 className="text-xl md:text-2xl font-bold line-clamp-1">
-            {data.company.user.full_name}
+            {data.company.user?.full_name}
           </h3>
           <p className="text-base md:text-lg font-medium line-clamp-1">
             {data.position_job}

@@ -1,7 +1,7 @@
 "use client";
 
 import { getJobVacancyProviders } from "@/services/common";
-import { UserProps } from "@/types";
+import { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
 import Layout from "../container";
@@ -19,7 +19,7 @@ export function SearchJobVacancyProviderPage() {
   if (isPending) return <IsPendingClient className="my-10 h-64" />;
   if (isError) return <IsErrorClient />;
 
-  const jobVacancyProviders = data?.data?.data as UserProps[];
+  const jobVacancyProviders = data?.data?.data as ProfilCompanyProps[];
 
   return (
     <>

@@ -6,21 +6,30 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
   const { id } = await props.params;
 
   try {
-    const response = await db.user.findUnique({
-      where: { role: "job_vacancy_provider", id },
-      omit: {
-        password: false,
-      },
+    const response = await db.profilCompany.findUnique({
+      where: { id },
       include: {
-        comments: {
+        jobs: {
           include: {
-            user: true,
+            company: {
+              include: {
+                user: { omit: { password: false } },
+              },
+            },
+            users: true,
           },
         },
-        profile: true,
-        jobs: {
-          where: {
-            user_id: id,
+        comments: {
+          include: {
+            user: { omit: { password: false } },
+          },
+        },
+        user: {
+          omit: {
+            password: false,
+          },
+          include: {
+            profile: true,
           },
         },
       },
