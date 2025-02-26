@@ -1,11 +1,11 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
-import { FormEvent, use, useEffect, useRef, useState } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useAtom } from "jotai";
 import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
+import { useAtom } from "jotai";
+import { ChevronDown } from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 export default function FormSearchJob() {
   const [openSelect, setOpenSelect] = useState<string | null>(null);
@@ -19,8 +19,10 @@ export default function FormSearchJob() {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
-        locationRef.current && !locationRef.current.contains(event.target as Node) &&
-        salaryRef.current && !salaryRef.current.contains(event.target as Node)
+        locationRef.current &&
+        !locationRef.current.contains(event.target as Node) &&
+        salaryRef.current &&
+        !salaryRef.current.contains(event.target as Node)
       ) {
         setOpenSelect(null); // Tutup semua dropdown jika klik di luar
       }
@@ -31,12 +33,11 @@ export default function FormSearchJob() {
     };
   }, []);
 
-
   // mengambil value setiap form pada saat tombol cari di klik atau user menekan enter
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    setSearch(formData.get("search") as string)
+    setSearch(formData.get("search") as string);
   }
 
   return (
@@ -60,7 +61,7 @@ export default function FormSearchJob() {
           className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer md:text-xs lg:text-base"
           onClick={(e) => {
             e.stopPropagation(); // mencegah event bubbling
-            setOpenSelect(openSelect === "location" ? null : "location")
+            setOpenSelect(openSelect === "location" ? null : "location");
           }}
           name="location"
           id="location"
@@ -94,7 +95,7 @@ export default function FormSearchJob() {
           className="appearance-none w-full rounded-lg p-2 border border-gray-300 focus:outline-none cursor-pointer md:text-xs lg:text-base"
           onClick={(e) => {
             e.stopPropagation(); // mencegah event bubbling
-            setOpenSelect(openSelect === "salary" ? null : "salary")
+            setOpenSelect(openSelect === "salary" ? null : "salary");
           }}
           name="salary"
           id="salary"
@@ -117,7 +118,9 @@ export default function FormSearchJob() {
         </div>
       </div>
 
-      <Button className="w-full md:w-[10%] bg-secondary_color_2 text-black hover:bg-secondary_color_3">Cari</Button>
+      <Button className="w-full md:w-[10%] bg-secondary_color_2 text-black hover:bg-secondary_color_3">
+        Cari
+      </Button>
     </form>
   );
 }

@@ -5,6 +5,7 @@ import { getJobById } from "@/services/common";
 import { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, Star } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,7 +15,6 @@ import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary-detail.svg";
 import status from "../../../public/assets/status.svg";
 import Layout from "../container";
-import ModalFormJobApply from "../modal-form-job-apply";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
 import { Button } from "../ui/button";
@@ -28,6 +28,10 @@ import {
 type DetailJobPageProps = {
   job_id: string;
 };
+
+const ModalFormJobApply = dynamic(() =>
+  import("../modal-form-job-apply").then((comp) => comp.ModalFormJobApply)
+);
 
 export default function DetailJobPage({ job_id }: DetailJobPageProps) {
   const [openModal, setOpenModal] = useState(false);

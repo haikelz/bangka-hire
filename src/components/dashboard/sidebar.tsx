@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export function Sidebar() {
   return (
@@ -12,7 +12,6 @@ export function Sidebar() {
           width={60}
           height={60}
         />
-        {/** Role */}
         <p className="mt-2">Employer</p>
       </div>
       <div className="flex space-y-2 mt-10 justify-center items-center flex-col w-full">

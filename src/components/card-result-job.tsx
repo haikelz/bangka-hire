@@ -46,7 +46,10 @@ export default function CardResultJob({ data }: { data: JobProps }) {
           {/* salary */}
           <div className="flex items-center gap-2">
             <Image className="w-4" src={salary} alt="Salary" />
-            <p> {formatRupiah(data.salary_min)} - {formatRupiah(data.salary_max)}</p>
+            <p>
+              {" "}
+              {formatRupiah(data.salary_min)} - {formatRupiah(data.salary_max)}
+            </p>
           </div>
 
           {/* status work */}

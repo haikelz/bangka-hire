@@ -1,8 +1,6 @@
 "use client";
 
 import Layout from "@/components/container";
-import { ModalFormEditProfile } from "@/components/modal-form-edit-profile";
-import { ModalFormTentangSaya } from "@/components/modal-form-tentang-saya";
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,7 +9,19 @@ import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { getUserPrisma } from "@/services/common";
 import { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+const ModalFormEditProfile = dynamic(() =>
+  import("@/components/modal-form-edit-profile").then(
+    (comp) => comp.ModalFormEditProfile
+  )
+);
+const ModalFormTentangSaya = dynamic(() =>
+  import("@/components/modal-form-tentang-saya").then(
+    (comp) => comp.ModalFormTentangSaya
+  )
+);
 
 export default function EditProfilePage() {
   const { user } = useCurrentUser() as { user: UserProps };

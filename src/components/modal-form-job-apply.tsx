@@ -31,7 +31,7 @@ type ModalFormJobApplyProps = {
   job_id?: string;
 };
 
-export default function ModalFormJobApply({
+export function ModalFormJobApply({
   openModal,
   setOpenModal,
   job_id,
@@ -124,7 +124,7 @@ export default function ModalFormJobApply({
   });
 
   // handleSubmit
-  async function onSubmit() {;
+  async function onSubmit() {
     await applyJobMutation.mutateAsync();
   }
 
