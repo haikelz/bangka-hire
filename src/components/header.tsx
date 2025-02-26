@@ -31,10 +31,9 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const userGoogle = useCurrentUserGoogle();
-
   const userId = user?.id || userGoogle?.id;
 
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["user_id", userId],
     queryFn: async () => {
       // di cek dulu apakah userID sudah ada atau belum
