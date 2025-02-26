@@ -26,29 +26,28 @@ export function useCurrentUserGoogle() {
 }
 
 // mengambil data user dari server atau database
-export function useGetUserServer () {
-  const { user } = useCurrentUser()
-  const userGoogle = useCurrentUserGoogle()
+export function useGetUserServer() {
+  const { user } = useCurrentUser();
+  const userGoogle = useCurrentUserGoogle();
 
   // mengambil id user saat ini
-  const userId = user?.id || userGoogle?.id
+  const userId = user?.id || userGoogle?.id;
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["user_id", userId],
     queryFn: async () => {
       // di cek dulu apakah userID sudah ada atau belum
-      if (!userId) return null
-      return await getUserPrisma(userId)
+      if (!userId) return null;
+      return await getUserPrisma(userId);
     },
     refetchOnWindowFocus: false,
     retry: false,
     staleTime: 1000 * 60 * 5,
-  })
-
+  });
 
   return {
-    user : data?.user,
+    user: data?.user,
     isPending,
-    isError
-  }
+    isError,
+  };
 }
