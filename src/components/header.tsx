@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
+import { useScroll } from "@/hooks/use-scroll";
 import { logoutAccount } from "@/services/auth";
 import { getUserPrisma } from "@/services/common";
 import { UserProps } from "@/types";
@@ -8,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { LogOut, SettingsIcon, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import logo from "../../public/assets/logo.png";
 import { MobileNavbar } from "./mobile-navbar";
@@ -25,8 +25,8 @@ import {
 } from "./ui/dropdown-menu";
 
 export default function Header() {
-  const [isScroll, setIsScroll] = useState(false);
-  const router = useRouter();
+  const isScroll = useScroll();
+
   const { user } = useCurrentUser() as { user: UserProps };
   const [open, setOpen] = useState(false);
 
@@ -46,25 +46,15 @@ export default function Header() {
     staleTime: 1000 * 60 * 5,
   });
 
+  const handleResize = () => {
+    if (window.innerWidth < 768) setOpen(false);
+  };
+
   // membuat dropdown menu tertutup saat di mode mobile
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) setOpen(false);
-    };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScroll(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  }, [handleResize]);
 
   return (
     <header
