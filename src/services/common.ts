@@ -39,13 +39,41 @@ export async function createApplyJob(data: JobApplyProps) {
   return response.data;
 }
 
+type GetJobsParamProps = {
+  page?: number;
+  limit?: number;
+  search?: string;
+  city?: string;
+  salary?: string;
+  companyId?: string;
+};
+
 // mengambil semua data job di database
-export async function getJobs(page = 1, limit = 8, search = "", city = "", salary = "") {
+export async function getJobs({
+  page = 1,
+  limit = 8,
+  search = "",
+  city = "",
+  salary = "",
+  companyId,
+}: GetJobsParamProps) {
   try {
-    const response = await axiosClient.get(`/jobs?search=${search}&city=${city}&salary=${salary}&page=${page}&limit=${limit}`);
+    const response = await axiosClient.get(
+      `/jobs?search=${search}&city=${city}&salary=${salary}&page=${page}&limit=${limit}&companyId=${companyId}`
+    );
     return response;
   } catch (error) {
     throw new Error("Gagal mengambil data lowongan kerja");
+  }
+}
+
+export async function getJobsByCompanyId(companyId: string) {
+  try {
+    const response = await axiosClient.get(`/jobs`);
+  } catch (err) {
+    throw new Error(
+      "Gagal mengambil data lowongan kerja berdasarkan perusahaan!"
+    );
   }
 }
 

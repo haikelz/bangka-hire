@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function Header() {
   return (
-    <header className="border-b border-b-secondary_color_1 p-4 w-full">
+    <header className="border-b border-b-secondary_color_1 py-8 px-10 w-full">
       <nav className="flex justify-between items-center">
         <h2 className="text-black font-bold text-4xl">Dashboard</h2>
         <Image src="/assets/logo.png" alt="logo" width={138} height={77} />

@@ -15,9 +15,9 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
     const limit: number = Number(
       req?.nextUrl?.searchParams.get("limit") as string
     );
+    const companyId = req?.nextUrl?.searchParams.get("companyId") as string;
 
     const skip = (page - 1) * limit; // menghitung skip
-
 
     // ambil data semua lowongan kerja di database
     const data = await db.job.findMany({
@@ -59,13 +59,21 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
             : {},
           salary === "Tertinggi" ? { salary_max: { gt: 0 } } : {},
           salary === "Terendah" ? { salary_max: { gt: 1 } } : {},
+          companyId
+            ? {
+                company_id: {
+                  contains: companyId,
+                  mode: "insensitive",
+                },
+              }
+            : {},
         ],
       },
       orderBy: salary
-      ? {
-          salary_max: salary === "Tertinggi" ? "desc" : "asc",
-        }
-      : { createdAt: "desc" }, // secara default akan di urutkan dari terbaru
+        ? {
+            salary_max: salary === "Tertinggi" ? "desc" : "asc",
+          }
+        : { createdAt: "desc" }, // secara default akan di urutkan dari terbaru
       include: {
         company: {
           select: {
