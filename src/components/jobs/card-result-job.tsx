@@ -1,12 +1,12 @@
 import { JobProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import location from "../../public/assets/location.png";
-import logo from "../../public/assets/logo.png";
-import salary from "../../public/assets/salary.png";
-import status from "../../public/assets/status-work.png";
-import time from "../../public/assets/time.png";
-import { formatTanggal } from "./format-tanggal";
+import location from "../../../public/assets/location.png";
+import logo from "../../../public/assets/logo.png";
+import salary from "../../../public/assets/salary.png";
+import status from "../../../public/assets/status-work.png";
+import time from "../../../public/assets/time.png";
+import { formatTanggal } from "../common/format-tanggal";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
   function formatRupiah(value: number) {

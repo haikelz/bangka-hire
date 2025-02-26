@@ -1,4 +1,4 @@
-import { LoginFormJobApplicant } from "@/components/job-applicant/login-form";
+import { LoginFormJobApplicant } from "@/components/auth/login-form";
 
 export default async function Login() {
   return (

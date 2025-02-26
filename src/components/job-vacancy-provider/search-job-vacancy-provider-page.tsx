@@ -3,10 +3,10 @@
 import { getJobVacancyProviders } from "@/services/common";
 import { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import CardSearchJobVacancyProvider from "../card-search-job-vacancy-provider";
-import Layout from "../container";
+import Layout from "../common/container";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
+import CardSearchJobVacancyProvider from "./card-search-job-vacancy-provider";
 
 export function SearchJobVacancyProviderPage() {
   const { data, isPending, isError } = useQuery({

@@ -18,10 +18,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import CardResultJob from "../card-result-job";
-import { ReviewJobVacancyProviderForm } from "../job-vacancy-provider/review-job-vacancy-provider-form";
+import CardResultJob from "../jobs/card-result-job";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
+import { ReviewJobVacancyProviderForm } from "./review-job-vacancy-provider-form";
 
 export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const [companyTab, setCompanyTab] = useAtom(companyTabAtom);

@@ -3,7 +3,7 @@
 import { getJobs } from "@/services/common";
 import { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import CardResultJob from "../card-result-job";
+import CardResultJob from "../jobs/card-result-job";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
 

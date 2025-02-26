@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "@/hooks/use-toast";
-import { editProfileSchema } from "@/lib/schemas/common";
+import { editProfileTentangSayaSchema } from "@/lib/schemas/common";
 import { editProfile } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,30 +10,33 @@ import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 
-type ModalFormEditProfileProps = {
+type ModalFormTentangSayaProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
   userInfo?: UserProps;
 };
 
-export function ModalFormEditProfile({
+export function ModalFormTentangSaya({
   openModal,
   setOpenModal,
   userInfo,
-}: ModalFormEditProfileProps) {
+}: ModalFormTentangSayaProps) {
   const queryClient = useQueryClient();
 
   const editProfileMutation = useMutation({
     mutationFn: async () =>
       await editProfile({
-        phone_number: getValues("phone_number"),
-        full_name: getValues("full_name"),
+        description: getValues("description"),
         user_id: userInfo?.id,
         google_oauth: userInfo?.google_oauth,
       }),
@@ -71,8 +74,8 @@ export function ModalFormEditProfile({
     getValues,
     register,
     handleSubmit,
-  } = useForm<z.infer<typeof editProfileSchema>>({
-    resolver: zodResolver(editProfileSchema),
+  } = useForm<z.infer<typeof editProfileTentangSayaSchema>>({
+    resolver: zodResolver(editProfileTentangSayaSchema),
   });
 
   async function onSubmit() {
@@ -96,61 +99,26 @@ export function ModalFormEditProfile({
       {/* Konten Modal */}
       <DialogContent className="max-w-sm sm:max-w-md rounded-lg">
         <DialogTitle className="flex items-center justify-center">
-          {/* Gambar */}
-          <Avatar className="w-24 h-24 md:w-32 md:h-32">
-            {/* Gambar */}
-            {userInfo?.image ? (
-              <AvatarImage src={userInfo?.image} alt="avatar" />
-            ) : (
-              <AvatarFallback className="bg-primary_color text-white text-2xl">
-                {userInfo?.full_name
-                  ?.split(" ")
-                  .map((name: string) => name[0])
-                  .join("")
-                  .toUpperCase()
-                  .slice(0, 2)}
-              </AvatarFallback>
-            )}
-          </Avatar>
+          Tentang Saya
         </DialogTitle>
-
-        {/* form edit profile */}
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-2 md:space-y-4">
+          <div className="space-y-2">
             <div>
-              <Label htmlFor="full_name" className="text-xs md:text-base">
-                Nama Lengkap
+              <Label htmlFor="description" className="text-xs md:text-base">
+                Description
               </Label>
-              <Input
-                {...register("full_name")}
+              <Textarea
+                {...register("description")}
                 className="border-primary_color text-xs md:text-base"
-                id="full_name"
-                name="full_name"
-                placeholder="Masukkan nama lengkap Anda"
-                defaultValue={userInfo?.full_name}
+                id="description"
+                name="description"
+                placeholder="Beritahu hal menarik tentang dirimu"
+                defaultValue={userInfo?.description}
+                rows={6}
               />
-              {errors.full_name && (
-                <p className="text-red-500 text-xs md:text-sm mt-1">
-                  {errors.full_name.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="phone_number" className="text-xs md:text-base">
-                Whatsapp
-              </Label>
-              <Input
-                {...register("phone_number")}
-                className="border-primary_color text-xs md:text-base"
-                id="phone_number"
-                name="phone_number"
-                placeholder="Masukkan no handphone Anda"
-                defaultValue={userInfo?.phone_number}
-              />
-              {errors.phone_number && (
-                <p className="text-red-500 text-xs md:text-sm mt-1">
-                  {errors.phone_number.message}
+              {errors.description && (
+                <p className="text-xs md:text-sm text-red-600 mt-1">
+                  {errors.description.message}
                 </p>
               )}
             </div>

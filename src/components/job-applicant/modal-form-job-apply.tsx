@@ -13,17 +13,17 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import kirim from "../../public/assets/kirim-lamaran-icon.svg";
-import { Button } from "./ui/button";
+import kirim from "../../../public/assets/kirim-lamaran-icon.svg";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 type ModalFormJobApplyProps = {
   openModal: boolean;

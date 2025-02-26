@@ -1,5 +1,5 @@
-import Layout from "@/components/container";
-import HomePage from "@/components/pages/home-page";
+import Layout from "@/components/common/container";
+import HomePage from "@/components/common/home-page";
 import Image from "next/image";
 import hero from "../../public/assets/hero.png";
 

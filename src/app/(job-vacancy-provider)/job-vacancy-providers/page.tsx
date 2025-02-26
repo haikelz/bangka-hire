@@ -1,5 +1,5 @@
-import Layout from "@/components/container";
-import { SearchJobVacancyProviderPage } from "@/components/pages/search-job-vacancy-provider-page";
+import Layout from "@/components/common/container";
+import { SearchJobVacancyProviderPage } from "@/components/job-vacancy-provider/search-job-vacancy-provider-page";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Image from "next/image";

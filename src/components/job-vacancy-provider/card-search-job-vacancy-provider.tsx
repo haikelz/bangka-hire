@@ -3,7 +3,7 @@ import { CommentProps, ProfilCompanyProps } from "@/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../public/assets/logo.png";
+import logo from "../../../public/assets/logo.png";
 
 export default function CardSearchJobVacancyProvider({
   data,

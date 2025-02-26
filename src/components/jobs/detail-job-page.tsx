@@ -14,7 +14,7 @@ import location from "../../../public/assets/location.svg";
 import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary-detail.svg";
 import status from "../../../public/assets/status.svg";
-import Layout from "../container";
+import Layout from "../common/container";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
 import { Button } from "../ui/button";
@@ -30,7 +30,9 @@ type DetailJobPageProps = {
 };
 
 const ModalFormJobApply = dynamic(() =>
-  import("../modal-form-job-apply").then((comp) => comp.ModalFormJobApply)
+  import("../job-applicant/modal-form-job-apply").then(
+    (comp) => comp.ModalFormJobApply
+  )
 );
 
 export default function DetailJobPage({ job_id }: DetailJobPageProps) {

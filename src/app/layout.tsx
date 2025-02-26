@@ -1,4 +1,4 @@
-import ClientLayout from "@/components/client-layout";
+import ClientLayout from "@/components/common/client-layout";
 import { Toaster } from "@/components/ui/toaster";
 import { ChildrenProps } from "@/types";
 import type { Metadata } from "next";

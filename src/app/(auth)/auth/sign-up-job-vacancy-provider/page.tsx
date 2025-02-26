@@ -1,4 +1,4 @@
-import { SignUpFormJobVacancyProvider } from "@/components/job-vacancy-provider/sign-up-form-job-vacancy-provider";
+import { SignUpFormJobVacancyProvider } from "@/components/auth/sign-up-form-job-vacancy-provider";
 
 export default async function SignUpJobVacancyProvider() {
   return (

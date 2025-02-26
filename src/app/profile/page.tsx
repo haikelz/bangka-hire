@@ -1,4 +1,4 @@
-import EditProfilePage from "@/components/pages/edit-profile-page";
+import EditProfilePage from "@/components/job-applicant/edit-profile-page";
 
 export default function Profile() {
   return (

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
-import Layout from "../container";
+import Layout from "../common/container";
 import { Skeleton } from "../ui/skeleton";
 
 type Props = HTMLAttributes<HTMLDivElement>;

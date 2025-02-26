@@ -4,8 +4,8 @@ import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
 import { useAtom } from "jotai";
 import { ChevronDown } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function FormSearchJob() {
   const [openSelect, setOpenSelect] = useState<string | null>(null);

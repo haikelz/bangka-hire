@@ -1,4 +1,4 @@
-import Layout from "../container";
+import Layout from "../common/container";
 
 export function IsErrorClient() {
   return (

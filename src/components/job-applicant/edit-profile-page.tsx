@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "@/components/container";
+import Layout from "@/components/common/container";
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,12 +13,12 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 
 const ModalFormEditProfile = dynamic(() =>
-  import("@/components/modal-form-edit-profile").then(
+  import("@/components/job-applicant/modal-form-edit-profile").then(
     (comp) => comp.ModalFormEditProfile
   )
 );
 const ModalFormTentangSaya = dynamic(() =>
-  import("@/components/modal-form-tentang-saya").then(
+  import("@/components/job-applicant/modal-form-tentang-saya").then(
     (comp) => comp.ModalFormTentangSaya
   )
 );

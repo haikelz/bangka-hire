@@ -10,11 +10,9 @@ import { LogOut, SettingsIcon, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import logo from "../../public/assets/logo.png";
-import { MobileNavbar } from "./mobile-navbar";
-import NavLink from "./nav-link";
-import { IsPendingClient } from "./react-query/is-pending-client";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import logo from "../../../public/assets/logo.png";
+import { IsPendingClient } from "../react-query/is-pending-client";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +20,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
+import { MobileNavbar } from "./mobile-navbar";
+import NavLink from "./nav-link";
 
 export default function Header() {
   const isScroll = useScroll();

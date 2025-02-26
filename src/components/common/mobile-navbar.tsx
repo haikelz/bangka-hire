@@ -10,9 +10,9 @@ import { LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IsPendingClient } from "../react-query/is-pending-client";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import NavLink from "./nav-link";
-import { IsPendingClient } from "./react-query/is-pending-client";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);

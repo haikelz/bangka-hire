@@ -6,9 +6,8 @@ import { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import CardResultJob from "../card-result-job";
-import Layout from "../container";
-import FormSearchJob from "../form-search-job";
+import CardResultJob from "../jobs/card-result-job";
+import FormSearchJob from "../jobs/form-search-job";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
 import {
@@ -18,6 +17,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import Layout from "./container";
 
 export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);

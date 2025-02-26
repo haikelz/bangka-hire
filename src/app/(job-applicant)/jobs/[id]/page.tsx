@@ -1,4 +1,4 @@
-import DetailJobPage from "@/components/pages/detail-job-page";
+import DetailJobPage from "@/components/jobs/detail-job-page";
 import { APIRouteParamsProps } from "@/types";
 
 export default async function Job({ params }: APIRouteParamsProps) {

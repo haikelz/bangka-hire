@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import facebook from "../../public/assets/facebook.png";
-import instagram from "../../public/assets/instagram.png";
-import logo2 from "../../public/assets/logo 2.png";
-import thread from "../../public/assets/thread.png";
+import facebook from "../../../public/assets/facebook.png";
+import instagram from "../../../public/assets/instagram.png";
+import logo2 from "../../../public/assets/logo 2.png";
+import thread from "../../../public/assets/thread.png";
 import Layout from "./container";
 
 export default function Footer() {
