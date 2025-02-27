@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: babelhire
+    container_name: bangka-hire
     build:
       context: .
       dockerfile: Dockerfile

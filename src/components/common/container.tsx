@@ -1,8 +1,16 @@
-import { ChildrenProps } from "@/types";
+import { cn } from "@/lib/utils";
+import { HTMLAttributes } from "react";
 
-const Layout = ({ children }: ChildrenProps) => {
+type LayoutProps = HTMLAttributes<HTMLDivElement>;
+
+const Layout = ({ children, className }: LayoutProps) => {
   return (
-    <div className="px-4 w-full mx-auto max-w-[1366px] lg:px-8 2xl:px-0">
+    <div
+      className={cn(
+        "px-4 w-full mx-auto max-w-[1366px] lg:px-8 2xl:px-0",
+        className
+      )}
+    >
       {children}
     </div>
   );
