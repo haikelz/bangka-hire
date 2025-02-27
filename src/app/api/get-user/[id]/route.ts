@@ -20,6 +20,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
       cv: true,
       role: true,
       google_oauth: true,
+      profile: true,
     },
   });
 

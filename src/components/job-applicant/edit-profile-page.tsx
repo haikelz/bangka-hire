@@ -58,7 +58,7 @@ export default function EditProfilePage() {
           {/* Gambar */}
           <Avatar className="w-24 h-24 md:w-32 md:h-32">
             {/* Gambar */}
-            {data?.user.image ? (
+            {data?.user?.image ? (
               <AvatarImage
                 src={data?.user.image}
                 alt="avatar"
@@ -66,7 +66,7 @@ export default function EditProfilePage() {
               />
             ) : (
               <AvatarFallback className="bg-primary_color text-white text-2xl">
-                {data?.user.full_name
+                {data?.user?.full_name
                   ?.split(" ")
                   .map((name: string) => name[0])
                   .join("")
@@ -92,13 +92,15 @@ export default function EditProfilePage() {
             {/* No WhatsApp */}
             <div className="text-[10px] md:text-xs">
               <p>WhatsApp</p>
-              <p>{!data?.user.phone_number ? "-" : data?.user?.phone_number}</p>
+              <p>
+                {!data?.user?.phone_number ? "-" : data?.user?.phone_number}
+              </p>
             </div>
 
             {/* Email */}
             <div className="text-[10px] md:text-xs">
               <p>Email</p>
-              <p>{data?.user.email}</p>
+              <p>{data?.user?.email}</p>
             </div>
           </div>
         </div>

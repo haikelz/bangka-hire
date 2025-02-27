@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { editJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
+import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -54,15 +55,31 @@ const citiesList = [
   },
 ];
 
-export function FormEditJobVacancyProviderProfile() {
+export function FormEditJobVacancyProviderProfile({
+  jobVacancyProvider,
+}: {
+  jobVacancyProvider: UserProps;
+}) {
   const queryClient = useQueryClient();
-
+  console.log(jobVacancyProvider);
   const {
     formState: { errors },
     getValues,
     register,
     handleSubmit,
   } = useForm<z.infer<typeof editJobVacancyProviderProfileSchema>>({
+    defaultValues: {
+      full_name: jobVacancyProvider?.full_name ?? "",
+      company_type: "",
+      description: "",
+      city: "",
+      street: "",
+      social_media: {
+        instagram: "",
+        facebook: "",
+        email: "",
+      },
+    },
     resolver: zodResolver(editJobVacancyProviderProfileSchema),
   });
 
@@ -103,16 +120,25 @@ export function FormEditJobVacancyProviderProfile() {
 
   return (
     <form className="w-full space-y-8" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex space-x-2 justify-center items-start">
-        <Button className="bg-secondary_color_1">
+      <div className="flex space-x-2 justify-start w-fit items-start">
+        <Image
+          src={jobVacancyProvider?.image ?? "/assets/fallback-user.svg"}
+          alt="company pic"
+          width={500}
+          height={500}
+          className="w-20 h-20 rounded-full"
+        />
+        <Button className="bg-secondary_color_1 hover:bg-primary_color w-7 h-7">
           <PencilIcon />
         </Button>
-        <Image src="/" alt="company pic" width={500} height={500} />
       </div>
       <div className="space-y-2">
         <span className="font-bold text-xl">Nama Perusahaan</span>
-        <Input {...register("name")} placeholder="Beritahu nama Perusahaanmu" />
-        {errors.name ? <span></span> : null}
+        <Input
+          {...register("full_name")}
+          placeholder="Beritahu nama Perusahaanmu"
+        />
+        {errors.full_name ? <span></span> : null}
       </div>
       <div className="space-y-2">
         <span className="font-bold text-xl">Industri</span>
@@ -148,10 +174,10 @@ export function FormEditJobVacancyProviderProfile() {
       <div className="space-y-2">
         <span className="font-bold text-xl">Alamat</span>
         <Input
-          {...register("address")}
+          {...register("street")}
           placeholder="Beritahu Alamat Lengkap Perusahaanmu"
         />
-        {errors.address ? <span></span> : null}
+        {errors.street ? <span></span> : null}
       </div>
       <div className="space-y-4">
         <span className="font-bold text-xl">Sosial Media</span>

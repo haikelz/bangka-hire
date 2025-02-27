@@ -57,35 +57,26 @@ export const reviewJobVacancyProviderSchema = z.object({
 });
 
 export const editJobVacancyProviderProfileSchema = z.object({
-  name: z
+  full_name: z
     .string()
     .min(1, "Company name is required")
     .max(100, "Company name is too long"),
-
   company_type: z
     .string()
     .min(1, "Industry field is required")
     .max(100, "Industry field is too long"),
-
   description: z
     .string()
     .min(1, "Information about the company is required")
     .max(500, "Information is too long"),
-
-  location: z.string().min(1, "Location is required"),
-
-  // Address
-  address: z
+  city: z.string().min(1, "Location is required"),
+  street: z
     .string()
     .min(1, "Complete address is required")
     .max(200, "Address is too long"),
-
-  // Social Media
   social_media: z.object({
     instagram: z.string().url("Invalid Instagram URL format").optional(),
-
     facebook: z.string().url("Invalid Facebook URL format").optional(),
-
     email: z.string().email("Invalid email format").optional(),
   }),
 });

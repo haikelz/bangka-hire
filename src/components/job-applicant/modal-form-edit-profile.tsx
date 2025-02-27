@@ -53,10 +53,6 @@ export function ModalFormEditProfile({
       }
 
       await queryClient.invalidateQueries().then(() => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-
         toast({
           title: "Sukses mengupdate profile!",
           description: "Kamu Berhasil mengupdate profile!",

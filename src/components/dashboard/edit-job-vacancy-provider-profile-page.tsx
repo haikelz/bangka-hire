@@ -14,11 +14,9 @@ export function EditJobVacancyProviderProfilePage() {
 
   const userId = user?.id || userGoogle?.id;
 
-  // mengambil data user
   const { data, isPending, isError } = useQuery({
     queryKey: ["user_id", userId],
     queryFn: async () => {
-      // di cek dulu apakah userID sudah ada atau belum
       if (!userId) return null;
       return await getUserPrisma(userId);
     },
@@ -30,9 +28,13 @@ export function EditJobVacancyProviderProfilePage() {
   if (isPending) return <IsPendingClient className="my-10 h-[50vh]" />;
   if (isError) return <IsErrorClient />;
 
+  const jobVacancyProvider = data?.user as UserProps;
+
   return (
     <div className="py-8 px-8 w-full">
-      <FormEditJobVacancyProviderProfile />
+      <FormEditJobVacancyProviderProfile
+        jobVacancyProvider={jobVacancyProvider}
+      />
     </div>
   );
 }

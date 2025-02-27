@@ -24,7 +24,6 @@ export function DashboardPage() {
       await getJobs({
         page: currentPage,
         limit: 8,
-        companyId: "cm7gdjlfp0000uin0najtsxd2",
       }),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -40,7 +39,7 @@ export function DashboardPage() {
   const totalPages = data?.data?.totalPages ?? 1;
 
   return (
-    <section className="px-8 py-8">
+    <section className="px-8 py-8 w-full">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
         {jobs.map((item, i) => (
           <CardResultJob key={i} data={item} />
