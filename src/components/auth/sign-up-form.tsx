@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { signUpSchema } from "@/lib/schemas/auth-schema";
 import { createAccount } from "@/services/auth";
@@ -19,8 +18,6 @@ import { z } from "zod";
 
 export function SignUpFormJobApplicant() {
   const router = useRouter();
-  const session = useCurrentUser();
-
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({

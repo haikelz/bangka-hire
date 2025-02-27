@@ -2,7 +2,7 @@ import db from "@/lib/db";
 import { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET (req: NextRequest, props: APIRouteParamsProps) {
+export async function GET(req: NextRequest, props: APIRouteParamsProps) {
   const { job_id } = await props.params;
 
   const existingJob = await db.job.findFirst({
@@ -25,13 +25,11 @@ export async function GET (req: NextRequest, props: APIRouteParamsProps) {
     },
   });
 
-
-
   // jika job tidak ditemukan
   if (!existingJob) {
     return NextResponse.json({
       status_code: 404,
-      message: "Lowongan tidak ditemukan!"
+      message: "Lowongan tidak ditemukan!",
     });
   }
 
@@ -41,7 +39,7 @@ export async function GET (req: NextRequest, props: APIRouteParamsProps) {
     },
     select: {
       rating: true,
-    }
+    },
   });
 
   return NextResponse.json({
@@ -55,6 +53,4 @@ export async function GET (req: NextRequest, props: APIRouteParamsProps) {
       },
     },
   });
-
-
 }
