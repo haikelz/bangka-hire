@@ -123,10 +123,9 @@ export default function EditProfilePage() {
               userInfo={data?.user}
             />
           </div>
-
           <Textarea
             placeholder="Beritahu hal menarik tentang dirimu"
-            defaultValue={data?.user?.description}
+            value={data?.user?.description}
             className="border-primary_color text-black text-sm md:text-base focus:outline-none focus:border-none"
             readOnly
             rows={9}
