@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="/public/assets/logo.png" alt="logo" />
   <h1>Bangka Hire</h1>
   <p>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan!</p>
 </div>
@@ -35,13 +36,18 @@
 - Supabase
 - Prisma
 
+### Miscellaneous
+
+- Sentry for error monitoring
+- Deployed at Vercel
+
 ## Getting Started
 
 **1️⃣ Clone the Repository**
 
 ```
 git clone https://github.com/haikelz/bangka-hire.git
-cd job-listing-website
+cd bangka-hire
 ```
 
 **2️⃣ Install Dependencies**

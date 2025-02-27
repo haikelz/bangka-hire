@@ -26,7 +26,7 @@ export function DashboardPage() {
     return <IsPendingClient className="w-full mt-10 min-h-svh h-full" />;
   if (isError) return <IsErrorClient />;
 
-  const jobs = data.data.data as JobProps[];
+  const jobs = data?.data?.data as JobProps[];
 
   return (
     <section className="px-8 py-8">
