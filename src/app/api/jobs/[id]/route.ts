@@ -3,7 +3,9 @@ import { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET (req: NextRequest, props: APIRouteParamsProps) {
-  const { job_id } = await props.params;
+  const { id: job_id } = await props.params;
+
+
 
   const existingJob = await db.job.findFirst({
     where: {

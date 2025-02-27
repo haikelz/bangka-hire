@@ -81,6 +81,7 @@ export async function getJobsByCompanyId(companyId: string) {
 export async function getJobById(id: string) {
   try {
     const response = await axiosClient.get(`/jobs/${id}`);
+    console.log(id)
     return response.data;
   } catch (error) {
     throw new Error("Gagal mendapatkan data lowongan kerja!");

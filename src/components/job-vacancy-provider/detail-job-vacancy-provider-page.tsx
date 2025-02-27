@@ -60,10 +60,10 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               height={77}
             />
             <div className="space-y-1">
-              <h3 className="font-bold text-xl">
+              <h3 className="font-bold text-lg md:text-xl">
                 {jobVacancyProvider.user?.full_name}
               </h3>
-              <div className="flex space-x-4 justify-center items-center w-fit">
+              <div className="flex space-x-4 justify-center items-center w-fit text-sm md:text-base">
                 <div className="flex justify-center items-center w-fit space-x-2">
                   <span>{averageRating}</span>
                   <StarIcon
@@ -77,7 +77,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   {jobVacancyProvider.comments?.length} Ulasan
                 </p>
               </div>
-              <div className="space-x-1 flex justify-center items-center w-fit">
+              <div className="space-x-1 flex justify-center items-center w-fit text-sm md:text-base">
                 <Image
                   src="/assets/location-company.svg"
                   alt="location"
@@ -86,7 +86,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 />
                 <p>Web dan Teknologi</p>
               </div>
-              <div className="space-x-1 flex justify-center items-center w-fit">
+              <div className="space-x-1 flex justify-center items-center w-fit text-sm md:text-base ">
                 <Image
                   src="/assets/fluent-location.svg"
                   alt="location"
@@ -95,7 +95,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 />
                 <p>{jobVacancyProvider.user?.profile?.city ?? "-"}</p>
               </div>
-              <div className="flex justify-center items-center space-x-2 w-fit">
+              <div className="flex justify-center items-center space-x-2 w-fit text-sm md:text-base">
                 <Calendar className="" width={16} height={16} />
                 <p>
                   Bergabung sejak{" "}
@@ -110,7 +110,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <h3
                   onClick={() => setCompanyTab("deskripsi")}
                   className={cn(
-                    "hover:text-secondary_color_1 text-xl font-bold cursor-pointer",
+                    "hover:text-secondary_color_1 text-lg md:text-xl font-bold cursor-pointer",
                     companyTab === "deskripsi" ? "text-secondary_color_1" : ""
                   )}
                 >
@@ -119,7 +119,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                 <h3
                   onClick={() => setCompanyTab("pekerjaan")}
                   className={cn(
-                    "hover:text-secondary_color_1 text-xl font-bold cursor-pointer",
+                    "hover:text-secondary_color_1 text-lg md:text-xl font-bold cursor-pointer",
                     companyTab === "pekerjaan" ? "text-secondary_color_1" : ""
                   )}
                 >
@@ -128,7 +128,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               </div>
             </div>
             {companyTab === "deskripsi" ? (
-              <div className="w-full py-7">
+              <div className="w-full py-7 text-sm md:text-base">
                 <div className="space-y-2">
                   <p className="font-bold">Tentang Perusahaan</p>
                   <p className="text-justify">
@@ -136,7 +136,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   </p>
                 </div>
                 <div className="mt-6">
-                  <h3 className="text-black text-xl font-bold">Hubungi Kami</h3>
+                  <h3 className="text-black text-lg md:text-xl font-bold">Hubungi Kami</h3>
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <p className="font-bold text-black mt-3">Alamat</p>
@@ -174,7 +174,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                         className="flex w-full flex-col justify-start items-start"
                       >
                         <div className="border-primary_color border px-4 bg-white py-4 w-full rounded-sm">
-                          <div className="space-y-3">
+                          <div className="space-y-3 text-xs md:text-sm lg:text-base">
                             <div className="flex w-full justify-between items-start">
                               <div className="flex justify-center items-center w-fit space-x-2">
                                 <Image
@@ -208,7 +208,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xl font-bold text-center">
+                  <p className="text-lg md:text-xl font-bold text-center">
                     Belum ada ulasan!
                   </p>
                 )}
@@ -222,7 +222,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xl font-bold text-center">
+                  <p className="text-lg md:text-xl font-bold text-center">
                     Belum ada lowongan kerja!
                   </p>
                 )}

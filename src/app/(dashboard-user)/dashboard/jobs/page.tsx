@@ -1,0 +1,8 @@
+import FormAddJobs from "@/components/dashboard/form-add-jobs-page";
+
+
+export default function JobVacancyProviderJobs() {
+  return (
+    <FormAddJobs />
+  );
+}

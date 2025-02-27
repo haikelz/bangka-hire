@@ -20,7 +20,7 @@ export function Sidebar() {
             Dashboard
           </Button>
         </Link>
-        <Link href="dashboard/jobs" className="w-full">
+        <Link href="/dashboard/jobs" className="w-full">
           <Button className="w-full bg-secondary_color_1" variant="default">
             Jobs
           </Button>

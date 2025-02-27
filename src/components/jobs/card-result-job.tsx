@@ -7,15 +7,9 @@ import salary from "../../../public/assets/salary.png";
 import status from "../../../public/assets/status-work.png";
 import time from "../../../public/assets/time.png";
 import { formatTanggal } from "../common/format-tanggal";
+import { formatRupiah } from "../common/format-rupiah";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
-  function formatRupiah(value: number) {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(value);
-  }
 
   return (
     <Link
