@@ -92,7 +92,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
       },
     });
 
-    // menhitung total items jika memang sudah di filter
+    // menghitung total items jika memang sudah di filter
     const totalItems = await db.job.count({
       where: {
         AND: [

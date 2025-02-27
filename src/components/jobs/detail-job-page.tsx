@@ -24,6 +24,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { format } from "path";
+import { formatRupiah } from "../common/format-rupiah";
 
 type DetailJobPageProps = {
   job_id: string;
@@ -50,7 +52,11 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
     staleTime: 1000 * 60 * 5,
   });
 
+
+
   const job = data?.data as JobProps;
+
+  console.log(job, job_id);
 
   // mencari jumlah rata rata rating
   const averageRating = function () {
@@ -116,7 +122,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <DropdownMenuContent align="end" className="bg-secondary_color_2">
               <DropdownMenuItem>
                 <Link
-                  href={"/job-vacancy-providers/"}
+                  href={`/job-vacancy-providers/${job.company_id}`}
                   className="flex items-center gap-2"
                 >
                   <Eye className="mr-2 h-4 w-4" />
@@ -141,7 +147,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={salary} alt="Status" />
             <div>
               <p>Gaji</p>
-              <p className="font-medium">10010000</p>
+              <p className="font-medium">{formatRupiah(job.salary_min)} - {formatRupiah(job.salary_max)}</p>
             </div>
           </div>
           {/* location */}

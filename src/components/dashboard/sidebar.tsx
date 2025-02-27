@@ -25,7 +25,9 @@ export function Sidebar() {
           <Button
             className={cn(
               "w-full",
-              pathname === "/dashboard" ? "bg-secondary_color_1" : "bg-none"
+              pathname === "/dashboard"
+                ? "bg-secondary_color_1 hover:bg-primary_color"
+                : "bg-none"
             )}
             variant={pathname === "/dashboard" ? "default" : "outline"}
           >
@@ -37,7 +39,7 @@ export function Sidebar() {
             className={cn(
               "w-full",
               pathname === "/dashboard/jobs"
-                ? "bg-secondary_color_1"
+                ? "bg-secondary_color_1 hover:bg-primary_color"
                 : "bg-none"
             )}
             variant={pathname === "/dashboard/jobs" ? "default" : "outline"}
@@ -51,7 +53,7 @@ export function Sidebar() {
             className={cn(
               "w-full",
               pathname === "/dashboard/profile"
-                ? "bg-secondary_color_1"
+                ? "bg-secondary_color_1 hover:bg-primary_color"
                 : "bg-none"
             )}
             variant={pathname === "/dashboard/profile" ? "default" : "outline"}
