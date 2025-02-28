@@ -54,8 +54,8 @@ model Job {
   position_job   String
   responsibilty  String
   qualification  String
-  salary_min         Int
-  salary_max         Int
+  salary_min         Int?
+  salary_max         Int?
   status_work    String
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
@@ -85,6 +85,7 @@ model ProfilCompany {
   user               User      @relation(fields: [user_id], references: [id])
   user_id            String    @unique
   description_company String
+  company_type        String
   street             String
   city               String
   total_employers    String

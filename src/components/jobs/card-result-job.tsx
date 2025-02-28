@@ -42,7 +42,15 @@ export default function CardResultJob({ data }: { data: JobProps }) {
             <Image className="w-4" src={salary} alt="Salary" />
             <p>
               {" "}
-              {formatRupiah(data.salary_min)} - {formatRupiah(data.salary_max)}
+              {data.salary_min && data.salary_max ? (
+                `${formatRupiah(data.salary_min)} - ${formatRupiah(data.salary_max)}`
+              ) : data.salary_min && !data.salary_max ? (
+                `>${formatRupiah(data.salary_min)}`
+              ) : data.salary_max && !data.salary_min ? (
+                `<${formatRupiah(data.salary_max)}`
+              ) : (
+                "Negotiable"
+              )}
             </p>
           </div>
 

@@ -147,7 +147,15 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={salary} alt="Status" />
             <div>
               <p>Gaji</p>
-              <p className="font-medium">{formatRupiah(job.salary_min)} - {formatRupiah(job.salary_max)}</p>
+              {job.salary_min && job.salary_max ? (
+                `${formatRupiah(job.salary_min)} - ${formatRupiah(job.salary_max)}`
+              ) : job.salary_min && !job.salary_max ? (
+                `>${formatRupiah(job.salary_min)}`
+              ) : job.salary_max && !job.salary_min ? (
+                `<${formatRupiah(job.salary_max)}`
+              ) : (
+                "Negotiable"
+              )}
             </div>
           </div>
           {/* location */}

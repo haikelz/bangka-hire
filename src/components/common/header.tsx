@@ -23,6 +23,7 @@ import {
 } from "../ui/dropdown-menu";
 import { MobileNavbar } from "./mobile-navbar";
 import NavLink from "./nav-link";
+import { signOut } from "next-auth/react";
 
 export default function Header() {
   const isScroll = useScroll();
@@ -54,6 +55,11 @@ export default function Header() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
+
+  // buat logout jika user menggunakan google login
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <header
@@ -138,7 +144,7 @@ export default function Header() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <div
-                        onClick={() => logoutAccount()}
+                        onClick={data.user.google_oauth ? handleLogout : () => logoutAccount()}
                         className="flex items-center gap-2 w-full text-red-500 hover:bg-red-500 hover:text-white p-2 rounded-sm duration-200 ease-in-out cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />

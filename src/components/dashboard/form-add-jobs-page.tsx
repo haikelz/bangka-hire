@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,7 +10,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { FacebookIcon, InstagramIcon, MailIcon } from "lucide-react";
+import { useGetUserServer } from "@/hooks/use-current-user";
+import { toast } from "@/hooks/use-toast";
+import { createJob, getCompanyByUserId } from "@/services/common";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { id } from "date-fns/locale";
+import { FacebookIcon, InstagramIcon, Loader, Loader2, MailIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { IsPendingClient } from "../react-query/is-pending-client";
+import Link from "next/link";
+import { applyJobSchema } from "@/lib/schemas/common";
 
 const statusWork = [
   {
@@ -29,8 +42,11 @@ const statusWork = [
   }
 ];
 
-
 const rangeSalary = [
+  {
+    id: 0,
+    value: "Negotiable",
+  },
   {
     id: 1,
     value: "<1.000.000",
@@ -50,57 +66,171 @@ const rangeSalary = [
 ]
 
 export default function FormAddJobs() {
-  return (
-    <div className="space-y-8 py-8 px-8">
-      <div className="space-y-2">
-        <span className="font-bold text-xl">Posisi Pekerjaan</span>
-        <Input placeholder="Beritahu Posisi Pekerjaan" />
-      </div>
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm()
+  const router = useRouter()
+  const { user } = useGetUserServer()
 
-      <div className="space-y-2">
-        <h1 className="font-bold text-2xl mb-2">Informasi Pekerjaan</h1>
-        <span className="font-bold text-xl">Status Pekerjaan</span>
-        <Select>
-          <SelectTrigger className="w-44">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            {statusWork.map((item) => (
-              <SelectItem key={item.id} value={item.value}>
-                {item.value}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+  const companyId = user?.profile?.id
+  const [isDataLoaded, setIsDataLoaded] = useState(false)
 
-      <div className="space-y-2">
-        <span className="font-bold text-xl">Range Gaji</span>
-        <Select>
-          <SelectTrigger className="w-44">
-            <SelectValue placeholder="Gaji" />
-          </SelectTrigger>
-          <SelectContent>
-            {rangeSalary.map((item) => (
-              <SelectItem key={item.id} value={item.value}>
-                {item.value}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <span className="font-bold text-xl">Tanggung Jawab</span>
-        <Textarea placeholder="Beritahu Tanggung Jawab Dari Posisi Pekerjaan"rows={4} />
-      </div>
-      <div className="space-y-4">
-        <span className="font-bold text-xl">Kualifikasi / Persyaratan</span>
-        <Textarea placeholder="Beritahu Kualifikasi / Persyaratan Dari Posisi Pekerjaan" rows={4} />
-      </div>
+  // mengambil nilai true false apakah user sudah memiliki profile
+  const { data, isPending, isError} = useQuery({
+    queryKey: ["already-create-profile", user?.id],
+    queryFn: async () => {
+      // di cek dulu apakah userID sudah ada atau belum
+      if (!user?.id) return null;
+      return await getCompanyByUserId(user?.id);
+    },
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+  })
 
-      <div className="flex justify-end items-center">
-        <Button className="bg-secondary_color_1">Simpan</Button>
+  // Menggunakan useEffect untuk menandai data telah dimuat setelah query selesai
+  useEffect(() => {
+    if (!isPending && data !== undefined) {
+      setIsDataLoaded(true);
+    }
+  }, [isPending, data]);
+
+  const queryClient = useQueryClient()
+
+  const addJobMutation = useMutation({
+    mutationFn: async () =>
+      await createJob({
+        position_job: getValues("position_job"),
+        company_id: companyId,
+        salary_range: watch("salary_range"),
+        qualification: getValues("qualification"),
+        responsibilty: getValues("responsibilty"),
+        status_work: watch("status_work"),
+      }),
+    onSuccess: async (response) => {
+      // cek status dari response
+      if (response.status_code === 400) {
+        return toast({
+          title: "Gagal mendaftarkan akun!",
+          description: response.message,
+          variant: "destructive",
+        });
+      }
+
+      await queryClient.invalidateQueries().then(() => {
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
+
+        toast({
+          title: "Sukses Membuat Lowongan Kerja!",
+          description: "Kamu Berhasil Membuat Lowongan Kerja!",
+        });
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Gagal Membuat Lowongan Kerja!",
+        description: "Gagal Membuat Lowongan Kerja!",
+        variant: "destructive",
+      });
+    },
+  })
+
+  async function onSubmit() {
+    await addJobMutation.mutateAsync();
+  }
+
+  // Loading state
+  if (!isDataLoaded || isPending) {
+    return <IsPendingClient className="mt-10 h-svh w-full" />;
+  }
+
+  // Tidak ada profil perusahaan
+  if (data?.exists === false) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[75vh] w-full">
+        <h1 className="text-xl md:text-2xl font-bold">Profile Perusahaan Anda Belum Lengkap</h1>
+        <p className="text-xs md:text-sm text-muted-foreground">
+          Silahkan lengkapi profile perusahaan anda terlebih dahulu
+        </p>
+        <Link href="/dashboard/profile" className="mt-4 text-primary_color underline text-[10px] md:text-xs">
+          Lengkapi Profile
+        </Link>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (data?.exists === true) {
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-8 py-8 px-8">
+            <div className="space-y-2">
+              <span className="font-bold text-lg md:text-xl">Posisi Pekerjaan</span>
+              <Input className="text-sm md:text-base" {...register("position_job")} type="text" placeholder="Beritahu Posisi Pekerjaan" />
+            </div>
+
+            <div className="space-y-2">
+              <h1 className="font-bold text-xl md:text-2xl mb-2">Informasi Pekerjaan</h1>
+              <span className="font-bold text-lg md:text-xl">Status Pekerjaan</span>
+              <Select onValueChange={(value) => setValue("status_work", value)} >
+                <SelectTrigger  className="w-44 text-sm md:text-base">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent className="text-sm md:text-base">
+                  {statusWork.map((item) => (
+                    <SelectItem  key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-bold text-lg md:text-xl">Range Gaji</span>
+              <Select onValueChange={(value) => setValue("salary_range", value)}>
+                <SelectTrigger className="w-44 text-sm md:text-base">
+                  <SelectValue placeholder="Gaji" />
+                </SelectTrigger>
+                <SelectContent className="text-sm md:text-base">
+                  {rangeSalary.map((item) => (
+                    <SelectItem  key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-bold text-lg md:text-xl">Tanggung Jawab</span>
+              <Textarea className="text-sm md:text-base" {...register("responsibilty")} placeholder="Beritahu Tanggung Jawab Dari Posisi Pekerjaan" rows={4} />
+            </div>
+
+            <div className="space-y-4">
+              <span className="font-bold text-lg md:text-xl">Kualifikasi / Persyaratan</span>
+              <Textarea className="text-sm md:text-base" {...register("qualification")} placeholder="Beritahu Kualifikasi / Persyaratan Dari Posisi Pekerjaan" rows={4} />
+            </div>
+
+            <div className="flex justify-end items-center text-sm md:text-base">
+              {addJobMutation.isPending ?
+                <Button type="submit" className="bg-secondary_color_1" disabled>
+                    <Loader className="h-4 w-4 animate-spin" />
+                </Button>
+                :
+                <Button type="submit" className="bg-secondary_color_1">
+                    Simpan
+                </Button>
+              }
+            </div>
+          </div>
+        </form>
+    );
+  }
 }

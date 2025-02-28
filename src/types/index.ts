@@ -72,14 +72,24 @@ export type JobProps = {
   position_job: string;
   responsibilty: string;
   qualification: string;
-  salary_min: number;
-  salary_max: number;
+  salary_range: string;
+  salary_min?: number;
+  salary_max?: number;
   status_work: string;
   createdAt: Date;
   updatedAt: Date;
   company: ProfilCompanyProps;
   users: UsersOnJobsProps[];
 };
+
+export type CreateJobProps = {
+  position_job: string;
+  company_id: string;
+  salary_range: string;
+  qualification: string;
+  responsibilty: string;
+  status_work: string;
+}
 
 export type ProfilCompanyProps = {
   id: string;

@@ -1,4 +1,4 @@
-import { CommentProps, EditProfileUser, JobApplyProps } from "@/types";
+import { CommentProps, CreateJobProps, EditProfileUser, JobApplyProps, JobProps } from "@/types";
 import { axiosClient } from "./axios";
 
 // mendapatkan user saat ini dari database
@@ -114,7 +114,6 @@ export async function createReviewJobVacancyProvider(
       "/job-applicant/create-review-job-vacancy-provider",
       data
     );
-
     return response;
   } catch (err) {
     throw new Error("Gagal membuat review perusahaan!");
@@ -131,3 +130,23 @@ export async function getCommentsByCompanyId(id: string) {
     throw new Error("Gagal mendapatkan ulasan tentang perusahaan!");
   }
 }
+
+// create job
+export async function createJob(data: CreateJobProps) {
+  try {
+    const response = await axiosClient.post("/job-vacancy-provider/create-job", data);
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal membuat lowongan kerja!");
+  }
+}
+
+export async function getCompanyByUserId(id: string) {
+  try {
+    const response = await axiosClient.get(`/job-vacancy-provider/already-create-profile/${id}`);
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal mendapatkan data perusahaan!");
+  }
+}
+

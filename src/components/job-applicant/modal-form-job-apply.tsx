@@ -165,7 +165,7 @@ export function ModalFormJobApply({
               <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
             </div>
           </Button>
-        ) : (
+        ) : !user ? (
           <Button
             className="bg-secondary_color_3 text-black px-12 hover:bg-secondary_color_1 hover:text-white"
             disabled
@@ -174,7 +174,7 @@ export function ModalFormJobApply({
               <p className="font-medium">Login Untuk Akses</p>
             </div>
           </Button>
-        )}
+        ) : null}
       </DialogTrigger>
 
       {/* Konten Modal */}
@@ -195,7 +195,7 @@ export function ModalFormJobApply({
                 name="full_name"
                 className="text-xs md:text-sm"
                 placeholder="Masukkan nama lengkap Anda"
-                defaultValue={user?.full_name}
+                value={user?.full_name}
                 disabled
               />
             </div>
@@ -209,7 +209,7 @@ export function ModalFormJobApply({
                 name="phone_number"
                 className="text-xs md:text-sm"
                 placeholder="Masukkan no handphone Anda"
-                defaultValue={user?.phone_number}
+                value={user?.phone_number}
                 disabled
               />
             </div>
