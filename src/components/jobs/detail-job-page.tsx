@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { format } from "path";
-import { formatRupiah } from "../common/format-rupiah";
+import { formatRupiah } from "../../lib/currency";
 
 type DetailJobPageProps = {
   job_id: string;

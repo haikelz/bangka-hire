@@ -80,3 +80,34 @@ export const editJobVacancyProviderProfileSchema = z.object({
     email: z.string().email("Invalid email format").optional(),
   }),
 });
+
+export const createJobVacancySchema = z.object({
+  position_job: z
+    .string({
+      required_error: "Posisi pekerjaan pekerjaan harus diisi",
+      invalid_type_error: "Posisi pekerjaan harus berupa text",
+    })
+    .min(3, {
+      message: "Posisi pekerjaan wajib diisi",
+    }),
+  status_work: z.string({
+      required_error: "Status pekerjaan wajib harus diisi",
+      invalid_type_error: "Status pekerjaan wajib harus berupa text",
+  }),
+  salary_range: z.string({
+    required_error: "Gaji wajib harus diisi",
+    invalid_type_error: "Gaji wajib harus berupa angka",
+  }),
+  qualification: z.string({
+    required_error: "Kualifikasi harus diisi",
+    invalid_type_error: "Kualifikasi harus berupa text",
+  }).min(3, {
+    message: "Kualifikasi / Pesyaratan Pekerjaan wajib diisi",
+  }),
+  responsibilty: z.string({
+    required_error: "Tugas dan tanggung jawab harus diisi",
+    invalid_type_error: "Tugas dan tanggung jawab harus berupa text",
+  }).min(3, {
+    message: "Tugas dan tanggung jawab wajib diisi",
+  })
+});

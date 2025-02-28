@@ -21,7 +21,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IsPendingClient } from "../react-query/is-pending-client";
 import Link from "next/link";
-import { applyJobSchema } from "@/lib/schemas/common";
+import { applyJobSchema, createJobVacancySchema } from "@/lib/schemas/common";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const statusWork = [
   {
@@ -73,7 +75,9 @@ export default function FormAddJobs() {
     watch,
     getValues,
     formState: { errors },
-  } = useForm()
+  } = useForm<z.infer<typeof createJobVacancySchema>>({
+    resolver: zodResolver(createJobVacancySchema),
+  })
   const router = useRouter()
   const { user } = useGetUserServer()
 
@@ -88,7 +92,7 @@ export default function FormAddJobs() {
       if (!user?.id) return null;
       return await getCompanyByUserId(user?.id);
     },
-    refetchOnReconnect: false,
+    retry: false,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   })
@@ -148,7 +152,7 @@ export default function FormAddJobs() {
 
   // Loading state
   if (!isDataLoaded || isPending) {
-    return <IsPendingClient className="mt-10 h-svh w-full" />;
+    return <IsPendingClient className="w-full h-svh my-8" />;
   }
 
   // Tidak ada profil perusahaan
@@ -166,13 +170,14 @@ export default function FormAddJobs() {
     );
   }
 
-  if (data?.exists === true) {
+  if (data?.exists) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-8 py-8 px-8">
             <div className="space-y-2">
               <span className="font-bold text-lg md:text-xl">Posisi Pekerjaan</span>
-              <Input className="text-sm md:text-base" {...register("position_job")} type="text" placeholder="Beritahu Posisi Pekerjaan" />
+              <Input className="text-sm md:text-base" {...register("position_job")} type="text" placeholder="Beritahu Posisi Pekerjaan" autoComplete="off"/>
+              {errors.position_job && <p className="text-xs md:text-sm text-red-500">{errors.position_job.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -190,15 +195,16 @@ export default function FormAddJobs() {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.status_work && <p className="text-xs md:text-sm text-red-500">{errors.status_work.message}</p>}
             </div>
 
             <div className="space-y-2">
               <span className="font-bold text-lg md:text-xl">Range Gaji</span>
               <Select onValueChange={(value) => setValue("salary_range", value)}>
-                <SelectTrigger className="w-44 text-sm md:text-base">
+                <SelectTrigger className="w-60 text-sm md:text-base">
                   <SelectValue placeholder="Gaji" />
                 </SelectTrigger>
-                <SelectContent className="text-sm md:text-base">
+                <SelectContent className="text-sm md:text-base w-auto">
                   {rangeSalary.map((item) => (
                     <SelectItem  key={item.id} value={item.value}>
                       {item.value}
@@ -206,16 +212,19 @@ export default function FormAddJobs() {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.salary_range && <p className="text-xs md:text-sm text-red-500">{errors.salary_range.message}</p>}
             </div>
 
             <div className="space-y-2">
               <span className="font-bold text-lg md:text-xl">Tanggung Jawab</span>
               <Textarea className="text-sm md:text-base" {...register("responsibilty")} placeholder="Beritahu Tanggung Jawab Dari Posisi Pekerjaan" rows={4} />
+              {errors.responsibilty && <p className="text-xs md:text-sm text-red-500">{errors.responsibilty.message}</p>}
             </div>
 
             <div className="space-y-4">
               <span className="font-bold text-lg md:text-xl">Kualifikasi / Persyaratan</span>
               <Textarea className="text-sm md:text-base" {...register("qualification")} placeholder="Beritahu Kualifikasi / Persyaratan Dari Posisi Pekerjaan" rows={4} />
+              {errors.qualification && <p className="text-xs md:text-sm text-red-500">{errors.qualification.message}</p>}
             </div>
 
             <div className="flex justify-end items-center text-sm md:text-base">
@@ -233,4 +242,13 @@ export default function FormAddJobs() {
         </form>
     );
   }
+
+  return (
+    <div className="flex items-center justify-center h-[75vh] w-full gap-5">
+      <Loader className="h-6 w-6 md:h-8 md:w-8 animate-spin" />
+      <p className="text-lg md:text-xl font-medium">
+        Tunggu Sebentar...
+      </p>
+    </div>
+  )
 }

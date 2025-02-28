@@ -61,10 +61,6 @@ export function Sidebar() {
             Profile Perusahaan
           </Button>
         </Link>
-
-        <Link href={"/"}>
-            Home
-        </Link>
       </div>
     </aside>
   );
