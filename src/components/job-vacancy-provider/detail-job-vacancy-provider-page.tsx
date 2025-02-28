@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Layout from "../common/container";
 import CardResultJob from "../jobs/card-result-job";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
@@ -49,7 +50,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   );
 
   return (
-    <>
+    <Layout className="mt-6">
       <div className="rounded-sm bg-secondary_color_2 px-7 py-6">
         <div className="space-y-5">
           <div className="flex sm:flex-row flex-col sm:space-x-10 space-y-2 sm:space-y-0 justify-between items-start w-fit">
@@ -231,6 +232,6 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }

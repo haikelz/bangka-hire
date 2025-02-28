@@ -67,21 +67,11 @@ export async function getJobs({
   }
 }
 
-export async function getJobsByCompanyId(companyId: string) {
-  try {
-    const response = await axiosClient.get(`/jobs`);
-  } catch (err) {
-    throw new Error(
-      "Gagal mengambil data lowongan kerja berdasarkan perusahaan!"
-    );
-  }
-}
-
 // mengambil detail job
 export async function getJobById(id: string) {
   try {
     const response = await axiosClient.get(`/jobs/${id}`);
-    console.log(id)
+    console.log(id);
     return response.data;
   } catch (error) {
     throw new Error("Gagal mendapatkan data lowongan kerja!");
@@ -97,9 +87,15 @@ export async function getJobVacancyProvider(id: string) {
   }
 }
 
-export async function getJobVacancyProviders(page : number, limit : number, searchCompany : string) {
+export async function getJobVacancyProviders(
+  page: number,
+  limit: number,
+  searchCompany: string
+) {
   try {
-    const response = await axiosClient.get(`/job-vacancy-provider?search=${searchCompany}&page=${page}&limit=${limit}`);
+    const response = await axiosClient.get(
+      `/job-vacancy-provider?search=${searchCompany}&page=${page}&limit=${limit}`
+    );
     return response;
   } catch (error) {
     throw new Error("Gagal mendapatkan data perusahaan!");

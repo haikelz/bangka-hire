@@ -18,7 +18,6 @@ import { z } from "zod";
 
 export function SignUpFormJobVacancyProvider() {
   const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const signUpMutation = useMutation({

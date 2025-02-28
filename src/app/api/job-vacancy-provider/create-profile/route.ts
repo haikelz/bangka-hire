@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
 
   await db.profilCompany.create({
-    data
+    data,
   });
 
   return NextResponse.json({

@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req : NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const searchCompany = req?.nextUrl?.searchParams.get("search") as string;
     const page: number = Number(
@@ -16,13 +16,13 @@ export async function GET(req : NextRequest) {
     const data = await db.profilCompany.findMany({
       take: limit,
       skip: skip,
-      where : {
-        user : {
-          full_name : {
-            contains : searchCompany,
-            mode : "insensitive"
-          }
-        }
+      where: {
+        user: {
+          full_name: {
+            contains: searchCompany,
+            mode: "insensitive",
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -40,13 +40,13 @@ export async function GET(req : NextRequest) {
     });
 
     const totalItems = await db.profilCompany.count({
-      where : {
-        user : {
-          full_name : {
-            contains : searchCompany
-          }
-        }
-      }
+      where: {
+        user: {
+          full_name: {
+            contains: searchCompany,
+          },
+        },
+      },
     });
 
     const totalPages = Math.ceil(totalItems / limit);

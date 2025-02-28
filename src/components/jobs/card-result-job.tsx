@@ -1,3 +1,4 @@
+import { formatTanggal } from "@/lib/date";
 import { JobProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,11 +7,9 @@ import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary.png";
 import status from "../../../public/assets/status-work.png";
 import time from "../../../public/assets/time.png";
-import { formatTanggal } from "../common/format-tanggal";
 import { formatRupiah } from "../common/format-rupiah";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
-
   return (
     <Link
       href={`/jobs/${data.id}`}
