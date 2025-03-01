@@ -150,7 +150,7 @@ export function ModalFormJobApply({
     setIsUploading(false);
     toast({
       title: "Gagal mengupload CV!",
-      description: error.message || "Terjadi kesalahan saat mengupload CV",
+      description: "File Harus berupa PDF",
       variant: "destructive",
     });
   };

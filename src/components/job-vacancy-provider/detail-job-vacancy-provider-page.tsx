@@ -154,7 +154,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                         <Link href={jobVacancyProvider.facebook ?? ""}>
                           <FacebookIcon width={16} height={16} />
                         </Link>
-                        <Link href={jobVacancyProvider.email ?? ""}>
+                        <Link href={jobVacancyProvider.gmail ?? ""}>
                           <MailIcon width={16} height={16} />
                         </Link>
                       </div>

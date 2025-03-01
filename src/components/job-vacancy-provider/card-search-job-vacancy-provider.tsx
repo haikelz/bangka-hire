@@ -27,6 +27,8 @@ export default function CardSearchJobVacancyProvider({
           className="w-16 md:w-24"
           src={data.user?.image ?? logo}
           alt="Logo"
+          width={50}
+          height={50}
         />
         {/* rating dan ulasan */}
         <div className="flex items-center gap-3 text-[10px] md:text-xs">
