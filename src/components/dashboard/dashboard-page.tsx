@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { getJobs } from "@/services/common";
 import { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +17,11 @@ import {
 } from "../ui/pagination";
 
 export function DashboardPage() {
+  const { user } = useCurrentUser();
+  const userGoogle = useCurrentUserGoogle();
+
+  const userId = user.id || userGoogle?.id;
+
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isPending, isError } = useQuery({
@@ -24,6 +30,7 @@ export function DashboardPage() {
       await getJobs({
         page: currentPage,
         limit: 8,
+        companyId: userId,
       }),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

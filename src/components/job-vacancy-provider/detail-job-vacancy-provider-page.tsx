@@ -137,7 +137,9 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   </p>
                 </div>
                 <div className="mt-6">
-                  <h3 className="text-black text-lg md:text-xl font-bold">Hubungi Kami</h3>
+                  <h3 className="text-black text-lg md:text-xl font-bold">
+                    Hubungi Kami
+                  </h3>
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <p className="font-bold text-black mt-3">Alamat</p>
@@ -152,7 +154,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                         <Link href={jobVacancyProvider.facebook ?? ""}>
                           <FacebookIcon width={16} height={16} />
                         </Link>
-                        <Link href={jobVacancyProvider.gmail ?? ""}>
+                        <Link href={jobVacancyProvider.email ?? ""}>
                           <MailIcon width={16} height={16} />
                         </Link>
                       </div>

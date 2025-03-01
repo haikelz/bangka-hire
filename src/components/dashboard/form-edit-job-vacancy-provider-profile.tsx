@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { editJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
+import { editJobVacancyProviderProfile } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,9 +21,10 @@ import {
   MailIcon,
   PencilIcon,
 } from "lucide-react";
-import Image from "next/image";
+import { DefaultSession } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const citiesList = [
   {
@@ -57,11 +59,23 @@ const citiesList = [
 
 export function FormEditJobVacancyProviderProfile({
   jobVacancyProvider,
+  userGoogle,
+  userId,
 }: {
   jobVacancyProvider: UserProps;
+  userGoogle:
+    | ({
+        id: string;
+        role: string;
+        email: string;
+        name: string;
+        image: string;
+      } & DefaultSession)
+    | undefined;
+  userId: string;
 }) {
   const queryClient = useQueryClient();
-  console.log(jobVacancyProvider);
+
   const {
     formState: { errors },
     getValues,
@@ -70,36 +84,45 @@ export function FormEditJobVacancyProviderProfile({
   } = useForm<z.infer<typeof editJobVacancyProviderProfileSchema>>({
     defaultValues: {
       full_name: jobVacancyProvider?.full_name ?? "",
-      company_type: "",
-      description: "",
-      city: "",
-      street: "",
+      company_type: jobVacancyProvider?.profile?.company_type ?? "",
+      description: jobVacancyProvider?.profile?.description_company ?? "",
+      city: jobVacancyProvider?.profile?.city ?? "",
+      street: jobVacancyProvider?.profile?.street ?? "",
       social_media: {
-        instagram: "",
-        facebook: "",
-        email: "",
+        instagram: jobVacancyProvider?.profile?.instagram ?? "",
+        facebook: jobVacancyProvider?.profile?.facebook ?? "",
+        gmail: jobVacancyProvider?.email ?? "",
       },
     },
     resolver: zodResolver(editJobVacancyProviderProfileSchema),
   });
 
   const editProfileMutation = useMutation({
-    mutationFn: async () => {},
+    mutationFn: async () =>
+      await editJobVacancyProviderProfile({
+        user_id: userId,
+        full_name: getValues("full_name"),
+        company_type: getValues("company_type"),
+        description: getValues("description"),
+        city: getValues("city"),
+        street: getValues("street"),
+        social_media: {
+          facebook: getValues("social_media.facebook"),
+          instagram: getValues("social_media.instagram"),
+          gmail: getValues("social_media.gmail"),
+        },
+        google_oauth: true,
+      }),
     onSuccess: async (response) => {
-      // cek status dari response
-      /*if (response.status_code === 400) {
+      if (response.status_code === 400) {
         return toast({
           title: "Gagal mendaftarkan akun!",
           description: response.message,
           variant: "destructive",
         });
-      }*/
+      }
 
       await queryClient.invalidateQueries().then(() => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-
         toast({
           title: "Sukses mengupdate profile!",
           description: "Kamu Berhasil mengupdate profile!",
@@ -121,13 +144,25 @@ export function FormEditJobVacancyProviderProfile({
   return (
     <form className="w-full space-y-8" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex space-x-2 justify-start w-fit items-start">
-        <Image
-          src={jobVacancyProvider?.image ?? "/assets/fallback-user.svg"}
-          alt="company pic"
-          width={500}
-          height={500}
-          className="w-20 h-20 rounded-full"
-        />
+        <Avatar className="w-24 h-24 md:w-32 md:h-32">
+          {/* Gambar */}
+          {jobVacancyProvider?.image ? (
+            <AvatarImage
+              src={jobVacancyProvider.image}
+              alt="avatar"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <AvatarFallback className="bg-primary_color text-white text-2xl">
+              {jobVacancyProvider?.full_name
+                ?.split(" ")
+                .map((name: string) => name[0])
+                .join("")
+                .toUpperCase()
+                .slice(0, 2)}
+            </AvatarFallback>
+          )}
+        </Avatar>
         <Button className="bg-secondary_color_1 hover:bg-primary_color w-7 h-7">
           <PencilIcon />
         </Button>
@@ -158,9 +193,14 @@ export function FormEditJobVacancyProviderProfile({
       </div>
       <div className="space-y-2">
         <span className="font-bold text-xl">Lokasi</span>
-        <Select>
+        <Select
+          defaultValue={jobVacancyProvider?.profile.city ?? "Lokasi"}
+          {...register("city")}
+        >
           <SelectTrigger className="w-44">
-            <SelectValue placeholder="Lokasi" />
+            <SelectValue
+              placeholder={jobVacancyProvider?.profile.city ?? "Lokasi"}
+            />
           </SelectTrigger>
           <SelectContent>
             {citiesList.map((item) => (
@@ -201,13 +241,15 @@ export function FormEditJobVacancyProviderProfile({
           <div className="flex justify-center items-center space-x-2">
             <MailIcon />
             <Input
-              {...register("social_media.email")}
+              {...register("social_media.gmail")}
               placeholder="Gmail.com"
             />
-            {errors.social_media?.email ? <span></span> : null}
+            {errors.social_media?.gmail ? <span></span> : null}
           </div>
           <div className="flex justify-end items-center">
-            <Button className="bg-secondary_color_1">Simpan</Button>
+            <Button type="submit" className="bg-secondary_color_1">
+              Simpan
+            </Button>
           </div>
         </div>
       </div>

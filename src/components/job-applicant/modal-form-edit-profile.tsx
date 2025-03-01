@@ -116,7 +116,7 @@ export function ModalFormEditProfile({
         </DialogTitle>
 
         {/* form edit profile */}
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2 md:space-y-4">
             <div>
               <Label htmlFor="full_name" className="text-xs md:text-base">

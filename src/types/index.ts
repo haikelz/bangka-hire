@@ -89,16 +89,17 @@ export type CreateJobProps = {
   qualification: string;
   responsibilty: string;
   status_work: string;
-}
+};
 
 export type ProfilCompanyProps = {
   id: string;
   user_id: string;
   description_company: string;
+  company_type: string;
   street: string;
   city: string;
   total_employers: string;
-  gmail: string;
+  email: string;
   facebook?: string;
   instagram?: string;
   linkedin?: string;
@@ -124,4 +125,19 @@ export type CommentProps = {
 export type APIRouteParamsProps = {
   params: Promise<{ id: string; job_id: string; user_id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export type EditJobVacancyProviderProfileProps = {
+  user_id: string;
+  full_name?: string;
+  company_type?: string;
+  description?: string;
+  city?: string;
+  street?: string;
+  google_oauth?: boolean;
+  social_media?: {
+    instagram?: string;
+    facebook?: string;
+    gmail?: string;
+  };
 };
