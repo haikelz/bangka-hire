@@ -59,7 +59,7 @@ export async function PUT(req: NextRequest) {
           company_type,
           instagram: social_media.instagram,
           facebook: social_media.facebook,
-          gmail: social_media.email,
+          gmail: social_media.gmail,
           city,
           street,
         },

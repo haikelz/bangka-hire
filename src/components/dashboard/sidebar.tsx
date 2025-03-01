@@ -26,7 +26,7 @@ export function Sidebar() {
             />
           ) : (
             <AvatarFallback className="bg-primary_color text-white text-2xl">
-              sdf
+              Image
             </AvatarFallback>
           )}
         </Avatar>

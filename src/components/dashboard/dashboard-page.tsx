@@ -47,42 +47,46 @@ export function DashboardPage() {
 
   return (
     <section className="px-8 py-8 w-full">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-        {jobs.map((item, i) => (
-          <CardResultJob key={i} data={item} />
-        ))}
-        {data?.data?.data.length > 8 && totalPages > 1 && (
-          <Pagination className="mt-10">
-            <PaginationContent className="flex justify-center items-center gap-2">
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                  className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
-                    currentPage === 1 ? "hidden" : ""
-                  }`}
-                />
-              </PaginationItem>
-              <span className="font-medium text-sm">
-                Page {currentPage} of {totalPages}
-              </span>
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() =>
-                    setCurrentPage((prev) =>
-                      prev < totalPages ? prev + 1 : prev
-                    )
-                  }
-                  className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
-                    currentPage === totalPages ? "hidden" : ""
-                  }`}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        )}
-      </div>
+      {jobs.length && jobs ? (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
+          {jobs.map((item, i) => (
+            <CardResultJob key={i} data={item} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-xl font-bold text-center">
+          Kamu belum menambahkan lowongan kerja apapun!
+        </p>
+      )}
+      {data?.data?.data.length > 8 && totalPages > 1 && (
+        <Pagination className="mt-10">
+          <PaginationContent className="flex justify-center items-center gap-2">
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                  currentPage === 1 ? "hidden" : ""
+                }`}
+              />
+            </PaginationItem>
+            <span className="font-medium text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    prev < totalPages ? prev + 1 : prev
+                  )
+                }
+                className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                  currentPage === totalPages ? "hidden" : ""
+                }`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </section>
   );
 }

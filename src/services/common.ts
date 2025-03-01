@@ -1,7 +1,7 @@
 import {
   CommentProps,
   CreateJobProps,
-  JobVacancyProviderProps,
+  EditJobVacancyProviderProfileProps,
   EditProfileUser,
   JobApplyProps,
 } from "@/types";
@@ -157,14 +157,14 @@ export async function getCompanyByUserId(id: string) {
 }
 
 export async function editJobVacancyProviderProfile(
-  data: JobVacancyProviderProps
+  data: EditJobVacancyProviderProfileProps
 ) {
   try {
     const response = await axiosClient.put(
       `/job-vacancy-provider/edit-profile`,
       data
     );
-    return response;
+    return response.data;
   } catch (err) {
     throw new Error("Gagal mengedit profile!");
   }

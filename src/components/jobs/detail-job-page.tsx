@@ -14,6 +14,7 @@ import location from "../../../public/assets/location.svg";
 import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary-detail.svg";
 import status from "../../../public/assets/status.svg";
+import { formatRupiah } from "../../lib/currency";
 import Layout from "../common/container";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
@@ -24,8 +25,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { format } from "path";
-import { formatRupiah } from "../../lib/currency";
 
 type DetailJobPageProps = {
   job_id: string;
@@ -54,7 +53,6 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
 
   const job = data?.data as JobProps;
 
-
   // mencari jumlah rata rata rating
   const averageRating = function () {
     if (job.company?.comments) {
@@ -72,7 +70,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
   if (isError) return <IsErrorClient />;
 
   return (
-    <Layout>
+    <Layout className="mt-6">
       {/* informasi pekerjaan singkat */}
       <div className="bg-secondary_color_2 p-2 md:p-6 rounded-md space-y-4 md:space-y-7">
         {/* logo, nama perusahaan, rating, ulasan,button detail */}
@@ -85,9 +83,17 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
                 className="w-16 sm:w-20 md:w-32"
                 src={job.company?.user.image}
                 alt="Logo"
+                width={500}
+                height={500}
               />
             ) : (
-              <Image className="w-16 sm:w-20 md:w-32" src={logo} alt="Logo" />
+              <Image
+                className="w-16 sm:w-20 md:w-32"
+                width={500}
+                height={500}
+                src={logo}
+                alt="Logo"
+              />
             )}
             {/* posisi pekerjaan */}
             <div>
@@ -144,15 +150,15 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
             <Image className="w-3 sm:w-8 lg:w-12" src={salary} alt="Status" />
             <div>
               <p>Gaji</p>
-              {job.salary_min && job.salary_max ? (
-                `${formatRupiah(job.salary_min)} - ${formatRupiah(job.salary_max)}`
-              ) : job.salary_min && !job.salary_max ? (
-                `>${formatRupiah(job.salary_min)}`
-              ) : job.salary_max && !job.salary_min ? (
-                `<${formatRupiah(job.salary_max)}`
-              ) : (
-                "Negotiable"
-              )}
+              {job.salary_min && job.salary_max
+                ? `${formatRupiah(job.salary_min)} - ${formatRupiah(
+                    job.salary_max
+                  )}`
+                : job.salary_min && !job.salary_max
+                ? `>${formatRupiah(job.salary_min)}`
+                : job.salary_max && !job.salary_min
+                ? `<${formatRupiah(job.salary_max)}`
+                : "Negotiable"}
             </div>
           </div>
           {/* location */}

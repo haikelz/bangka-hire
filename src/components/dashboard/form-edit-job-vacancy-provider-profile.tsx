@@ -19,6 +19,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FacebookIcon,
   InstagramIcon,
+  Loader,
   MailIcon,
   PencilIcon,
 } from "lucide-react";
@@ -27,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 
 type Props = {
   jobVacancyProvider: UserProps;
@@ -65,7 +67,7 @@ export function FormEditJobVacancyProviderProfile({
       social_media: {
         instagram: jobVacancyProvider?.profile?.instagram ?? "",
         facebook: jobVacancyProvider?.profile?.facebook ?? "",
-        gmail: jobVacancyProvider?.email ?? "",
+        gmail: jobVacancyProvider?.profile.gmail ?? "",
       },
     },
     resolver: zodResolver(editJobVacancyProviderProfileSchema),
@@ -88,6 +90,7 @@ export function FormEditJobVacancyProviderProfile({
         google_oauth: userGoogle ? true : false,
       }),
     onSuccess: async (response) => {
+      console.log(response);
       if (response.status_code === 400) {
         return toast({
           title: "Gagal mendaftarkan akun!",
@@ -148,8 +151,13 @@ export function FormEditJobVacancyProviderProfile({
         <Input
           {...register("full_name")}
           placeholder="Beritahu nama Perusahaanmu"
+          required
         />
-        {errors.full_name ? <span></span> : null}
+        {errors.full_name ? (
+          <p className="text-xs md:text-sm text-red-500">
+            {errors.full_name.message}
+          </p>
+        ) : null}
       </div>
       <div className="space-y-2">
         <Label htmlFor="company_type" className="font-bold text-xl">
@@ -158,18 +166,29 @@ export function FormEditJobVacancyProviderProfile({
         <Input
           {...register("company_type")}
           placeholder="Beritahu Bidang Industri Perusahaanmu"
+          required
         />
-        {errors.company_type ? <span></span> : null}
+        {errors.company_type ? (
+          <p className="text-xs md:text-sm text-red-500">
+            {errors.company_type.message}
+          </p>
+        ) : null}
       </div>
       <div className="space-y-2">
         <Label htmlFor="description" className="font-bold text-xl">
           Tentang Perusahaan
         </Label>
-        <Input
+        <Textarea
+          className="h-24"
           {...register("description")}
           placeholder="Beritahu tentang perusahaan"
+          required
         />
-        {errors.description ? <span></span> : null}
+        {errors.description ? (
+          <p className="text-xs md:text-sm text-red-500">
+            {errors.description.message}
+          </p>
+        ) : null}
       </div>
       <div className="space-y-2">
         <Label className="font-bold text-xl">Lokasi</Label>
@@ -199,48 +218,80 @@ export function FormEditJobVacancyProviderProfile({
         <Input
           {...register("street")}
           placeholder="Beritahu Alamat Lengkap Perusahaanmu"
+          required
         />
-        {errors.street ? <span></span> : null}
+        {errors.street ? (
+          <p className="text-xs md:text-sm text-red-500">
+            {errors.street.message}
+          </p>
+        ) : null}
       </div>
       <div className="space-y-4">
         <Label htmlFor="social_media" className="font-bold text-xl">
           Sosial Media
         </Label>
         <div className="space-y-4">
-          <div className="flex justify-center items-center space-x-2">
-            <Label htmlFor="social_media.instagram">
-              <InstagramIcon />
-            </Label>
-            <Input
-              {...register("social_media.instagram")}
-              placeholder="Instagram.com"
-            />
-            {errors.social_media?.instagram ? <span></span> : null}
+          <div className="space-y-2">
+            <div className="flex justify-center items-center space-x-2">
+              <Label htmlFor="social_media.instagram">
+                <InstagramIcon />
+              </Label>
+              <Input
+                {...register("social_media.instagram")}
+                placeholder="Instagram.com"
+                required
+              />
+            </div>
+            {errors.social_media?.instagram ? (
+              <p className="text-xs ml-8 md:text-sm text-red-500">
+                {errors.social_media.instagram.message}
+              </p>
+            ) : null}
           </div>
-          <div className="flex justify-center items-center space-x-2">
-            <Label htmlFor="social_media.facebook">
-              <FacebookIcon />
-            </Label>
-            <Input
-              {...register("social_media.facebook")}
-              placeholder="Facebook.com"
-            />
-            {errors.social_media?.facebook ? <span></span> : null}
+          <div className="space-y-2">
+            <div className="flex justify-center items-center space-x-2">
+              <Label htmlFor="social_media.facebook">
+                <FacebookIcon />
+              </Label>
+              <Input
+                {...register("social_media.facebook")}
+                placeholder="Facebook.com"
+                required
+              />
+            </div>
+            {errors.social_media?.facebook ? (
+              <p className="text-xs ml-8 md:text-sm text-red-500">
+                {errors.social_media.facebook.message}
+              </p>
+            ) : null}
           </div>
-          <div className="flex justify-center items-center space-x-2">
-            <Label htmlFor="social_media.gmail">
-              <MailIcon />
-            </Label>
-            <Input
-              {...register("social_media.gmail")}
-              placeholder="Gmail.com"
-            />
-            {errors.social_media?.gmail ? <span></span> : null}
+          <div className="space-y-2">
+            <div className="flex justify-center items-center space-x-2">
+              <Label htmlFor="social_media.gmail">
+                <MailIcon />
+              </Label>
+              <Input
+                {...register("social_media.gmail")}
+                placeholder="Gmail.com"
+                required
+              />
+            </div>
+            {errors.social_media?.gmail ? (
+              <p className="text-xs md:text-sm ml-8 text-red-500">
+                {errors.social_media.gmail.message}
+              </p>
+            ) : null}
           </div>
           <div className="flex justify-end items-center">
-            <Button type="submit" className="bg-secondary_color_1">
-              Simpan
-            </Button>
+            {editProfileMutation.isPending ? (
+              <Button type="submit" className="bg-secondary_color_1" disabled>
+                <Loader className="h-4 w-4 animate-spin" />
+              </Button>
+            ) : (
+              <Button type="submit" className="bg-secondary_color_1">
+                Simpan
+              </Button>
+            )}
           </div>
         </div>
       </div>

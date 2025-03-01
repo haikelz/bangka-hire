@@ -99,7 +99,7 @@ export type ProfilCompanyProps = {
   street: string;
   city: string;
   total_employers: string;
-  email: string;
+  gmail: string;
   facebook?: string;
   instagram?: string;
   linkedin?: string;
