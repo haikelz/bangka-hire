@@ -3,7 +3,6 @@ import { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, props: APIRouteParamsProps) {
-
   // ambil id dari params
   const { id } = await props.params;
 
@@ -12,7 +11,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
     where: {
       id: id,
       role: "job_vacancy_provider",
-    }
+    },
   });
 
   if (!existingUserJobVacancyProvider) {
@@ -26,7 +25,7 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
   const existingProfileJobVacancyProvider = await db.profilCompany.findUnique({
     where: {
       user_id: id,
-    }
+    },
   });
 
   // kembalikan nilai true / false

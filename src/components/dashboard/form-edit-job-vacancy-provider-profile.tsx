@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { editJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
+import { citiesList } from "@/lib/static";
 import { editJobVacancyProviderProfile } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,43 +26,9 @@ import { DefaultSession } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Label } from "../ui/label";
 
-const citiesList = [
-  {
-    id: 1,
-    value: "Pangkalpinang",
-  },
-  {
-    id: 2,
-    value: "Bangka Tengah",
-  },
-  {
-    id: 3,
-    value: "Bangka Selatan",
-  },
-  {
-    id: 4,
-    value: "Bangka Barat",
-  },
-  {
-    id: 5,
-    value: "Bangka Induk",
-  },
-  {
-    id: 6,
-    value: "Belitung",
-  },
-  {
-    id: 7,
-    value: "Belitung Timur",
-  },
-];
-
-export function FormEditJobVacancyProviderProfile({
-  jobVacancyProvider,
-  userGoogle,
-  userId,
-}: {
+type Props = {
   jobVacancyProvider: UserProps;
   userGoogle:
     | ({
@@ -73,7 +40,13 @@ export function FormEditJobVacancyProviderProfile({
       } & DefaultSession)
     | undefined;
   userId: string;
-}) {
+};
+
+export function FormEditJobVacancyProviderProfile({
+  jobVacancyProvider,
+  userGoogle,
+  userId,
+}: Props) {
   const queryClient = useQueryClient();
 
   const {
@@ -81,6 +54,7 @@ export function FormEditJobVacancyProviderProfile({
     getValues,
     register,
     handleSubmit,
+    setValue,
   } = useForm<z.infer<typeof editJobVacancyProviderProfileSchema>>({
     defaultValues: {
       full_name: jobVacancyProvider?.full_name ?? "",
@@ -111,7 +85,7 @@ export function FormEditJobVacancyProviderProfile({
           instagram: getValues("social_media.instagram"),
           gmail: getValues("social_media.gmail"),
         },
-        google_oauth: true,
+        google_oauth: userGoogle ? true : false,
       }),
     onSuccess: async (response) => {
       if (response.status_code === 400) {
@@ -168,7 +142,9 @@ export function FormEditJobVacancyProviderProfile({
         </Button>
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Nama Perusahaan</span>
+        <Label htmlFor="full_name" className="font-bold text-xl">
+          Nama Perusahaan
+        </Label>
         <Input
           {...register("full_name")}
           placeholder="Beritahu nama Perusahaanmu"
@@ -176,7 +152,9 @@ export function FormEditJobVacancyProviderProfile({
         {errors.full_name ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Industri</span>
+        <Label htmlFor="company_type" className="font-bold text-xl">
+          Industri
+        </Label>
         <Input
           {...register("company_type")}
           placeholder="Beritahu Bidang Industri Perusahaanmu"
@@ -184,7 +162,9 @@ export function FormEditJobVacancyProviderProfile({
         {errors.company_type ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Tentang Perusahaan</span>
+        <Label htmlFor="description" className="font-bold text-xl">
+          Tentang Perusahaan
+        </Label>
         <Input
           {...register("description")}
           placeholder="Beritahu tentang perusahaan"
@@ -192,8 +172,9 @@ export function FormEditJobVacancyProviderProfile({
         {errors.description ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Lokasi</span>
+        <Label className="font-bold text-xl">Lokasi</Label>
         <Select
+          onValueChange={(value) => setValue("city", value)}
           defaultValue={jobVacancyProvider?.profile.city ?? "Lokasi"}
           {...register("city")}
         >
@@ -212,7 +193,9 @@ export function FormEditJobVacancyProviderProfile({
         </Select>
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Alamat</span>
+        <Label htmlFor="street" className="font-bold text-xl">
+          Alamat
+        </Label>
         <Input
           {...register("street")}
           placeholder="Beritahu Alamat Lengkap Perusahaanmu"
@@ -220,10 +203,14 @@ export function FormEditJobVacancyProviderProfile({
         {errors.street ? <span></span> : null}
       </div>
       <div className="space-y-4">
-        <span className="font-bold text-xl">Sosial Media</span>
+        <Label htmlFor="social_media" className="font-bold text-xl">
+          Sosial Media
+        </Label>
         <div className="space-y-4">
           <div className="flex justify-center items-center space-x-2">
-            <InstagramIcon />
+            <Label htmlFor="social_media.instagram">
+              <InstagramIcon />
+            </Label>
             <Input
               {...register("social_media.instagram")}
               placeholder="Instagram.com"
@@ -231,7 +218,9 @@ export function FormEditJobVacancyProviderProfile({
             {errors.social_media?.instagram ? <span></span> : null}
           </div>
           <div className="flex justify-center items-center space-x-2">
-            <FacebookIcon />
+            <Label htmlFor="social_media.facebook">
+              <FacebookIcon />
+            </Label>
             <Input
               {...register("social_media.facebook")}
               placeholder="Facebook.com"
@@ -239,11 +228,13 @@ export function FormEditJobVacancyProviderProfile({
             {errors.social_media?.facebook ? <span></span> : null}
           </div>
           <div className="flex justify-center items-center space-x-2">
-            <MailIcon />
-            <Input
-              {...register("social_media.gmail")}
-              placeholder="Gmail.com"
-            />
+            <Label htmlFor="social_media.gmail">
+              <MailIcon />
+              <Input
+                {...register("social_media.gmail")}
+                placeholder="Gmail.com"
+              />
+            </Label>
             {errors.social_media?.gmail ? <span></span> : null}
           </div>
           <div className="flex justify-end items-center">
