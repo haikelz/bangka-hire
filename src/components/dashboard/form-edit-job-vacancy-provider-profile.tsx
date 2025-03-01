@@ -230,11 +230,11 @@ export function FormEditJobVacancyProviderProfile({
           <div className="flex justify-center items-center space-x-2">
             <Label htmlFor="social_media.gmail">
               <MailIcon />
-              <Input
-                {...register("social_media.gmail")}
-                placeholder="Gmail.com"
-              />
             </Label>
+            <Input
+              {...register("social_media.gmail")}
+              placeholder="Gmail.com"
+            />
             {errors.social_media?.gmail ? <span></span> : null}
           </div>
           <div className="flex justify-end items-center">

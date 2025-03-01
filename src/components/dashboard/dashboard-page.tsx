@@ -20,7 +20,7 @@ export function DashboardPage() {
   const { user } = useCurrentUser();
   const userGoogle = useCurrentUserGoogle();
 
-  const userId = user.id || userGoogle?.id;
+  const userId = user ? user.id : userGoogle?.id;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 

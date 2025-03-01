@@ -46,7 +46,7 @@ export default function CardSearchJobVacancyProvider({
       </div>
 
       {/* nama pt dan lokasi*/}
-      <div className="text-sm md:text-base font-medium mb-8">
+      <div className="text-sm md:text-base font-medium mt-3 mb-8">
         <h1>{data.user?.full_name ?? "-"}</h1>
         <p>{data.user?.profile.city ?? "-"}</p>
       </div>
