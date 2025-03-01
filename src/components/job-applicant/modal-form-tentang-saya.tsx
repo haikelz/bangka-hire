@@ -53,7 +53,7 @@ export function ModalFormTentangSaya({
       await queryClient.invalidateQueries().then(() => {
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 1500);
 
         toast({
           title: "Sukses mengupdate profile!",

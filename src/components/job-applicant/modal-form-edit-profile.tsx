@@ -52,7 +52,14 @@ export function ModalFormEditProfile({
         });
       }
 
+      // refresh data
+
+
       await queryClient.invalidateQueries().then(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+
         toast({
           title: "Sukses mengupdate profile!",
           description: "Kamu Berhasil mengupdate profile!",

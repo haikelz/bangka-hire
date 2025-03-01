@@ -1,7 +1,7 @@
 import {
   CommentProps,
   CreateJobProps,
-  EditJobVacancyProviderProfileProps,
+  JobVacancyProviderProps,
   EditProfileUser,
   JobApplyProps,
 } from "@/types";
@@ -157,7 +157,7 @@ export async function getCompanyByUserId(id: string) {
 }
 
 export async function editJobVacancyProviderProfile(
-  data: EditJobVacancyProviderProfileProps
+  data: JobVacancyProviderProps
 ) {
   try {
     const response = await axiosClient.put(
