@@ -12,7 +12,7 @@ export function EditJobVacancyProviderProfilePage() {
   const { user } = useCurrentUser() as { user: UserProps };
   const userGoogle = useCurrentUserGoogle();
 
-  const userId = user?.id || userGoogle?.id;
+  const userId = (user?.id || userGoogle?.id) as string;
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["user_id", userId],
@@ -33,6 +33,8 @@ export function EditJobVacancyProviderProfilePage() {
   return (
     <div className="py-8 px-8 w-full">
       <FormEditJobVacancyProviderProfile
+        userId={userId}
+        userGoogle={userGoogle}
         jobVacancyProvider={jobVacancyProvider}
       />
     </div>

@@ -10,10 +10,12 @@ export async function PUT(req: NextRequest) {
     company_type,
     description,
     google_oauth,
-    address,
-    location,
+    city,
+    street,
     social_media,
   } = await req.json();
+
+  console.log(street);
 
   const existingJobApplicant = await db.user.findUnique({
     where: {
@@ -44,13 +46,25 @@ export async function PUT(req: NextRequest) {
   if (!phone_number) {
     phone_number = existingJobApplicant.phone_number;
   }
-
   // update data user
+
   const updatedJobApplicant = await db.user.update({
     where: {
       id: user_id,
     },
-    data: { full_name },
+    data: {
+      full_name,
+      profile: {
+        update: {
+          company_type,
+          instagram: social_media.instagram,
+          facebook: social_media.facebook,
+          gmail: social_media.email,
+          city,
+          street,
+        },
+      },
+    },
   });
 
   // jika user menggunakan google oauth untuk login jangan crate session

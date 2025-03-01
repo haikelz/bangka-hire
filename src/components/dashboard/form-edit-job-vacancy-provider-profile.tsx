@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { editJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
+import { citiesList } from "@/lib/static";
+import { editJobVacancyProviderProfile } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,86 +22,81 @@ import {
   MailIcon,
   PencilIcon,
 } from "lucide-react";
-import Image from "next/image";
+import { DefaultSession } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Label } from "../ui/label";
 
-const citiesList = [
-  {
-    id: 1,
-    value: "Pangkalpinang",
-  },
-  {
-    id: 2,
-    value: "Bangka Tengah",
-  },
-  {
-    id: 3,
-    value: "Bangka Selatan",
-  },
-  {
-    id: 4,
-    value: "Bangka Barat",
-  },
-  {
-    id: 5,
-    value: "Bangka Induk",
-  },
-  {
-    id: 6,
-    value: "Belitung",
-  },
-  {
-    id: 7,
-    value: "Belitung Timur",
-  },
-];
+type Props = {
+  jobVacancyProvider: UserProps;
+  userGoogle:
+    | ({
+        id: string;
+        role: string;
+        email: string;
+        name: string;
+        image: string;
+      } & DefaultSession)
+    | undefined;
+  userId: string;
+};
 
 export function FormEditJobVacancyProviderProfile({
   jobVacancyProvider,
-}: {
-  jobVacancyProvider: UserProps;
-}) {
+  userGoogle,
+  userId,
+}: Props) {
   const queryClient = useQueryClient();
-  console.log(jobVacancyProvider);
+
   const {
     formState: { errors },
     getValues,
     register,
     handleSubmit,
+    setValue,
   } = useForm<z.infer<typeof editJobVacancyProviderProfileSchema>>({
     defaultValues: {
       full_name: jobVacancyProvider?.full_name ?? "",
-      company_type: "",
-      description: "",
-      city: "",
-      street: "",
+      company_type: jobVacancyProvider?.profile?.company_type ?? "",
+      description: jobVacancyProvider?.profile?.description_company ?? "",
+      city: jobVacancyProvider?.profile?.city ?? "",
+      street: jobVacancyProvider?.profile?.street ?? "",
       social_media: {
-        instagram: "",
-        facebook: "",
-        email: "",
+        instagram: jobVacancyProvider?.profile?.instagram ?? "",
+        facebook: jobVacancyProvider?.profile?.facebook ?? "",
+        gmail: jobVacancyProvider?.email ?? "",
       },
     },
     resolver: zodResolver(editJobVacancyProviderProfileSchema),
   });
 
   const editProfileMutation = useMutation({
-    mutationFn: async () => {},
+    mutationFn: async () =>
+      await editJobVacancyProviderProfile({
+        user_id: userId,
+        full_name: getValues("full_name"),
+        company_type: getValues("company_type"),
+        description: getValues("description"),
+        city: getValues("city"),
+        street: getValues("street"),
+        social_media: {
+          facebook: getValues("social_media.facebook"),
+          instagram: getValues("social_media.instagram"),
+          gmail: getValues("social_media.gmail"),
+        },
+        google_oauth: userGoogle ? true : false,
+      }),
     onSuccess: async (response) => {
-      // cek status dari response
-      /*if (response.status_code === 400) {
+      if (response.status_code === 400) {
         return toast({
           title: "Gagal mendaftarkan akun!",
           description: response.message,
           variant: "destructive",
         });
-      }*/
+      }
 
       await queryClient.invalidateQueries().then(() => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-
         toast({
           title: "Sukses mengupdate profile!",
           description: "Kamu Berhasil mengupdate profile!",
@@ -121,19 +118,33 @@ export function FormEditJobVacancyProviderProfile({
   return (
     <form className="w-full space-y-8" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex space-x-2 justify-start w-fit items-start">
-        <Image
-          src={jobVacancyProvider?.image ?? "/assets/fallback-user.svg"}
-          alt="company pic"
-          width={500}
-          height={500}
-          className="w-20 h-20 rounded-full"
-        />
+        <Avatar className="w-24 h-24 md:w-32 md:h-32">
+          {/* Gambar */}
+          {jobVacancyProvider?.image ? (
+            <AvatarImage
+              src={jobVacancyProvider.image}
+              alt="avatar"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <AvatarFallback className="bg-primary_color text-white text-2xl">
+              {jobVacancyProvider?.full_name
+                ?.split(" ")
+                .map((name: string) => name[0])
+                .join("")
+                .toUpperCase()
+                .slice(0, 2)}
+            </AvatarFallback>
+          )}
+        </Avatar>
         <Button className="bg-secondary_color_1 hover:bg-primary_color w-7 h-7">
           <PencilIcon />
         </Button>
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Nama Perusahaan</span>
+        <Label htmlFor="full_name" className="font-bold text-xl">
+          Nama Perusahaan
+        </Label>
         <Input
           {...register("full_name")}
           placeholder="Beritahu nama Perusahaanmu"
@@ -141,7 +152,9 @@ export function FormEditJobVacancyProviderProfile({
         {errors.full_name ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Industri</span>
+        <Label htmlFor="company_type" className="font-bold text-xl">
+          Industri
+        </Label>
         <Input
           {...register("company_type")}
           placeholder="Beritahu Bidang Industri Perusahaanmu"
@@ -149,7 +162,9 @@ export function FormEditJobVacancyProviderProfile({
         {errors.company_type ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Tentang Perusahaan</span>
+        <Label htmlFor="description" className="font-bold text-xl">
+          Tentang Perusahaan
+        </Label>
         <Input
           {...register("description")}
           placeholder="Beritahu tentang perusahaan"
@@ -157,10 +172,16 @@ export function FormEditJobVacancyProviderProfile({
         {errors.description ? <span></span> : null}
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Lokasi</span>
-        <Select>
+        <Label className="font-bold text-xl">Lokasi</Label>
+        <Select
+          onValueChange={(value) => setValue("city", value)}
+          defaultValue={jobVacancyProvider?.profile.city ?? "Lokasi"}
+          {...register("city")}
+        >
           <SelectTrigger className="w-44">
-            <SelectValue placeholder="Lokasi" />
+            <SelectValue
+              placeholder={jobVacancyProvider?.profile.city ?? "Lokasi"}
+            />
           </SelectTrigger>
           <SelectContent>
             {citiesList.map((item) => (
@@ -172,7 +193,9 @@ export function FormEditJobVacancyProviderProfile({
         </Select>
       </div>
       <div className="space-y-2">
-        <span className="font-bold text-xl">Alamat</span>
+        <Label htmlFor="street" className="font-bold text-xl">
+          Alamat
+        </Label>
         <Input
           {...register("street")}
           placeholder="Beritahu Alamat Lengkap Perusahaanmu"
@@ -180,10 +203,14 @@ export function FormEditJobVacancyProviderProfile({
         {errors.street ? <span></span> : null}
       </div>
       <div className="space-y-4">
-        <span className="font-bold text-xl">Sosial Media</span>
+        <Label htmlFor="social_media" className="font-bold text-xl">
+          Sosial Media
+        </Label>
         <div className="space-y-4">
           <div className="flex justify-center items-center space-x-2">
-            <InstagramIcon />
+            <Label htmlFor="social_media.instagram">
+              <InstagramIcon />
+            </Label>
             <Input
               {...register("social_media.instagram")}
               placeholder="Instagram.com"
@@ -191,7 +218,9 @@ export function FormEditJobVacancyProviderProfile({
             {errors.social_media?.instagram ? <span></span> : null}
           </div>
           <div className="flex justify-center items-center space-x-2">
-            <FacebookIcon />
+            <Label htmlFor="social_media.facebook">
+              <FacebookIcon />
+            </Label>
             <Input
               {...register("social_media.facebook")}
               placeholder="Facebook.com"
@@ -199,15 +228,19 @@ export function FormEditJobVacancyProviderProfile({
             {errors.social_media?.facebook ? <span></span> : null}
           </div>
           <div className="flex justify-center items-center space-x-2">
-            <MailIcon />
-            <Input
-              {...register("social_media.email")}
-              placeholder="Gmail.com"
-            />
-            {errors.social_media?.email ? <span></span> : null}
+            <Label htmlFor="social_media.gmail">
+              <MailIcon />
+              <Input
+                {...register("social_media.gmail")}
+                placeholder="Gmail.com"
+              />
+            </Label>
+            {errors.social_media?.gmail ? <span></span> : null}
           </div>
           <div className="flex justify-end items-center">
-            <Button className="bg-secondary_color_1">Simpan</Button>
+            <Button type="submit" className="bg-secondary_color_1">
+              Simpan
+            </Button>
           </div>
         </div>
       </div>

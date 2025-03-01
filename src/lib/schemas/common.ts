@@ -77,7 +77,7 @@ export const editJobVacancyProviderProfileSchema = z.object({
   social_media: z.object({
     instagram: z.string().url("Invalid Instagram URL format").optional(),
     facebook: z.string().url("Invalid Facebook URL format").optional(),
-    email: z.string().email("Invalid email format").optional(),
+    gmail: z.string().email("Invalid Gmail format").optional(),
   }),
 });
 
@@ -91,23 +91,27 @@ export const createJobVacancySchema = z.object({
       message: "Posisi pekerjaan wajib diisi",
     }),
   status_work: z.string({
-      required_error: "Status pekerjaan wajib harus diisi",
-      invalid_type_error: "Status pekerjaan wajib harus berupa text",
+    required_error: "Status pekerjaan wajib harus diisi",
+    invalid_type_error: "Status pekerjaan wajib harus berupa text",
   }),
   salary_range: z.string({
     required_error: "Gaji wajib harus diisi",
     invalid_type_error: "Gaji wajib harus berupa angka",
   }),
-  qualification: z.string({
-    required_error: "Kualifikasi harus diisi",
-    invalid_type_error: "Kualifikasi harus berupa text",
-  }).min(3, {
-    message: "Kualifikasi / Pesyaratan Pekerjaan wajib diisi",
-  }),
-  responsibilty: z.string({
-    required_error: "Tugas dan tanggung jawab harus diisi",
-    invalid_type_error: "Tugas dan tanggung jawab harus berupa text",
-  }).min(3, {
-    message: "Tugas dan tanggung jawab wajib diisi",
-  })
+  qualification: z
+    .string({
+      required_error: "Kualifikasi harus diisi",
+      invalid_type_error: "Kualifikasi harus berupa text",
+    })
+    .min(3, {
+      message: "Kualifikasi / Pesyaratan Pekerjaan wajib diisi",
+    }),
+  responsibilty: z
+    .string({
+      required_error: "Tugas dan tanggung jawab harus diisi",
+      invalid_type_error: "Tugas dan tanggung jawab harus berupa text",
+    })
+    .min(3, {
+      message: "Tugas dan tanggung jawab wajib diisi",
+    }),
 });

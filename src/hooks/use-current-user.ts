@@ -10,6 +10,7 @@ export function useCurrentUser() {
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
     retry: false,
+    refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5, // Cache selama 5 menit
   });
 

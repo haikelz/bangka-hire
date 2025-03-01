@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,60 +12,18 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useGetUserServer } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
+import { createJobVacancySchema } from "@/lib/schemas/common";
+import { rangeSalary, statusWork } from "@/lib/static";
 import { createJob, getCompanyByUserId } from "@/services/common";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { id } from "date-fns/locale";
-import { FacebookIcon, InstagramIcon, Loader, Loader2, MailIcon } from "lucide-react";
+import { Loader } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IsPendingClient } from "../react-query/is-pending-client";
-import Link from "next/link";
-import { applyJobSchema, createJobVacancySchema } from "@/lib/schemas/common";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-const statusWork = [
-  {
-    id: 1,
-    value: "Magang",
-  },
-  {
-    id: 2,
-    value: "Part Time",
-  },
-  {
-    id: 3,
-    value: "Full Time",
-  },
-  {
-    id: 4,
-    value: "Freelance",
-  }
-];
-
-const rangeSalary = [
-  {
-    id: 0,
-    value: "Negotiable",
-  },
-  {
-    id: 1,
-    value: "<1.000.000",
-  },
-  {
-    id: 2,
-    value: "2.000.000 - 6.000.000",
-  },
-  {
-    id: 3,
-    value: "6.000.000 - 10.000.000",
-  },
-  {
-    id: 4,
-    value: ">10.000.000",
-  }
-]
+import { IsPendingClient } from "../react-query/is-pending-client";
 
 export default function FormAddJobs() {
   const {
@@ -77,15 +35,15 @@ export default function FormAddJobs() {
     formState: { errors },
   } = useForm<z.infer<typeof createJobVacancySchema>>({
     resolver: zodResolver(createJobVacancySchema),
-  })
-  const router = useRouter()
-  const { user } = useGetUserServer()
+  });
+  const router = useRouter();
+  const { user } = useGetUserServer();
 
-  const companyId = user?.profile?.id
-  const [isDataLoaded, setIsDataLoaded] = useState(false)
+  const companyId = user?.profile?.id;
+  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
 
   // mengambil nilai true false apakah user sudah memiliki profile
-  const { data, isPending, isError} = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["already-create-profile", user?.id],
     queryFn: async () => {
       // di cek dulu apakah userID sudah ada atau belum
@@ -95,7 +53,7 @@ export default function FormAddJobs() {
     retry: false,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
-  })
+  });
 
   // Menggunakan useEffect untuk menandai data telah dimuat setelah query selesai
   useEffect(() => {
@@ -104,7 +62,7 @@ export default function FormAddJobs() {
     }
   }, [isPending, data]);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const addJobMutation = useMutation({
     mutationFn: async () =>
@@ -144,7 +102,7 @@ export default function FormAddJobs() {
         variant: "destructive",
       });
     },
-  })
+  });
 
   async function onSubmit() {
     await addJobMutation.mutateAsync();
@@ -159,11 +117,16 @@ export default function FormAddJobs() {
   if (data?.exists === false) {
     return (
       <div className="flex flex-col items-center justify-center h-[75vh] w-full">
-        <h1 className="text-xl md:text-2xl font-bold">Profile Perusahaan Anda Belum Lengkap</h1>
+        <h1 className="text-xl md:text-2xl font-bold">
+          Profile Perusahaan Anda Belum Lengkap
+        </h1>
         <p className="text-xs md:text-sm text-muted-foreground">
           Silahkan lengkapi profile perusahaan anda terlebih dahulu
         </p>
-        <Link href="/dashboard/profile" className="mt-4 text-primary_color underline text-[10px] md:text-xs">
+        <Link
+          href="/dashboard/profile"
+          className="mt-4 text-primary_color underline text-[10px] md:text-xs"
+        >
           Lengkapi Profile
         </Link>
       </div>
@@ -172,83 +135,125 @@ export default function FormAddJobs() {
 
   if (data?.exists) {
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-8 py-8 px-8">
-            <div className="space-y-2">
-              <span className="font-bold text-lg md:text-xl">Posisi Pekerjaan</span>
-              <Input className="text-sm md:text-base" {...register("position_job")} type="text" placeholder="Beritahu Posisi Pekerjaan" autoComplete="off"/>
-              {errors.position_job && <p className="text-xs md:text-sm text-red-500">{errors.position_job.message}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <h1 className="font-bold text-xl md:text-2xl mb-2">Informasi Pekerjaan</h1>
-              <span className="font-bold text-lg md:text-xl">Status Pekerjaan</span>
-              <Select onValueChange={(value) => setValue("status_work", value)} >
-                <SelectTrigger  className="w-44 text-sm md:text-base">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent className="text-sm md:text-base">
-                  {statusWork.map((item) => (
-                    <SelectItem  key={item.id} value={item.value}>
-                      {item.value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.status_work && <p className="text-xs md:text-sm text-red-500">{errors.status_work.message}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <span className="font-bold text-lg md:text-xl">Range Gaji</span>
-              <Select onValueChange={(value) => setValue("salary_range", value)}>
-                <SelectTrigger className="w-60 text-sm md:text-base">
-                  <SelectValue placeholder="Gaji" />
-                </SelectTrigger>
-                <SelectContent className="text-sm md:text-base w-auto">
-                  {rangeSalary.map((item) => (
-                    <SelectItem  key={item.id} value={item.value}>
-                      {item.value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.salary_range && <p className="text-xs md:text-sm text-red-500">{errors.salary_range.message}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <span className="font-bold text-lg md:text-xl">Tanggung Jawab</span>
-              <Textarea className="text-sm md:text-base" {...register("responsibilty")} placeholder="Beritahu Tanggung Jawab Dari Posisi Pekerjaan" rows={4} />
-              {errors.responsibilty && <p className="text-xs md:text-sm text-red-500">{errors.responsibilty.message}</p>}
-            </div>
-
-            <div className="space-y-4">
-              <span className="font-bold text-lg md:text-xl">Kualifikasi / Persyaratan</span>
-              <Textarea className="text-sm md:text-base" {...register("qualification")} placeholder="Beritahu Kualifikasi / Persyaratan Dari Posisi Pekerjaan" rows={4} />
-              {errors.qualification && <p className="text-xs md:text-sm text-red-500">{errors.qualification.message}</p>}
-            </div>
-
-            <div className="flex justify-end items-center text-sm md:text-base">
-              {addJobMutation.isPending ?
-                <Button type="submit" className="bg-secondary_color_1" disabled>
-                    <Loader className="h-4 w-4 animate-spin" />
-                </Button>
-                :
-                <Button type="submit" className="bg-secondary_color_1">
-                    Simpan
-                </Button>
-              }
-            </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-8 py-8 px-8">
+          <div className="space-y-2">
+            <span className="font-bold text-lg md:text-xl">
+              Posisi Pekerjaan
+            </span>
+            <Input
+              className="text-sm md:text-base"
+              {...register("position_job")}
+              type="text"
+              placeholder="Beritahu Posisi Pekerjaan"
+              autoComplete="off"
+            />
+            {errors.position_job && (
+              <p className="text-xs md:text-sm text-red-500">
+                {errors.position_job.message}
+              </p>
+            )}
           </div>
-        </form>
+
+          <div className="space-y-2">
+            <h1 className="font-bold text-xl md:text-2xl mb-2">
+              Informasi Pekerjaan
+            </h1>
+            <span className="font-bold text-lg md:text-xl">
+              Status Pekerjaan
+            </span>
+            <Select onValueChange={(value) => setValue("status_work", value)}>
+              <SelectTrigger className="w-44 text-sm md:text-base">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent className="text-sm md:text-base">
+                {statusWork.map((item) => (
+                  <SelectItem key={item.id} value={item.value}>
+                    {item.value}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.status_work && (
+              <p className="text-xs md:text-sm text-red-500">
+                {errors.status_work.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <span className="font-bold text-lg md:text-xl">Range Gaji</span>
+            <Select onValueChange={(value) => setValue("salary_range", value)}>
+              <SelectTrigger className="w-60 text-sm md:text-base">
+                <SelectValue placeholder="Gaji" />
+              </SelectTrigger>
+              <SelectContent className="text-sm md:text-base w-auto">
+                {rangeSalary.map((item) => (
+                  <SelectItem key={item.id} value={item.value}>
+                    {item.value}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.salary_range && (
+              <p className="text-xs md:text-sm text-red-500">
+                {errors.salary_range.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <span className="font-bold text-lg md:text-xl">Tanggung Jawab</span>
+            <Textarea
+              className="text-sm md:text-base"
+              {...register("responsibilty")}
+              placeholder="Beritahu Tanggung Jawab Dari Posisi Pekerjaan"
+              rows={4}
+            />
+            {errors.responsibilty && (
+              <p className="text-xs md:text-sm text-red-500">
+                {errors.responsibilty.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-4">
+            <span className="font-bold text-lg md:text-xl">
+              Kualifikasi / Persyaratan
+            </span>
+            <Textarea
+              className="text-sm md:text-base"
+              {...register("qualification")}
+              placeholder="Beritahu Kualifikasi / Persyaratan Dari Posisi Pekerjaan"
+              rows={4}
+            />
+            {errors.qualification && (
+              <p className="text-xs md:text-sm text-red-500">
+                {errors.qualification.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex justify-end items-center text-sm md:text-base">
+            {addJobMutation.isPending ? (
+              <Button type="submit" className="bg-secondary_color_1" disabled>
+                <Loader className="h-4 w-4 animate-spin" />
+              </Button>
+            ) : (
+              <Button type="submit" className="bg-secondary_color_1">
+                Simpan
+              </Button>
+            )}
+          </div>
+        </div>
+      </form>
     );
   }
 
   return (
     <div className="flex items-center justify-center h-[75vh] w-full gap-5">
       <Loader className="h-6 w-6 md:h-8 md:w-8 animate-spin" />
-      <p className="text-lg md:text-xl font-medium">
-        Tunggu Sebentar...
-      </p>
+      <p className="text-lg md:text-xl font-medium">Tunggu Sebentar...</p>
     </div>
-  )
+  );
 }
