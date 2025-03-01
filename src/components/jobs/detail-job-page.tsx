@@ -52,11 +52,8 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
     staleTime: 1000 * 60 * 5,
   });
 
-
-
   const job = data?.data as JobProps;
 
-  console.log(job, job_id);
 
   // mencari jumlah rata rata rating
   const averageRating = function () {

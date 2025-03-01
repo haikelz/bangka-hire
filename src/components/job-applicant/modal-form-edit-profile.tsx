@@ -101,7 +101,7 @@ export function ModalFormEditProfile({
           <Avatar className="w-24 h-24 md:w-32 md:h-32">
             {/* Gambar */}
             {userInfo?.image ? (
-              <AvatarImage src={userInfo?.image} alt="avatar" />
+              <AvatarImage src={userInfo?.image} alt="avatar" referrerPolicy="no-referrer" />
             ) : (
               <AvatarFallback className="bg-primary_color text-white text-2xl">
                 {userInfo?.full_name

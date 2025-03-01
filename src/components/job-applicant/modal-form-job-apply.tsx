@@ -7,7 +7,7 @@ import { createApplyJob, getUserOnJobs } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader, LockIcon, VerifiedIcon, X } from "lucide-react";
+import { Loader, LockIcon, Upload, VerifiedIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -24,6 +24,8 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { UploadButton, Uploader } from "@/lib/uploadthing";
+import { tr } from "date-fns/locale";
 
 type ModalFormJobApplyProps = {
   openModal: boolean;
@@ -38,6 +40,9 @@ export function ModalFormJobApply({
 }: ModalFormJobApplyProps) {
   const { user }: { user: UserProps } = useGetUserServer();
   const [fileName, setFileName] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // mengambil data user on jobs untuk mengecek jika user sudah lamar atau belum
@@ -64,13 +69,6 @@ export function ModalFormJobApply({
     resolver: zodResolver(applyJobSchema),
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Ambil file pertama yang di-upload
-    if (file) {
-      setFileName(file.name);
-      setValue("cv", file); // Masukkan file ke dalam useForm
-    }
-  };
 
   const handleRemoveFile = () => {
     if (fileName) {
@@ -88,12 +86,14 @@ export function ModalFormJobApply({
   const queryClient = useQueryClient();
 
   const applyJobMutation = useMutation({
-    mutationFn: async () =>
-      await createApplyJob({
+    mutationFn: async () => {
+
+      return await createApplyJob({
         user_id: user?.id,
         job_id: job_id,
-        cv: fileName || "",
-      }),
+        cv: fileUrl || "",
+      })
+    },
     onSuccess: async (response) => {
       // cek status dari response
       if (response.status_code === 400) {
@@ -122,6 +122,38 @@ export function ModalFormJobApply({
       });
     },
   });
+
+   // Function untuk handle upload selesai
+   const handleUploadComplete = (res : any) => {
+    if (res && res.length > 0) {
+      const uploadedFileUrl = res[0].url;
+      setFileUrl(uploadedFileUrl);
+      const namaFile = res[0].name;
+      // agar bisa valdation melalui zod
+      const fakeFile = new File([namaFile], namaFile, { type: "application/pdf" });
+
+      setValue("cv", fakeFile, { shouldValidate: true });
+      setFileName(res[0].name);
+      setUploadProgress(100);
+      setIsUploading(false);
+
+      toast({
+        title: "Upload CV berhasil!",
+        description: "CV berhasil diupload, silahkan klik tombol Kirim untuk mengirim lamaran",
+      });
+    }
+  };
+
+  // Function untuk handle upload error
+  const handleUploadError = (error : any) => {
+    console.error("Error uploading file:", error);
+    setIsUploading(false);
+    toast({
+      title: "Gagal mengupload CV!",
+      description: error.message || "Terjadi kesalahan saat mengupload CV",
+      variant: "destructive",
+    });
+  };
 
   // handleSubmit
   async function onSubmit() {
@@ -216,27 +248,34 @@ export function ModalFormJobApply({
 
             <div>
               <div className="flex gap-2 items-center">
-                <Label
-                  htmlFor="cv"
-                  className="bg-secondary_color_3 w-1/3 text-xs md:text-sm px-4 py-2 rounded-lg cursor-pointer hover:bg-secondary_color_1 duration-300 ease-in-out hover:text-white text-center"
-                >
-                  Upload CV
-                </Label>
-                <Input
-                  {...register("cv")}
-                  type="file"
-                  accept=".pdf"
-                  id="cv"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  ref={fileInputRef}
+                <UploadButton
+                  endpoint={"cvUploader"}
+                  onClientUploadComplete={(res) =>
+                    handleUploadComplete(res)
+                  }
+                  onUploadError={(error) => handleUploadError(error)}
+                  onUploadBegin={() => {
+                    setIsUploading(true)
+                    setUploadProgress(0)
+                  }}
+                  onUploadProgress={(e) => {
+                    setUploadProgress(e)
+                  }}
+                  appearance={{
+                    button: "bg-primary_color w-full text-xs md:text-sm px-5 py-3 rounded-lg hover:bg-secondary_color_1 duration-300 ease-in-out hover:text-white text-center"
+                   }}
+                  className="w-1/3"
+                  content={{
+                    button: isUploading ? `Uploading... ${uploadProgress}%` : "Upload CV",
+                    allowedContent : "Mask File PDF (2MB)"
+                  }}
+                  disabled={isUploading}
                 />
-                {/* Tampilkan nama file yang dipilih */}
                 {fileName && (
                   <div className="flex items-center gap-2 bg-gray-100 px-2 rounded-lg">
-                    <p className="text-xs line-clamp-1 md:text-sm text-gray-700">
+                    <Link href={fileUrl || "#"} target="_blank" className="text-xs line-clamp-1 md:text-sm text-gray-700 hover:underline">
                       {fileName}
-                    </p>
+                    </Link>
                     <Button
                       type="button"
                       variant="ghost"
@@ -258,8 +297,9 @@ export function ModalFormJobApply({
             <Button
               type="submit"
               className="w-full bg-secondary_color_3 text-black hover:text-white hover:bg-secondary_color_1"
+              disabled={isUploading || applyJobMutation.isPending}
             >
-              {applyJobMutation.isPending ? (
+              {applyJobMutation.isPending || isUploading ? (
                 <Loader className="h-4 w-4 animate-spin" />
               ) : (
                 "Kirim"

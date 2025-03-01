@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     data: {
       user_id: user_id,
       jobs_id: job_id,
-      // cv
+      cv
     },
   });
 
