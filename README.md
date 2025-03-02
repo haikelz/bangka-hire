@@ -45,7 +45,7 @@
 
 ## Entity Relationship Diagram
 
-![ERD](./Entity-Relationship-Diagram.png)
+![ERD](./public/docs/Entity-Relationship-Diagram.png)
 
 ## Technologies
 
