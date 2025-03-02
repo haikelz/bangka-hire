@@ -89,17 +89,17 @@ export type CreateJobProps = {
   qualification: string;
   responsibilty: string;
   status_work: string;
-};
+}
 
 export type ProfilCompanyProps = {
   id: string;
   user_id: string;
   description_company: string;
-  company_type: string;
   street: string;
   city: string;
+  company_type: string;
   total_employers: string;
-  gmail: string;
+  gmail?: string;
   facebook?: string;
   instagram?: string;
   linkedin?: string;
@@ -141,3 +141,4 @@ export type EditJobVacancyProviderProfileProps = {
     gmail?: string;
   };
 };
+

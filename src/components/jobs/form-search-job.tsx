@@ -71,12 +71,12 @@ export default function FormSearchJob() {
             Pilih Lokasi...
           </option>
           <option value="Pangkal Pinang">Pangkal Pinang</option>
-          <option value="Sungailiat">Sungailiat</option>
-          <option value="Koba">Koba</option>
-          <option value="Toboali">Toboali</option>
-          <option value="Muntok">Muntok</option>
-          <option value="Tanjung Pandan">Tanjung Pandan</option>
-          <option value="Manggar">Manggar</option>
+          <option value="Sungailiat">Bangka Induk</option>
+          <option value="Koba">Bangka Tengah</option>
+          <option value="Toboali">Bangka Barat</option>
+          <option value="Muntok">Bangka Selatan</option>
+          <option value="Tanjung Pandan">Belitung</option>
+          <option value="Manggar">Belitung Timur</option>
         </select>
 
         {/* Custom Icon */}

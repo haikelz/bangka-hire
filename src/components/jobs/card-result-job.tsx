@@ -33,7 +33,7 @@ export default function CardResultJob({ data }: { data: JobProps }) {
           {/* location */}
           <div className="flex items-center gap-2">
             <Image className="w-4" src={location} alt="Location" />
-            <p>{data.company.city}</p>
+            <p>{data.company.city}, Bangka Belitung</p>
           </div>
 
           {/* salary */}

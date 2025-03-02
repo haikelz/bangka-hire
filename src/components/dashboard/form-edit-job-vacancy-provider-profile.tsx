@@ -67,7 +67,7 @@ export function FormEditJobVacancyProviderProfile({
       social_media: {
         instagram: jobVacancyProvider?.profile?.instagram ?? "",
         facebook: jobVacancyProvider?.profile?.facebook ?? "",
-        gmail: jobVacancyProvider?.profile.gmail ?? "",
+        gmail: jobVacancyProvider?.profile?.gmail ?? "",
       },
     },
     resolver: zodResolver(editJobVacancyProviderProfileSchema),
@@ -194,12 +194,12 @@ export function FormEditJobVacancyProviderProfile({
         <Label className="font-bold text-xl">Lokasi</Label>
         <Select
           onValueChange={(value) => setValue("city", value)}
-          defaultValue={jobVacancyProvider?.profile.city ?? "Lokasi"}
+          defaultValue={jobVacancyProvider?.profile?.city ?? "Lokasi"}
           {...register("city")}
         >
           <SelectTrigger className="w-44">
             <SelectValue
-              placeholder={jobVacancyProvider?.profile.city ?? "Lokasi"}
+              placeholder={jobVacancyProvider?.profile?.city ?? "Lokasi"}
             />
           </SelectTrigger>
           <SelectContent>
