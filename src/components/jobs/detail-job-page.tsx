@@ -66,7 +66,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
   };
 
   // kalau pending
-  if (isPending) return <IsPendingClient className="h-svh" />;
+  if (isPending) return <IsPendingClient className="min-h-svh mt-6" />;
   if (isError) return <IsErrorClient />;
 
   return (

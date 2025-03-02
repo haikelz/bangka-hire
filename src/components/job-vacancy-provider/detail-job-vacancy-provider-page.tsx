@@ -38,7 +38,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <IsPendingClient className="h-svh" />;
+  if (isPending) return <IsPendingClient className="min-h-svh mt-6" />;
   if (isError) return <IsErrorClient />;
 
   const jobVacancyProvider = data?.data.data as ProfilCompanyProps;

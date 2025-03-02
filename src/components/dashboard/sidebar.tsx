@@ -14,7 +14,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="min-h-svh sticky top-0 hidden md:flex justify-start items-center flex-col w-fit p-6 h-full bg-secondary_color_2">
+    <aside className="min-h-svh sticky top-0 hidden md:flex justify-start items-center w-72 flex-col p-6 h-full bg-secondary_color_2">
       <div className="flex items-center justify-start w-full flex-col">
         <Avatar className="w-24 h-24 md:w-[60px] md:h-[60px]">
           {/* Gambar */}

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: ChildrenProps) {
   return (
-    <div className="flex justify-start items-start w-full">
+    <div className="flex justify-start items-start w-full mt-16 md:mt-0">
       <Sidebar />
       <div className="w-full h-full">
         <Header />

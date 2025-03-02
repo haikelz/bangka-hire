@@ -90,10 +90,9 @@ export function FormEditJobVacancyProviderProfile({
         google_oauth: userGoogle ? true : false,
       }),
     onSuccess: async (response) => {
-      console.log(response);
       if (response.status_code === 400) {
         return toast({
-          title: "Gagal mendaftarkan akun!",
+          title: "Gagal mengupdate profile!",
           description: response.message,
           variant: "destructive",
         });

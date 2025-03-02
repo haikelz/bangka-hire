@@ -15,8 +15,6 @@ export async function PUT(req: NextRequest) {
     social_media,
   } = await req.json();
 
-  console.log(street);
-
   const existingJobApplicant = await db.user.findUnique({
     where: {
       id: user_id,

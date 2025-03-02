@@ -16,10 +16,10 @@ export function Header() {
 
   return (
     <>
-      <header className="border-b border-b-secondary_color_1 py-4 px-8 w-full sticky top-0 z-50 bg-white/70 backdrop-blur-md">
+      <header className="border-b border-b-secondary_color_1 p-4 w-full fixed md:sticky top-0 z-50 bg-white/70 backdrop-blur-md">
         <nav className="w-full">
           <div className="w-full flex justify-between items-center">
-            <h2 className="text-black capitalize font-bold text-xl md:text-4xl">
+            <h2 className="text-black capitalize font-bold text-xl md:text-3xl">
               {formatPathname}
             </h2>
             <Image
@@ -27,7 +27,7 @@ export function Header() {
               alt="logo"
               width={200}
               height={200}
-              className="md:w-[138px] h-10 hidden md:block w-20 md:h-[77px]"
+              className="md:w-28 h-10 hidden md:block w-20 md:h-16"
             />
             <Button
               size="icon"

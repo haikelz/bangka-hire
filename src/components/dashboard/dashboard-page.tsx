@@ -30,7 +30,7 @@ export function DashboardPage() {
       await getJobs({
         page: currentPage,
         limit: 8,
-        companyId: userId,
+        id: userId,
       }),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

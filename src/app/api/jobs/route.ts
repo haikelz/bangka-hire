@@ -15,9 +15,9 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
     const limit: number = Number(
       req?.nextUrl?.searchParams.get("limit") as string
     );
-    const companyId = req?.nextUrl?.searchParams.get("companyId") as string;
+    const id = req?.nextUrl?.searchParams.get("id") as string;
 
-    const isCompanyId = companyId !== "undefined";
+    const isId = id !== "undefined";
 
     const skip = (page - 1) * limit; // menghitung skip
 
@@ -64,9 +64,11 @@ export async function GET(req: NextRequest, props: APIRouteParamsProps) {
           {
             OR: [
               {
-                company_id: {
-                  contains: isCompanyId ? companyId : "",
-                  mode: "insensitive",
+                company: {
+                  user_id: {
+                    contains: isId ? id : "",
+                    mode: "insensitive",
+                  },
                 },
               },
             ],
