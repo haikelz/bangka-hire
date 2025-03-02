@@ -27,7 +27,7 @@ export function EditJobVacancyProviderProfilePage() {
 
   if (isPending)
     return (
-      <div className="w-full px-8">
+      <div className="w-full px-4 md:px-8">
         <IsPendingClient className="w-full my-10 min-h-svh h-full" />
       </div>
     );

@@ -7,6 +7,7 @@ const nextConfig = withSentryConfig(
     compress: true,
     experimental: {
       webpackBuildWorker: true,
+      optimizePackageImports: ["@radix-ui/*"],
     },
     images: {
       remotePatterns: [

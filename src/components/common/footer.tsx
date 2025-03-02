@@ -1,3 +1,4 @@
+import { yearNow } from "@/lib/date";
 import Image from "next/image";
 import Link from "next/link";
 import facebook from "../../../public/assets/facebook.png";
@@ -19,12 +20,29 @@ export default function Footer() {
             </p>
             {/* sosmed */}
             <div className="flex gap-4 items-center">
-              <Image src={instagram} className="w-6 h-6" alt="instagram" />
-              <Image src={facebook} className="w-6 h-6" alt="facebook" />
-              <Image src={thread} className="w-6 h-6" alt="thread" />
+              <Image
+                width={20}
+                height={20}
+                src={instagram}
+                className="w-6 h-6"
+                alt="instagram"
+              />
+              <Image
+                width={20}
+                height={20}
+                src={facebook}
+                className="w-6 h-6"
+                alt="facebook"
+              />
+              <Image
+                width={20}
+                height={20}
+                src={thread}
+                className="w-6 h-6"
+                alt="thread"
+              />
             </div>
           </div>
-
           {/* menu navbar */}
           <div className="sm:space-y-4 flex flex-col w-fit justify-center md:inline-block md:gap-0 items-start text-sm lg:text-base">
             <h1 className="font-bold">Quick Link</h1>
@@ -50,7 +68,7 @@ export default function Footer() {
         <div className="space-y-4">
           <div className="w-full h-[2px] bg-white mt-10"></div>
           <p className="text-center text-sm lg:text-lg">
-            Copyright BabelHire Team © 2025. All Rights Reserved.
+            Copyright BabelHire Team ©{yearNow}. All Rights Reserved.
           </p>
         </div>
       </Layout>
