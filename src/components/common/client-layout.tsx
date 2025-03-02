@@ -13,7 +13,7 @@ export default function ClientLayout({
 }) {
   const pathname = usePathname();
 
-  const excludedPages = ["/dashboard", "/admin", "/404", "/auth"].some((str) =>
+  const excludedPages = ["/dashboard", "/admin", "/auth", "/404"].some((str) =>
     pathname.includes(str)
   );
 

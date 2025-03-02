@@ -18,3 +18,5 @@ export function formatTanggal(createdAt: Date) {
   // Jika lebih dari 7 hari, tampilkan format tanggal
   return format(date, "dd, MMM yyyy", { locale: id });
 }
+
+export const yearNow = new Date().getFullYear();

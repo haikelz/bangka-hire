@@ -1,32 +1,39 @@
 "use client";
 
 import { getJobVacancyProviders } from "@/services/common";
+import { valueSearchCompany } from "@/store";
 import { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { Search } from "lucide-react";
+import Image from "next/image";
+import { FormEvent, useEffect, useState } from "react";
+import hero from "../../../public/assets/cari-perusahaan.png";
 import Layout from "../common/container";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
-import CardSearchJobVacancyProvider from "./card-search-job-vacancy-provider";
-import Image from "next/image";
-import { Search } from "lucide-react";
 import { Input } from "../ui/input";
-import hero from "../../../public/assets/cari-perusahaan.png"
-import { useAtom } from "jotai";
-import { valueSearchCompany } from "@/store";
-import { FormEvent, useEffect, useState } from "react";
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
+import CardSearchJobVacancyProvider from "./card-search-job-vacancy-provider";
 
 export function SearchJobVacancyProviderPage() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchCompany, setSearchCompany] = useAtom(valueSearchCompany)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchCompany, setSearchCompany] = useAtom(valueSearchCompany);
 
   useEffect(() => {
-    setCurrentPage(1)
-  }, [searchCompany])
+    setCurrentPage(1);
+  }, [searchCompany]);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["job-vacancy-providers", searchCompany, currentPage],
-    queryFn: async () => await getJobVacancyProviders(currentPage, 8, searchCompany),
+    queryFn: async () =>
+      await getJobVacancyProviders(currentPage, 8, searchCompany),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     staleTime: 1000 * 60 * 5,
@@ -37,7 +44,6 @@ export function SearchJobVacancyProviderPage() {
     const formData = new FormData(e.currentTarget);
     setSearchCompany(formData.get("company") as string);
   }
-
 
   if (isError) return <IsErrorClient />;
 
@@ -88,58 +94,58 @@ export function SearchJobVacancyProviderPage() {
       </section>
       {isPending ? (
         <IsPendingClient className="my-10 h-64" />
-      ) : (
-        jobVacancyProviders && jobVacancyProviders.length ? (
-          <Layout>
-            <div className="mb-4">
-              <h1 className="font-bold md:text-lg">Jelajahi Perusahaan</h1>
-              <p className="text-sm md:text-base">Lihat lebih banyak lagi dan berikan ulasan perusahaan</p>
-            </div>
+      ) : jobVacancyProviders && jobVacancyProviders.length ? (
+        <Layout>
+          <div className="mb-4">
+            <h1 className="font-bold md:text-lg">Jelajahi Perusahaan</h1>
+            <p className="text-sm md:text-base">
+              Lihat lebih banyak lagi dan berikan ulasan perusahaan
+            </p>
+          </div>
 
-            {/* Kumpulan card cari perushaan */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
-              {jobVacancyProviders.map((item, i) => (
-                <CardSearchJobVacancyProvider key={i} data={item} />
-              ))}
-            </div>
-            {/* Pagination */}
-            {data?.data?.totalItems > 8 && totalPages > 1 && (
-              <Pagination className="mt-10">
-                <PaginationContent className="flex justify-center items-center gap-2">
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                      className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
-                        currentPage === 1 ? "hidden" : ""
-                      }`}
-                    />
-                  </PaginationItem>
-                  <span className="font-medium text-sm">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() =>
-                        setCurrentPage((prev) =>
-                          prev < totalPages ? prev + 1 : prev
-                        )
-                      }
-                      className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
-                        currentPage === totalPages ? "hidden" : ""
-                      }`}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            )}
-          </Layout>
-        ) : (
-          <p className="text-xl font-bold text-center">
-            Belum ada perusahaan yang ditampilkan!
-          </p>
-        )
+          {/* Kumpulan card cari perushaan */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
+            {jobVacancyProviders.map((item, i) => (
+              <CardSearchJobVacancyProvider key={i} data={item} />
+            ))}
+          </div>
+          {/* Pagination */}
+          {data?.data?.totalItems > 8 && totalPages > 1 && (
+            <Pagination className="mt-10">
+              <PaginationContent className="flex justify-center items-center gap-2">
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                      currentPage === 1 ? "hidden" : ""
+                    }`}
+                  />
+                </PaginationItem>
+                <span className="font-medium text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      setCurrentPage((prev) =>
+                        prev < totalPages ? prev + 1 : prev
+                      )
+                    }
+                    className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                      currentPage === totalPages ? "hidden" : ""
+                    }`}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
+        </Layout>
+      ) : (
+        <p className="text-xl font-bold text-center">
+          Belum ada perusahaan yang ditampilkan!
+        </p>
       )}
     </main>
   );

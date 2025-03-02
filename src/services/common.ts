@@ -51,7 +51,7 @@ type GetJobsParamProps = {
   search?: string;
   city?: string;
   salary?: string;
-  companyId?: string;
+  id?: string;
 };
 
 // mengambil semua data job di database
@@ -61,11 +61,11 @@ export async function getJobs({
   search = "",
   city = "",
   salary = "",
-  companyId = "",
+  id = "",
 }: GetJobsParamProps) {
   try {
     const response = await axiosClient.get(
-      `/jobs?search=${search}&city=${city}&salary=${salary}&page=${page}&limit=${limit}&companyId=${companyId}`
+      `/jobs?search=${search}&city=${city}&salary=${salary}&page=${page}&limit=${limit}&id=${id}`
     );
     return response;
   } catch (error) {

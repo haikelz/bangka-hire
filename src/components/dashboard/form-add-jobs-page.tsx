@@ -110,7 +110,11 @@ export default function FormAddJobs() {
 
   // Loading state
   if (!isDataLoaded || isPending) {
-    return <IsPendingClient className="w-full h-svh my-8" />;
+    return (
+      <div className="w-full px-4 md:px-8">
+        <IsPendingClient className="w-full h-svh my-10" />;
+      </div>
+    );
   }
 
   // Tidak ada profil perusahaan

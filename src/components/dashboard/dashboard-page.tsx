@@ -25,12 +25,12 @@ export function DashboardPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ["get-jobs", currentPage],
+    queryKey: ["get-jobs", currentPage, userId],
     queryFn: async () =>
       await getJobs({
         page: currentPage,
         limit: 8,
-        companyId: userId,
+        id: userId,
       }),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -39,7 +39,11 @@ export function DashboardPage() {
   });
 
   if (isPending)
-    return <IsPendingClient className="w-full mt-10 min-h-svh h-full" />;
+    return (
+      <div className="w-full px-4 md:px-8">
+        <IsPendingClient className="w-full my-10 min-h-svh h-full" />
+      </div>
+    );
   if (isError) return <IsErrorClient />;
 
   const jobs = data?.data?.data as JobProps[];

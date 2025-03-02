@@ -25,7 +25,12 @@ export function EditJobVacancyProviderProfilePage() {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <IsPendingClient className="my-10 h-[50vh]" />;
+  if (isPending)
+    return (
+      <div className="w-full px-4 md:px-8">
+        <IsPendingClient className="w-full my-10 min-h-svh h-full" />
+      </div>
+    );
   if (isError) return <IsErrorClient />;
 
   const jobVacancyProvider = data?.user as UserProps;

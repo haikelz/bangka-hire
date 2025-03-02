@@ -28,7 +28,6 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
   const [companyTab, setCompanyTab] = useAtom(companyTabAtom);
 
   const { user } = useCurrentUser();
-
   const userGoogle = useCurrentUserGoogle();
 
   const { data, isPending, isError } = useQuery({
@@ -39,7 +38,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) return <IsPendingClient className="h-svh" />;
+  if (isPending) return <IsPendingClient className="min-h-svh mt-6" />;
   if (isError) return <IsErrorClient />;
 
   const jobVacancyProvider = data?.data.data as ProfilCompanyProps;
@@ -55,7 +54,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
         <div className="space-y-5">
           <div className="flex sm:flex-row flex-col sm:space-x-10 space-y-2 sm:space-y-0 justify-between items-start w-fit">
             <Image
-              src="/assets/logo.png"
+              src={jobVacancyProvider.user?.image ?? "/assets/logo.png"}
               alt="company logo"
               width={77}
               height={77}
@@ -85,7 +84,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
                   width={16}
                   height={16}
                 />
-                <p>Web dan Teknologi</p>
+                <p>{jobVacancyProvider.company_type ?? "-"}</p>
               </div>
               <div className="space-x-1 flex justify-center items-center w-fit text-sm md:text-base ">
                 <Image
