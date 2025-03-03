@@ -196,9 +196,7 @@ export function FormEditJobVacancyProviderProfile({
           {...register("city")}
         >
           <SelectTrigger className="w-44">
-            <SelectValue
-              placeholder="Pilih Lokasi..."
-            />
+            <SelectValue placeholder="Pilih Lokasi..." />
           </SelectTrigger>
           <SelectContent>
             {citiesList.map((item) => (

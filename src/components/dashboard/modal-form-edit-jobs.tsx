@@ -1,16 +1,17 @@
 "use client";
 
 import { toast } from "@/hooks/use-toast";
-import { createJobVacancySchema, editProfileSchema } from "@/lib/schemas/common";
-import { editJobs, editProfile } from "@/services/common";
-import { JobProps, UserProps } from "@/types";
+import { createJobVacancySchema } from "@/lib/schemas/common";
+import { rangeSalary, statusWork } from "@/lib/static";
+import { editJobs } from "@/services/common";
+import { JobProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -20,11 +21,14 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { rangeSalary, statusWork } from "@/lib/static";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import { useEffect } from "react";
-
 
 type ModalFormEditProfileProps = {
   openModal: boolean;
@@ -108,13 +112,19 @@ export function ModalFormEditJobs({
       {/* Tombol untuk membuka modal */}
       <DialogTrigger asChild>
         {/* Tombol Edit Lamaran */}
-        <Image className="w-5 cursor-pointer" src="/assets/trigger-edit.svg" alt="Time" width={20} height={20} />
+        <Image
+          className="w-5 cursor-pointer"
+          src="/assets/trigger-edit.svg"
+          alt="Time"
+          width={20}
+          height={20}
+        />
       </DialogTrigger>
 
       {/* Konten Modal */}
       <DialogContent className="max-w-md sm:max-w-2xl rounded-lg">
         <DialogTitle className="flex items-center justify-center">
-            Edit Lowongan
+          Edit Lowongan
         </DialogTitle>
 
         {/* form edit jobs */}
@@ -145,23 +155,26 @@ export function ModalFormEditJobs({
               <Label htmlFor="status_work" className="text-xs md:text-base">
                 Status Pekerjaan
               </Label>
-              <Select onValueChange={(value) => setValue("status_work",value)} defaultValue={jobDetail?.status_work}>
-              <SelectTrigger className="w-60 text-sm md:text-base">
-                <SelectValue placeholder="Pilih status pekerjaan" />
-              </SelectTrigger>
-              <SelectContent className="text-sm md:text-base w-auto">
-                {statusWork.map((item) => (
-                  <SelectItem key={item.id} value={item.value}>
-                    {item.value}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.status_work && (
-              <p className="text-xs md:text-sm text-red-500">
-                {errors.status_work.message}
-              </p>
-            )}
+              <Select
+                onValueChange={(value) => setValue("status_work", value)}
+                defaultValue={jobDetail?.status_work}
+              >
+                <SelectTrigger className="w-60 text-sm md:text-base">
+                  <SelectValue placeholder="Pilih status pekerjaan" />
+                </SelectTrigger>
+                <SelectContent className="text-sm md:text-base w-auto">
+                  {statusWork.map((item) => (
+                    <SelectItem key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.status_work && (
+                <p className="text-xs md:text-sm text-red-500">
+                  {errors.status_work.message}
+                </p>
+              )}
             </div>
 
             {/* range gaji */}
@@ -169,23 +182,26 @@ export function ModalFormEditJobs({
               <Label htmlFor="salary_range" className="text-xs md:text-base">
                 Range Gaji
               </Label>
-              <Select onValueChange={(value) => setValue("salary_range",value)} defaultValue={jobDetail?.salary_range}>
-              <SelectTrigger className="w-60 text-sm md:text-base">
-                <SelectValue placeholder="Pilih range gaji..." />
-              </SelectTrigger>
-              <SelectContent className="text-sm md:text-base w-auto">
-                {rangeSalary.map((item) => (
-                  <SelectItem key={item.id} value={item.value}>
-                    {item.value}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.salary_range && (
-              <p className="text-xs md:text-sm text-red-500">
-                {errors.salary_range.message}
-              </p>
-            )}
+              <Select
+                onValueChange={(value) => setValue("salary_range", value)}
+                defaultValue={jobDetail?.salary_range}
+              >
+                <SelectTrigger className="w-60 text-sm md:text-base">
+                  <SelectValue placeholder="Pilih range gaji..." />
+                </SelectTrigger>
+                <SelectContent className="text-sm md:text-base w-auto">
+                  {rangeSalary.map((item) => (
+                    <SelectItem key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.salary_range && (
+                <p className="text-xs md:text-sm text-red-500">
+                  {errors.salary_range.message}
+                </p>
+              )}
             </div>
 
             {/* tanggung jawab */}
@@ -230,8 +246,8 @@ export function ModalFormEditJobs({
               )}
             </div>
 
-              <div className="flex items-center justify-end">
-                <Button
+            <div className="flex items-center justify-end">
+              <Button
                 type="submit"
                 className=" bg-secondary_color_3 text-black hover:text-white hover:bg-secondary_color_1"
                 disabled={editJobsMutation.isPending}
@@ -242,8 +258,7 @@ export function ModalFormEditJobs({
                   "Simpan"
                 )}
               </Button>
-              </div>
-
+            </div>
           </div>
         </form>
       </DialogContent>
