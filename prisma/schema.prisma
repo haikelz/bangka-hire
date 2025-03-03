@@ -56,6 +56,7 @@ model Job {
   qualification  String
   salary_min         Int?
   salary_max         Int?
+  salary_range       String
   status_work    String
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt

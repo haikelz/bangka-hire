@@ -71,6 +71,7 @@ export async function POST(req: NextRequest) {
       company_id,
       salary_min,
       salary_max,
+      salary_range,
       qualification,
       responsibilty,
       status_work,

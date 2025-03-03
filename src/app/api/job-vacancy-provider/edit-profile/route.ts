@@ -55,6 +55,7 @@ export async function PUT(req: NextRequest) {
       profile: {
         update: {
           company_type,
+          description_company: description,
           instagram: social_media.instagram,
           facebook: social_media.facebook,
           gmail: social_media.gmail,

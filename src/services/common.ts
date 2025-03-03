@@ -1,9 +1,11 @@
 import {
   CommentProps,
   CreateJobProps,
+  EditJobProps,
   EditJobVacancyProviderProfileProps,
   EditProfileUser,
   JobApplyProps,
+  JobProps,
 } from "@/types";
 import { axiosClient } from "./axios";
 
@@ -167,5 +169,24 @@ export async function editJobVacancyProviderProfile(
     return response.data;
   } catch (err) {
     throw new Error("Gagal mengedit profile!");
+  }
+}
+
+export async function editJobs(data: EditJobProps) {
+  try {
+    const response = await axiosClient.put(`/jobs/edit-jobs`, data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Gagal mengedit lowongan kerja!");
+  }
+}
+
+export async function deleteJob(id: string) {
+  try {
+    const response = await axiosClient.delete(`/jobs/delete-jobs/${id}`);
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal menghapus lowongan kerja!");
   }
 }

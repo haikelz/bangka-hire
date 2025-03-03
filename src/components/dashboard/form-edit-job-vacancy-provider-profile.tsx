@@ -62,7 +62,6 @@ export function FormEditJobVacancyProviderProfile({
       full_name: jobVacancyProvider?.full_name ?? "",
       company_type: jobVacancyProvider?.profile?.company_type ?? "",
       description: jobVacancyProvider?.profile?.description_company ?? "",
-      city: jobVacancyProvider?.profile?.city ?? "",
       street: jobVacancyProvider?.profile?.street ?? "",
       social_media: {
         instagram: jobVacancyProvider?.profile?.instagram ?? "",
@@ -193,12 +192,12 @@ export function FormEditJobVacancyProviderProfile({
         <Label className="font-bold text-xl">Lokasi</Label>
         <Select
           onValueChange={(value) => setValue("city", value)}
-          defaultValue={jobVacancyProvider?.profile?.city ?? "Lokasi"}
+          defaultValue={jobVacancyProvider?.profile?.city}
           {...register("city")}
         >
           <SelectTrigger className="w-44">
             <SelectValue
-              placeholder={jobVacancyProvider?.profile?.city ?? "Lokasi"}
+              placeholder="Pilih Lokasi..."
             />
           </SelectTrigger>
           <SelectContent>
