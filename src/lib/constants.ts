@@ -8,3 +8,6 @@ export const SENTRY_ORG = process.env.SENTRY_ORG as string;
 export const SENTRY_PROJECT = process.env.SENTRY_PROJECT as string;
 export const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN as string;
 export const NODE_ENV = process.env.NODE_ENV as "production" | "development";
+export const UPLOADTHING_TOKEN = process.env.UPLOADTHING_TOKEN as string;
+export const UPLOADTHING_SECRET_KEY = process.env
+  .UPLOADTHING_SECRET_KEY as string;

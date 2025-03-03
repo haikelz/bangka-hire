@@ -100,7 +100,7 @@ export type CreateJobProps = {
   qualification: string;
   responsibilty: string;
   status_work: string;
-}
+};
 
 export type ProfilCompanyProps = {
   id: string;
@@ -152,4 +152,3 @@ export type EditJobVacancyProviderProfileProps = {
     gmail?: string;
   };
 };
-

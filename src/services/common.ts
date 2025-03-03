@@ -5,7 +5,6 @@ import {
   EditJobVacancyProviderProfileProps,
   EditProfileUser,
   JobApplyProps,
-  JobProps,
 } from "@/types";
 import { axiosClient } from "./axios";
 

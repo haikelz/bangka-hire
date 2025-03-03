@@ -4,17 +4,16 @@ import { formatTanggal } from "@/lib/date";
 import { JobProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import location from "../../../public/assets/location.png";
 import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary.png";
 import status from "../../../public/assets/status-work.png";
 import time from "../../../public/assets/time.png";
 import { formatRupiah } from "../../lib/currency";
-import { usePathname } from "next/navigation";
-import { Delete, DeleteIcon } from "lucide-react";
-import { ModalFormEditJobs } from "../dashboard/modal-form-edit-jobs";
-import { useState } from "react";
 import ModalDeleteJobs from "../dashboard/modal-delete-jobs";
+import { ModalFormEditJobs } from "../dashboard/modal-form-edit-jobs";
 
 export default function CardResultJob({ data }: { data: JobProps }) {
   const pathname = usePathname();
@@ -23,9 +22,7 @@ export default function CardResultJob({ data }: { data: JobProps }) {
 
   return (
     <div className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">
-      <Link
-        href={`/jobs/${data.id}`}
-      >
+      <Link href={`/jobs/${data.id}`}>
         {/* Logo company */}
         <Image className="w-16 md:w-24" src={logo} alt="Logo" />
         {/* informasi singkat dari nama perusahaan, posisi, gaji, dll */}
@@ -52,15 +49,15 @@ export default function CardResultJob({ data }: { data: JobProps }) {
               <Image className="w-4" src={salary} alt="Salary" />
               <p>
                 {" "}
-                {data.salary_min && data.salary_max ? (
-                  `${formatRupiah(data.salary_min)} - ${formatRupiah(data.salary_max)}`
-                ) : data.salary_min && !data.salary_max ? (
-                  `>${formatRupiah(data.salary_min)}`
-                ) : data.salary_max && !data.salary_min ? (
-                  `<${formatRupiah(data.salary_max)}`
-                ) : (
-                  "Negotiable"
-                )}
+                {data.salary_min && data.salary_max
+                  ? `${formatRupiah(data.salary_min)} - ${formatRupiah(
+                      data.salary_max
+                    )}`
+                  : data.salary_min && !data.salary_max
+                  ? `>${formatRupiah(data.salary_min)}`
+                  : data.salary_max && !data.salary_min
+                  ? `<${formatRupiah(data.salary_max)}`
+                  : "Negotiable"}
               </p>
             </div>
 
@@ -73,7 +70,6 @@ export default function CardResultJob({ data }: { data: JobProps }) {
 
           {/* Garis pemisah */}
           <div className="w-full h-[2px] bg-primary_color"></div>
-
         </div>
       </Link>
       {/* waktu posting */}
@@ -87,12 +83,19 @@ export default function CardResultJob({ data }: { data: JobProps }) {
         {pathname === "/dashboard" && (
           <>
             <div className="flex items-center gap-1">
-              <ModalFormEditJobs openModal={openModalEdit} setOpenModal={setOpenModalEdit} jobDetail={data}   />
-              <ModalDeleteJobs openModal={openModalDelete} setOpenModal={setOpenModalDelete} jobId={data.id} />
+              <ModalFormEditJobs
+                openModal={openModalEdit}
+                setOpenModal={setOpenModalEdit}
+                jobDetail={data}
+              />
+              <ModalDeleteJobs
+                openModal={openModalDelete}
+                setOpenModal={setOpenModalDelete}
+                jobId={data.id}
+              />
             </div>
           </>
         )}
-
       </div>
     </div>
   );

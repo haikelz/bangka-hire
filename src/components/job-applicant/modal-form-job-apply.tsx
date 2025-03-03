@@ -3,11 +3,12 @@
 import { useGetUserServer } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import { applyJobSchema } from "@/lib/schemas/common";
+import { UploadButton } from "@/lib/uploadthing";
 import { createApplyJob, getUserOnJobs } from "@/services/common";
 import { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader, LockIcon, Upload, VerifiedIcon, X } from "lucide-react";
+import { Loader, LockIcon, VerifiedIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -24,8 +25,6 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { UploadButton, Uploader } from "@/lib/uploadthing";
-import { tr } from "date-fns/locale";
 
 type ModalFormJobApplyProps = {
   openModal: boolean;
@@ -69,7 +68,6 @@ export function ModalFormJobApply({
     resolver: zodResolver(applyJobSchema),
   });
 
-
   const handleRemoveFile = () => {
     if (fileName) {
       setFileName(null);
@@ -87,12 +85,11 @@ export function ModalFormJobApply({
 
   const applyJobMutation = useMutation({
     mutationFn: async () => {
-
       return await createApplyJob({
         user_id: user?.id,
         job_id: job_id,
         cv: fileUrl || "",
-      })
+      });
     },
     onSuccess: async (response) => {
       // cek status dari response
@@ -123,14 +120,16 @@ export function ModalFormJobApply({
     },
   });
 
-   // Function untuk handle upload selesai
-   const handleUploadComplete = (res : any) => {
+  // Function untuk handle upload selesai
+  const handleUploadComplete = (res: any) => {
     if (res && res.length > 0) {
       const uploadedFileUrl = res[0].url;
       setFileUrl(uploadedFileUrl);
       const namaFile = res[0].name;
       // agar bisa valdation melalui zod
-      const fakeFile = new File([namaFile], namaFile, { type: "application/pdf" });
+      const fakeFile = new File([namaFile], namaFile, {
+        type: "application/pdf",
+      });
 
       setValue("cv", fakeFile, { shouldValidate: true });
       setFileName(res[0].name);
@@ -139,13 +138,14 @@ export function ModalFormJobApply({
 
       toast({
         title: "Upload CV berhasil!",
-        description: "CV berhasil diupload, silahkan klik tombol Kirim untuk mengirim lamaran",
+        description:
+          "CV berhasil diupload, silahkan klik tombol Kirim untuk mengirim lamaran",
       });
     }
   };
 
   // Function untuk handle upload error
-  const handleUploadError = (error : any) => {
+  const handleUploadError = (error: any) => {
     console.error("Error uploading file:", error);
     setIsUploading(false);
     toast({
@@ -250,30 +250,35 @@ export function ModalFormJobApply({
               <div className="flex gap-2 items-center">
                 <UploadButton
                   endpoint={"cvUploader"}
-                  onClientUploadComplete={(res) =>
-                    handleUploadComplete(res)
-                  }
+                  onClientUploadComplete={(res) => handleUploadComplete(res)}
                   onUploadError={(error) => handleUploadError(error)}
                   onUploadBegin={() => {
-                    setIsUploading(true)
-                    setUploadProgress(0)
+                    setIsUploading(true);
+                    setUploadProgress(0);
                   }}
                   onUploadProgress={(e) => {
-                    setUploadProgress(e)
+                    setUploadProgress(e);
                   }}
                   appearance={{
-                    button: "bg-primary_color w-full text-xs md:text-sm px-5 py-3 rounded-lg hover:bg-secondary_color_1 duration-300 ease-in-out hover:text-white text-center"
-                   }}
+                    button:
+                      "bg-primary_color w-full text-xs md:text-sm px-5 py-3 rounded-lg hover:bg-secondary_color_1 duration-300 ease-in-out hover:text-white text-center",
+                  }}
                   className="w-1/3"
                   content={{
-                    button: isUploading ? `Uploading... ${uploadProgress}%` : "Upload CV",
-                    allowedContent : "Mask File PDF (2MB)"
+                    button: isUploading
+                      ? `Uploading... ${uploadProgress}%`
+                      : "Upload CV",
+                    allowedContent: "Mask File PDF (2MB)",
                   }}
                   disabled={isUploading}
                 />
                 {fileName && (
                   <div className="flex items-center gap-2 bg-gray-100 px-2 rounded-lg">
-                    <Link href={fileUrl || "#"} target="_blank" className="text-xs line-clamp-1 md:text-sm text-gray-700 hover:underline">
+                    <Link
+                      href={fileUrl || "#"}
+                      target="_blank"
+                      className="text-xs line-clamp-1 md:text-sm text-gray-700 hover:underline"
+                    >
                       {fileName}
                     </Link>
                     <Button
