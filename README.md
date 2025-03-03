@@ -47,6 +47,14 @@
 
 ![ERD](./public/docs/Entity-Relationship-Diagram.png)
 
+## User Flow
+
+![User Flow](./public/docs/User-Flow.png)
+
+## Job Application Process DFD Level 1
+
+![DFD Level 1](./public/docs/Job-Application-Process-level-1.png)
+
 ## Technologies
 
 ### Frontend
@@ -63,8 +71,10 @@
 
 ### Miscellaneous
 
-- Sentry for error monitoring
-- Deployed at Vercel
+- Sentry for error monitoring.
+- Vercel for Deployment Website.
+- Cloudflare Domain.
+- Uploadthing for handling upload document.
 
 ## Getting Started
 
