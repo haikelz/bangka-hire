@@ -37,7 +37,7 @@ export function middleware(request: NextRequest) {
   }
 
   // di cek kalau user belum login dan mau akses halaman dashboard
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  /*if (request.nextUrl.pathname.startsWith("/dashboard")) {
     if (!isLogin || !isLoginGoogle) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
@@ -56,7 +56,7 @@ export function middleware(request: NextRequest) {
     } catch (error) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
-  }
+  }*/
 
   const headers = new Headers(request.headers);
   headers.set("x-current-path", request.nextUrl.pathname);

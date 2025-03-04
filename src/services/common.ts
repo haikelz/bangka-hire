@@ -1,6 +1,7 @@
 import {
   CommentProps,
   CreateJobProps,
+  CreateJobVacancyProviderProfileProps,
   EditJobProps,
   EditJobVacancyProviderProfileProps,
   EditProfileUser,
@@ -168,6 +169,20 @@ export async function editJobVacancyProviderProfile(
     return response.data;
   } catch (err) {
     throw new Error("Gagal mengedit profile!");
+  }
+}
+
+export async function createJobVacancyProviderProfile(
+  data: CreateJobVacancyProviderProfileProps
+) {
+  try {
+    const response = await axiosClient.post(
+      `/job-vacancy-provider/create-profile`,
+      data
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal membuat profile perusahaan!");
   }
 }
 

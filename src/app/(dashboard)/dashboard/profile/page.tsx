@@ -1,7 +1,7 @@
 import { EditJobVacancyProviderProfilePage } from "@/components/dashboard/edit-job-vacancy-provider-profile-page";
 import { Metadata } from "next";
 
-const title = "Edit Profile Pemberi Kerja | Bangka Hire";
+const title = "Profile Pemberi Kerja | Bangka Hire";
 const description =
   "Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan !";
 const url = "https://bangka-hire.ekel.dev/dashboard/profile";

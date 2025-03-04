@@ -59,10 +59,31 @@ export const reviewJobVacancyProviderSchema = z.object({
 export const editJobVacancyProviderProfileSchema = z.object({
   full_name: z.string().min(1, "Company name is required"),
   company_type: z.string().min(1, "Industry field is required"),
-  description: z.string().min(1, "Information about the company is required"),
+  description_company: z
+    .string()
+    .min(1, "Information about the company is required"),
   city: z.string().min(1, "Location is required"),
   street: z.string().min(1, "Complete address is required"),
+  total_employers: z.string().min(1, "Total Employers is required"),
   social_media: z.object({
+    linkedin: z.string().url("Invalid Linkedin URL format").optional(),
+    instagram: z.string().url("Invalid Instagram URL format").optional(),
+    facebook: z.string().url("Invalid Facebook URL format").optional(),
+    gmail: z.string().email("Invalid Gmail format").optional(),
+  }),
+});
+
+export const createJobVacancyProviderProfileSchema = z.object({
+  full_name: z.string().min(1, "Company name is required"),
+  company_type: z.string().min(1, "Industry field is required"),
+  description_company: z
+    .string()
+    .min(1, "Information about the company is required"),
+  city: z.string().min(1, "Location is required"),
+  street: z.string().min(1, "Complete address is required"),
+  total_employers: z.string().min(1, "Total Employers is required"),
+  social_media: z.object({
+    linkedin: z.string().url("Invalid Linkedin URL format").optional(),
     instagram: z.string().url("Invalid Instagram URL format").optional(),
     facebook: z.string().url("Invalid Facebook URL format").optional(),
     gmail: z.string().email("Invalid Gmail format").optional(),

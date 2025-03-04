@@ -142,13 +142,20 @@ export type EditJobVacancyProviderProfileProps = {
   user_id: string;
   full_name?: string;
   company_type?: string;
-  description?: string;
+  description_company?: string;
   city?: string;
   street?: string;
   google_oauth?: boolean;
+  total_employers: string;
   social_media?: {
+    linkedin?: string;
     instagram?: string;
     facebook?: string;
     gmail?: string;
   };
 };
+
+export type CreateJobVacancyProviderProfileProps =
+  EditJobVacancyProviderProfileProps & {
+    total_employers: string;
+  };

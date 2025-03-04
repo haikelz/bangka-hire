@@ -71,6 +71,7 @@
 
 ### Miscellaneous
 
+- Biome for code formatting.
 - Sentry for error monitoring.
 - Vercel for Deployment Website.
 - Cloudflare Domain.

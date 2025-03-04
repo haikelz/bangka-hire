@@ -8,10 +8,11 @@ export async function PUT(req: NextRequest) {
     phone_number,
     user_id,
     company_type,
-    description,
+    description_company,
     google_oauth,
     city,
     street,
+    total_employers,
     social_media,
   } = await req.json();
 
@@ -31,8 +32,8 @@ export async function PUT(req: NextRequest) {
   }
 
   // jika description kosong pakai description lama
-  if (!description) {
-    description = existingJobApplicant.description;
+  if (!description_company) {
+    description_company = existingJobApplicant.description;
   }
 
   // jika full_name kosong pakai full_name lama
@@ -55,7 +56,9 @@ export async function PUT(req: NextRequest) {
       profile: {
         update: {
           company_type,
-          description_company: description,
+          total_employers,
+          description_company: description_company,
+          linkedin: social_media.linkedin,
           instagram: social_media.instagram,
           facebook: social_media.facebook,
           gmail: social_media.gmail,
