@@ -190,3 +190,12 @@ export async function deleteJob(id: string) {
     throw new Error("Gagal menghapus lowongan kerja!");
   }
 }
+
+export async function getAllUser() {
+  try {
+    const response = await axiosClient.get("/get-user");
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal mendapatkan data seluruh user!");
+  }
+}
