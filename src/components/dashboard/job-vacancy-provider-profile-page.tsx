@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
+
 const FormEditJobVacancyProviderProfile = dynamic(() =>
   import("@/components/dashboard/form-job-vacancy-provider-profile").then(
     (comp) => comp.FormEditJobVacancyProviderProfile
@@ -19,7 +20,7 @@ const FormCreateJobVacancyProviderProfile = dynamic(() =>
   )
 );
 
-export function EditJobVacancyProviderProfilePage() {
+export function JobVacancyProviderProfilePage() {
   const { user } = useCurrentUser() as { user: UserProps };
   const userGoogle = useCurrentUserGoogle();
 

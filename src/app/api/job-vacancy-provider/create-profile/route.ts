@@ -2,10 +2,29 @@ import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
+  const {
+    user_id,
+    company_type,
+    description_company,
+    city,
+    street,
+    total_employers,
+    social_media,
+  } = await req.json();
 
   await db.profilCompany.create({
-    data,
+    data: {
+      user_id,
+      company_type,
+      description_company,
+      city,
+      street,
+      total_employers,
+      linkedin: social_media.linkedin,
+      facebook: social_media.facebook,
+      instagram: social_media.instagram,
+      gmail: social_media.gmail,
+    },
   });
 
   return NextResponse.json({

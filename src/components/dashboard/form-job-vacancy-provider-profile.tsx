@@ -14,7 +14,7 @@ import {
   createJobVacancyProviderProfileSchema,
   editJobVacancyProviderProfileSchema,
 } from "@/lib/schemas/common";
-import { citiesList } from "@/lib/static";
+import { citiesList, employeeRanges } from "@/lib/static";
 import {
   createJobVacancyProviderProfile,
   editJobVacancyProviderProfile,
@@ -71,6 +71,7 @@ export function FormEditJobVacancyProviderProfile({
       description_company:
         jobVacancyProvider?.profile?.description_company ?? "",
       street: jobVacancyProvider?.profile?.street ?? "",
+      city: jobVacancyProvider?.profile?.city ?? "",
       total_employers: jobVacancyProvider?.profile?.total_employers ?? "",
       social_media: {
         linkedin: jobVacancyProvider?.profile?.linkedin ?? "",
@@ -213,8 +214,8 @@ export function FormEditJobVacancyProviderProfile({
             <SelectValue placeholder="Pilih Total Karyawan...." />
           </SelectTrigger>
           <SelectContent>
-            {citiesList.map((item) => (
-              <SelectItem key={item.id} value={item.value}>
+            {employeeRanges.map((item) => (
+              <SelectItem key={item.label} value={item.value}>
                 {item.value}
               </SelectItem>
             ))}
@@ -319,7 +320,7 @@ export function FormEditJobVacancyProviderProfile({
           </div>
           <div className="flex justify-end items-center">
             {editProfileMutation.isPending ? (
-              <Button type="submit" className="bg-secondary_color_1" disabled>
+              <Button className="bg-secondary_color_1" disabled>
                 <Loader className="h-4 w-4 animate-spin" />
               </Button>
             ) : (
@@ -336,13 +337,12 @@ export function FormEditJobVacancyProviderProfile({
 
 export function FormCreateJobVacancyProviderProfile({
   jobVacancyProvider,
-  userGoogle,
   userId,
 }: Props) {
   const queryClient = useQueryClient();
 
   const {
-    formState: { errors },
+    formState: { errors, isValid },
     getValues,
     register,
     handleSubmit,
@@ -350,16 +350,16 @@ export function FormCreateJobVacancyProviderProfile({
   } = useForm<z.infer<typeof createJobVacancyProviderProfileSchema>>({
     defaultValues: {
       full_name: jobVacancyProvider?.full_name ?? "",
-      company_type: jobVacancyProvider?.profile?.company_type ?? "",
-      description_company:
-        jobVacancyProvider?.profile?.description_company ?? "",
-      street: jobVacancyProvider?.profile?.street ?? "",
+      company_type: "",
+      description_company: "",
+      city: "",
+      street: "",
       total_employers: "",
       social_media: {
-        linkedin: jobVacancyProvider?.profile?.linkedin ?? "",
-        instagram: jobVacancyProvider?.profile?.instagram ?? "",
-        facebook: jobVacancyProvider?.profile?.facebook ?? "",
-        gmail: jobVacancyProvider?.profile?.gmail ?? "",
+        linkedin: "",
+        instagram: "",
+        facebook: "",
+        gmail: "",
       },
     },
     resolver: zodResolver(createJobVacancyProviderProfileSchema),
@@ -369,7 +369,6 @@ export function FormCreateJobVacancyProviderProfile({
     mutationFn: async () =>
       await createJobVacancyProviderProfile({
         user_id: userId,
-        full_name: getValues("full_name"),
         company_type: getValues("company_type"),
         description_company: getValues("description_company"),
         city: getValues("city"),
@@ -381,7 +380,6 @@ export function FormCreateJobVacancyProviderProfile({
           instagram: getValues("social_media.instagram"),
           gmail: getValues("social_media.gmail"),
         },
-        google_oauth: userGoogle ? true : false,
       }),
     onSuccess: async (response) => {
       if (response.status_code === 400) {
@@ -444,7 +442,8 @@ export function FormCreateJobVacancyProviderProfile({
         <Input
           {...register("full_name")}
           placeholder="Beritahu nama Perusahaanmu"
-          required
+          disabled
+          readOnly
         />
         {errors.full_name ? (
           <p className="text-xs md:text-sm text-red-500">
@@ -496,8 +495,8 @@ export function FormCreateJobVacancyProviderProfile({
             <SelectValue placeholder="Pilih Total Karyawan...." />
           </SelectTrigger>
           <SelectContent>
-            {citiesList.map((item) => (
-              <SelectItem key={item.id} value={item.value}>
+            {employeeRanges.map((item) => (
+              <SelectItem key={item.label} value={item.value}>
                 {item.value}
               </SelectItem>
             ))}
@@ -602,11 +601,15 @@ export function FormCreateJobVacancyProviderProfile({
           </div>
           <div className="flex justify-end items-center">
             {createProfileMutation.isPending ? (
-              <Button type="submit" className="bg-secondary_color_1" disabled>
+              <Button className="bg-secondary_color_1" disabled>
                 <Loader className="h-4 w-4 animate-spin" />
               </Button>
             ) : (
-              <Button type="submit" className="bg-secondary_color_1">
+              <Button
+                type="submit"
+                className="bg-secondary_color_1"
+                disabled={isValid ? false : true}
+              >
                 Buat Profile
               </Button>
             )}

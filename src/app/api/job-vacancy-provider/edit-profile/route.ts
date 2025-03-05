@@ -1,22 +1,19 @@
-import { createSession } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   let {
     full_name,
-    phone_number,
     user_id,
     company_type,
     description_company,
-    google_oauth,
     city,
     street,
     total_employers,
     social_media,
   } = await req.json();
 
-  const existingJobApplicant = await db.user.findUnique({
+  const existingJobVacancyProvider = await db.user.findUnique({
     where: {
       id: user_id,
       role: "job_vacancy_provider",
@@ -24,7 +21,7 @@ export async function PUT(req: NextRequest) {
   });
 
   // pengecekan bila user tidak ada di database
-  if (!existingJobApplicant) {
+  if (!existingJobVacancyProvider) {
     return NextResponse.json({
       status_code: 400,
       message: "User tidak ditemukan!",
@@ -33,46 +30,35 @@ export async function PUT(req: NextRequest) {
 
   // jika description kosong pakai description lama
   if (!description_company) {
-    description_company = existingJobApplicant.description;
+    description_company = existingJobVacancyProvider.description;
   }
 
   // jika full_name kosong pakai full_name lama
   if (!full_name) {
-    full_name = existingJobApplicant.full_name;
+    full_name = existingJobVacancyProvider.full_name;
   }
 
-  // jika phone_number kosong pakai phone_number lama
-  if (!phone_number) {
-    phone_number = existingJobApplicant.phone_number;
-  }
-  // update data user
-
-  const updatedJobApplicant = await db.user.update({
+  await db.profilCompany.update({
     where: {
-      id: user_id,
+      user_id,
     },
     data: {
-      full_name,
-      profile: {
+      user: {
         update: {
-          company_type,
-          total_employers,
-          description_company: description_company,
-          linkedin: social_media.linkedin,
-          instagram: social_media.instagram,
-          facebook: social_media.facebook,
-          gmail: social_media.gmail,
-          city,
-          street,
+          full_name,
         },
       },
+      company_type,
+      total_employers,
+      description_company,
+      linkedin: social_media.linkedin,
+      instagram: social_media.instagram,
+      facebook: social_media.facebook,
+      gmail: social_media.gmail,
+      city,
+      street,
     },
   });
-
-  // jika user menggunakan google oauth untuk login jangan crate session
-  if (!google_oauth) {
-    await createSession(updatedJobApplicant);
-  }
 
   return NextResponse.json({
     status_code: 200,

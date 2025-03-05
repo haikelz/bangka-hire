@@ -70,3 +70,13 @@ export const rangeSalary = [
     value: ">10.000.000",
   },
 ];
+
+export const employeeRanges: { label: string; value: string }[] = [
+  { label: "1-10 Karyawan", value: "1-10" },
+  { label: "11-50 Karyawan", value: "11-50" },
+  { label: "51-100 Karyawan", value: "51-100" },
+  { label: "101-500 Karyawan", value: "101-500" },
+  { label: "501-1000 Karyawan", value: "501-1000" },
+  { label: "1001-5000 Karyawan", value: "1001-5000" },
+  { label: "5001+ Karyawan", value: "5001+" },
+];

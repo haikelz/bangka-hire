@@ -1,4 +1,4 @@
-import { EditJobVacancyProviderProfilePage } from "@/components/dashboard/edit-job-vacancy-provider-profile-page";
+import { JobVacancyProviderProfilePage } from "@/components/dashboard/job-vacancy-provider-profile-page";
 import { Metadata } from "next";
 
 const title = "Profile Pemberi Kerja | Bangka Hire";
@@ -32,5 +32,5 @@ export const metadata: Metadata = {
 };
 
 export default function JobVacancyProviderProfile() {
-  return <EditJobVacancyProviderProfilePage />;
+  return <JobVacancyProviderProfilePage />;
 }
