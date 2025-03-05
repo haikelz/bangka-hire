@@ -205,9 +205,13 @@ export async function deleteJob(id: string) {
   }
 }
 
-export async function getAllUser() {
+export async function getAllUser(
+  page: number,
+  limit: number,
+  searchUser: string
+) {
   try {
-    const response = await axiosClient.get("/get-user");
+    const response = await axiosClient.get(`/get-user?search=${searchUser}&page=${page}&limit=${limit}`);
     return response.data;
   } catch (err) {
     throw new Error("Gagal mendapatkan data seluruh user!");
