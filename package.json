@@ -9,7 +9,7 @@
     "url": "https://github.com/haikelz/bangka-hire"
   },
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"

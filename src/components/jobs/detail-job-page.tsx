@@ -2,13 +2,13 @@
 
 import { calculateAverageRating } from "@/lib/number";
 import { getJobById } from "@/services/common";
-import { JobProps } from "@/types";
+import { CommentProps, JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, Star } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import triggerDetail from "../../../public/assets/detail-trigger.png";
 import location from "../../../public/assets/location.svg";
 import logo from "../../../public/assets/logo.png";
@@ -51,23 +51,11 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
     staleTime: 1000 * 60 * 5,
   });
 
-  const job = data?.data as JobProps;
-
-  // mencari jumlah rata rata rating
-  const averageRating = function () {
-    if (job.company?.comments) {
-      return calculateAverageRating(
-        job.company.comments,
-        (comment: any) => comment.rating
-      );
-    }
-
-    return 0;
-  };
-
   // kalau pending
   if (isPending) return <IsPendingClient className="min-h-svh mt-6" />;
   if (isError) return <IsErrorClient />;
+
+  const job = data?.data as JobProps;
 
   return (
     <Layout className="mt-6">
@@ -104,7 +92,7 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
                 <p>{job.company?.user?.full_name}</p>
                 {/* rating */}
                 <div className="flex items-center">
-                  <p>{averageRating()}</p>
+                  <Rating job={job} />
                   <Star fill="#2A72B3" stroke="none" />
                 </div>
 
@@ -208,4 +196,18 @@ export default function DetailJobPage({ job_id }: DetailJobPageProps) {
       </div>
     </Layout>
   );
+}
+
+function Rating({ job }: { job: JobProps }) {
+  // mencari jumlah rata rata rating
+  const averageRating = useMemo(
+    () =>
+      calculateAverageRating(
+        job?.company?.comments as CommentProps[],
+        (comment: any) => comment.rating
+      ),
+    [job, calculateAverageRating]
+  );
+
+  return <p>{averageRating}</p>;
 }

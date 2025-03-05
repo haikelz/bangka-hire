@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 import Layout from "../common/container";
 import CardResultJob from "../jobs/card-result-job";
 import { IsErrorClient } from "../react-query/is-error-client";
@@ -43,11 +44,6 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
 
   const jobVacancyProvider = data?.data.data as ProfilCompanyProps;
 
-  const averageRating = calculateAverageRating(
-    jobVacancyProvider?.comments as CommentProps[],
-    (comment) => comment.rating
-  );
-
   return (
     <Layout className="mt-6">
       <div className="rounded-sm bg-secondary_color_2 px-7 py-6">
@@ -65,7 +61,7 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
               </h3>
               <div className="flex space-x-4 justify-center items-center w-fit text-sm md:text-base">
                 <div className="flex justify-center items-center w-fit space-x-2">
-                  <span>{averageRating}</span>
+                  <Rating jobVacancyProvider={jobVacancyProvider} />
                   <StarIcon
                     width={16}
                     height={16}
@@ -235,4 +231,21 @@ export function DetailJobVacancyProviderPage({ id }: { id: string }) {
       </div>
     </Layout>
   );
+}
+
+function Rating({
+  jobVacancyProvider,
+}: {
+  jobVacancyProvider: ProfilCompanyProps;
+}) {
+  const averageRating = useMemo(
+    () =>
+      calculateAverageRating(
+        jobVacancyProvider?.comments as CommentProps[],
+        (comment) => comment.rating
+      ),
+    [calculateAverageRating, jobVacancyProvider]
+  );
+
+  return <span>{averageRating}</span>;
 }

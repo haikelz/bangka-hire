@@ -1,5 +1,3 @@
 export default function ViewCompany() {
-  return (
-    <div>adw</div>
-  )
+  return <div>adw</div>;
 }

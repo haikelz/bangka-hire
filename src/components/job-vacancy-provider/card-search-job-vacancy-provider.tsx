@@ -3,6 +3,7 @@ import { CommentProps, ProfilCompanyProps } from "@/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 import logo from "../../../public/assets/logo.png";
 
 export default function CardSearchJobVacancyProvider({
@@ -11,9 +12,13 @@ export default function CardSearchJobVacancyProvider({
   data: ProfilCompanyProps;
 }) {
   // mencari jumlah rata rata rating
-  const averageRating = calculateAverageRating(
-    data?.comments as CommentProps[],
-    (comment) => comment.rating
+  const averageRating = useMemo(
+    () =>
+      calculateAverageRating(
+        data?.comments as CommentProps[],
+        (comment) => comment.rating
+      ),
+    [calculateAverageRating, data]
   );
 
   return (
