@@ -192,10 +192,17 @@ export function ModalFormJobApply({
             className="bg-secondary_color_3 text-black px-12 hover:bg-secondary_color_1 hover:text-white"
             disabled
           >
-            <div className="flex items-center gap-2">
-              <LockIcon color="black" width={20} height={20} />
-              <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
-            </div>
+            {isPending ? (
+              <div>
+                <Loader className="animate-spin" />
+              </div>
+            ) : (
+
+              <div className="flex items-center gap-2">
+                <LockIcon color="black" width={20} height={20} />
+                <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
+              </div>
+            )}
           </Button>
         ) : !user ? (
           <Button
