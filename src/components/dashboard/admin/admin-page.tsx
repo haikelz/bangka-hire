@@ -1,5 +1,3 @@
-"use client";
-
 import FormSearchAndTableCompany from "./form-search-table-company";
 import FormSearchAndTableUser from "./form-search-table-user";
 

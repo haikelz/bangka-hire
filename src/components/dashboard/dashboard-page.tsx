@@ -50,7 +50,7 @@ export function DashboardPage() {
   const totalPages = data?.data?.totalPages ?? 1;
 
   return (
-    <section className="px-8 py-8 w-full">
+    <section className="p-8 w-full">
       {jobs.length && jobs ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
           {jobs.map((item, i) => (

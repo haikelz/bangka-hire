@@ -2,6 +2,7 @@
 
 import { formatTanggal } from "@/lib/date";
 import { JobProps } from "@/types";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,13 +13,21 @@ import salary from "../../../public/assets/salary.png";
 import status from "../../../public/assets/status-work.png";
 import time from "../../../public/assets/time.png";
 import { formatRupiah } from "../../lib/currency";
-import ModalDeleteJobs from "../dashboard/modal-delete-jobs";
-import { ModalFormEditJobs } from "../dashboard/modal-form-edit-jobs";
+
+const ModalDeleteJobs = dynamic(() =>
+  import("../dashboard/modal-delete-jobs").then((comp) => comp.ModalDeleteJobs)
+);
+const ModalFormEditJobs = dynamic(() =>
+  import("../dashboard/modal-form-edit-jobs").then(
+    (comp) => comp.ModalFormEditJobs
+  )
+);
 
 export default function CardResultJob({ data }: { data: JobProps }) {
   const pathname = usePathname();
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [openModalDelete, setOpenModalDelete] = useState(false);
+
+  const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
 
   return (
     <div className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">

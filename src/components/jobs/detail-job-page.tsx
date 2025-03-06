@@ -37,7 +37,7 @@ const ModalFormJobApply = dynamic(() =>
 );
 
 export default function DetailJobPage({ job_id }: DetailJobPageProps) {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["detail-job", job_id],

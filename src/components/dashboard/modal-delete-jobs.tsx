@@ -12,7 +12,7 @@ type DeleteJobsProps = {
   jobId: string;
 };
 
-export default function ModalDeleteJobs({
+export function ModalDeleteJobs({
   openModal,
   setOpenModal,
   jobId,
