@@ -8,7 +8,6 @@ export default function AdminPage() {
     <div className="p-8 space-y-8">
       {/* kotak user */}
       <FormSearchAndTableUser />
-
       {/* kotak company */}
       <FormSearchAndTableCompany />
     </div>
