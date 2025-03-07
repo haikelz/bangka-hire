@@ -28,7 +28,11 @@ export function Sidebar() {
               referrerPolicy="no-referrer"
             />
           ) : (
-            <AvatarFallback className="bg-primary_color text-white text-2xl"></AvatarFallback>
+            <AvatarImage
+              src="/assets/fallback-user.svg"
+              alt="avatar"
+              referrerPolicy="no-referrer"
+            />
           )}
         </Avatar>
         <p className="mt-2">

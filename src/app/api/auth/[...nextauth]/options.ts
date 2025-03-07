@@ -120,6 +120,14 @@ export const options: NextAuthOptions = {
           },
         });
 
+        if (
+          !existingJobApplicant &&
+          !existingJobVacancyProvider &&
+          !signUpRole
+        ) {
+          return false;
+        }
+
         if (existingJobApplicant && signUpRole === "job_applicant") {
           return false;
         } else if (
@@ -163,6 +171,9 @@ export const options: NextAuthOptions = {
       (await cookies()).delete("sign-up-role");
       return true;
     },
+  },
+  pages: {
+    error: "/auth/login",
   },
 };
 
