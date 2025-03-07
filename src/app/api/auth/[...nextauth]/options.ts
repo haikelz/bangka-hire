@@ -173,7 +173,7 @@ export const options: NextAuthOptions = {
     },
   },
   pages: {
-    error: "/auth/login",
+    error: "/auth/auth-error",
   },
 };
 
