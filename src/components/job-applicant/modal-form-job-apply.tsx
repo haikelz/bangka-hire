@@ -197,10 +197,11 @@ export function ModalFormJobApply({
                 <Loader className="animate-spin" />
               </div>
             ) : (
-
               <div className="flex items-center gap-2">
                 <LockIcon color="black" width={20} height={20} />
-                <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
+                <p className="font-medium">
+                  Tidak Memiliki Akses Kirim Lamaran
+                </p>
               </div>
             )}
           </Button>

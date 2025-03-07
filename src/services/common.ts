@@ -220,7 +220,9 @@ export async function getAllUser(
 }
 export async function deleteUser(id?: string) {
   try {
-    const response = await axiosClient.delete(`/job-applicant/delete-user/${id}`);
+    const response = await axiosClient.delete(
+      `/job-applicant/delete-user/${id}`
+    );
     return response.data;
   } catch (err) {
     throw new Error("Gagal menghapus user!");

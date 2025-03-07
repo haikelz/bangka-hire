@@ -45,7 +45,7 @@
 
 ## Entity Relationship Diagram
 
-![ERD](./public/docs/Entity-Relationship-Diagram.png)
+![ERD](./public/docs/ERD.png)
 
 ## User Flow
 
