@@ -2,7 +2,7 @@
 
 import { formatRupiah } from "@/lib/currency";
 import { formatTanggal } from "@/lib/date";
-import { JobProps } from "@/types";
+import { type JobProps } from "@/types";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";

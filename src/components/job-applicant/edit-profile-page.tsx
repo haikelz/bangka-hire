@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { getUserPrisma } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useState } from "react";

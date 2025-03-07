@@ -1,5 +1,5 @@
 import { LoginFormAdmin } from "@/components/auth/login-form-admin";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Login Admin";
 const description =

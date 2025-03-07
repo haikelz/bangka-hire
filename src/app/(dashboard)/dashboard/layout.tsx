@@ -1,8 +1,8 @@
 import Footer from "@/components/dashboard/footer";
 import { Header } from "@/components/dashboard/header";
 import { Sidebar } from "@/components/dashboard/sidebar";
-import { ChildrenProps } from "@/types";
-import { Metadata } from "next";
+import type { ChildrenProps } from "@/types";
+import type { Metadata } from "next";
 
 const title = "Dashboard Perusahaan | Bangka Hire";
 const description =

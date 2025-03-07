@@ -10,37 +10,32 @@
 .
 ├── prisma
 │   ├── migrations
-│   └── schema.prisma
 ├── public
 │   ├── assets
+│   ├── docs
 │   └── images
-└── src
-    ├── app
-    │   ├── api
-    │   ├── (auth)
-    │   │   └── auth
-    │   │       ├── login
-    │   │       ├── sign-up
-    │   │       └── sign-up-job-vacancy-provider
-    │   ├── (dashboard)
-    │   ├── (job-applicant)
-    │   ├── (job-vacancy-provider)
-    │   └── profile
-    ├── components
-    │   ├── auth
-    │   ├── common
-    │   ├── dashboard
-    │   ├── job-applicant
-    │   ├── jobs
-    │   ├── job-vacancy-provider
-    │   ├── react-query
-    │   └── ui
-    ├── hooks
-    ├── lib
-    │   └── schemas
-    ├── services
-    ├── store
-    └── types
+├── src
+│   ├── app
+│   │   ├── api
+│   │   ├── (auth)
+│   │   ├── (dashboard)
+│   │   ├── (job-applicant)
+│   │   ├── (job-vacancy-provider)
+│   │   └── profile
+│   ├── components
+│   │   ├── auth
+│   │   ├── common
+│   │   ├── dashboard
+│   │   ├── job-applicant
+│   │   ├── jobs
+│   │   ├── job-vacancy-provider
+│   │   ├── react-query
+│   │   └── ui
+│   ├── hooks
+│   ├── lib
+│   ├── services
+│   ├── store
+│   └── types
 ```
 
 ## Entity Relationship Diagram

@@ -2,7 +2,7 @@
 
 import { calculateAverageRating } from "@/lib/number";
 import { getJobById } from "@/services/common";
-import { CommentProps, JobProps } from "@/types";
+import { type CommentProps, type JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, Star } from "lucide-react";
 import dynamic from "next/dynamic";

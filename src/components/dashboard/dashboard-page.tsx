@@ -2,7 +2,7 @@
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { getJobs } from "@/services/common";
-import { JobProps } from "@/types";
+import type { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import CardResultJob from "../jobs/card-result-job";

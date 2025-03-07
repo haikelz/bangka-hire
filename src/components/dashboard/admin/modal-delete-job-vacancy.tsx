@@ -1,21 +1,30 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { deleteUser } from "@/services/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 
-
 type DeleteJobsProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
   userId?: string;
-  userName? : string;
+  userName?: string;
 };
 
-export function ModalDeleteJobVacancy({ openModal, setOpenModal, userId, userName }: DeleteJobsProps) {
+export function ModalDeleteJobVacancy({
+  openModal,
+  setOpenModal,
+  userId,
+  userName,
+}: DeleteJobsProps) {
   const queryClient = useQueryClient();
 
   const deleteJobVacancyMutation = useMutation({
@@ -41,13 +50,11 @@ export function ModalDeleteJobVacancy({ openModal, setOpenModal, userId, userNam
         variant: "destructive",
       });
     },
-  })
+  });
 
   const onSubmit = () => {
-    deleteJobVacancyMutation.mutateAsync()
-  }
-
-
+    deleteJobVacancyMutation.mutateAsync();
+  };
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -81,5 +88,5 @@ export function ModalDeleteJobVacancy({ openModal, setOpenModal, userId, userNam
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

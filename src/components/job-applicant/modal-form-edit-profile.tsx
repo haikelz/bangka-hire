@@ -3,7 +3,7 @@
 import { toast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas/common";
 import { editProfile } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";

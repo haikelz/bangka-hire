@@ -1,5 +1,5 @@
 import { LoginFormJobApplicant } from "@/components/auth/login-form";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Login to Bangka Hire";
 const description =

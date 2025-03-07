@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import Layout from "../common/container";
 import { Skeleton } from "../ui/skeleton";
 

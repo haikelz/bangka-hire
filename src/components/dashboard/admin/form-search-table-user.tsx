@@ -3,7 +3,12 @@
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -21,21 +26,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getAllUser } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { DeleteIcon, SearchIcon } from "lucide-react";
-import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 
 const ModalDeleteJobApplicant = dynamic(() =>
   import("./modal-delete-job-applicant").then(
     (comp) => comp.ModalDeleteJobApplicant
-  ));
+  )
+);
 
 export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
-  const [selectedUser, setSelectedUser] = useState<{ id: string; name: string } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -81,13 +90,13 @@ export default function FormSearchAndTableUser() {
       {/* tabel nama,no,email */}
       <Table>
         <TableHeader>
-        <TableRow className="flex w-full justify-between text-sm md:text-base">
-          <TableHead className="flex-[0.1]">No</TableHead>
-          <TableHead className="flex-[0.2]">Nama</TableHead>
-          <TableHead className="flex-[0.25]">Email</TableHead>
-          <TableHead className="flex-[0.25]">Status</TableHead>
-          <TableHead className="flex-[0.05]">Action</TableHead>
-        </TableRow>
+          <TableRow className="flex w-full justify-between text-sm md:text-base">
+            <TableHead className="flex-[0.1]">No</TableHead>
+            <TableHead className="flex-[0.2]">Nama</TableHead>
+            <TableHead className="flex-[0.25]">Email</TableHead>
+            <TableHead className="flex-[0.25]">Status</TableHead>
+            <TableHead className="flex-[0.05]">Action</TableHead>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {isPending ? (
@@ -99,10 +108,19 @@ export default function FormSearchAndTableUser() {
           ) : users && users.length ? (
             <>
               {users.map((user, index: number) => (
-                <TableRow key={user.id} className="flex w-full justify-between text-xs md:text-base">
-                  <TableCell className="font-medium flex-[0.1]">{index + 1}</TableCell>
-                  <TableCell className="flex-[0.2] line-clamp-1">{user.full_name}</TableCell>
-                  <TableCell className="flex-[0.25] line-clamp-1">{user.email}</TableCell>
+                <TableRow
+                  key={user.id}
+                  className="flex w-full justify-between text-xs md:text-base"
+                >
+                  <TableCell className="font-medium flex-[0.1]">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell className="flex-[0.2] line-clamp-1">
+                    {user.full_name}
+                  </TableCell>
+                  <TableCell className="flex-[0.25] line-clamp-1">
+                    {user.email}
+                  </TableCell>
                   <TableCell className="flex-[0.25]">
                     <span className="text-blue-500">Active</span>
                   </TableCell>
@@ -124,7 +142,10 @@ export default function FormSearchAndTableUser() {
                         >
                           <div
                             onClick={() => {
-                              setSelectedUser({ id: user.id, name: user.full_name }); // Simpan user yang dipilih
+                              setSelectedUser({
+                                id: user.id,
+                                name: user.full_name,
+                              }); // Simpan user yang dipilih
                               setOpenModal(true);
                             }}
                             className="flex items-center gap-2"
@@ -183,15 +204,18 @@ export default function FormSearchAndTableUser() {
                 colSpan={5}
                 className="pt-4 font-medium text-lg text-center"
               >
-                <span className="text-gray-500">
-                  User tidak ditemukan
-                </span>
+                <span className="text-gray-500">User tidak ditemukan</span>
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <ModalDeleteJobApplicant openModal={openModal} setOpenModal={setOpenModal} userId={selectedUser?.id} userName={selectedUser?.name} />
+      <ModalDeleteJobApplicant
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        userId={selectedUser?.id}
+        userName={selectedUser?.name}
+      />
     </div>
   );
 }

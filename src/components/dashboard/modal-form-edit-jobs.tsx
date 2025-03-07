@@ -4,7 +4,7 @@ import { toast } from "@/hooks/use-toast";
 import { createJobVacancySchema } from "@/lib/schemas/common";
 import { rangeSalary, statusWork } from "@/lib/static";
 import { editJobs } from "@/services/common";
-import { JobProps } from "@/types";
+import type { JobProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";

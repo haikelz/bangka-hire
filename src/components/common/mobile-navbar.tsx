@@ -3,7 +3,7 @@
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { logoutAccount } from "@/services/auth";
 import { getUserPrisma } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { LogOut, User } from "lucide-react";

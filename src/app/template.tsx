@@ -1,6 +1,6 @@
 "use client";
 
-import { ChildrenProps } from "@/types";
+import type { ChildrenProps } from "@/types";
 import { setDefaultOptions } from "date-fns";
 import { id } from "date-fns/locale";
 import { m } from "framer-motion";

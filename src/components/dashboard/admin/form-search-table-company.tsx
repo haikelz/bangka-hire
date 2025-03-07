@@ -3,7 +3,12 @@
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -21,20 +26,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getJobVacancyProviders } from "@/services/common";
-import { ProfilCompanyProps } from "@/types";
+import type { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { DeleteIcon, SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
 const ModalDeleteJobVacancy = dynamic(() =>
-  import("./modal-delete-job-vacancy").then((comp) => comp.ModalDeleteJobVacancy)
+  import("./modal-delete-job-vacancy").then(
+    (comp) => comp.ModalDeleteJobVacancy
+  )
 );
 
 export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{ id: string; name: any } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{
+    id: string;
+    name: any;
+  } | null>(null);
   const [valueCompany, setValueCompany] = useState<string>("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -97,10 +107,19 @@ export default function FormSearchAndTableCompany() {
             ) : jobVacancies && jobVacancies.length ? (
               <>
                 {jobVacancies.map((job, index: number) => (
-                  <TableRow key={job.id} className="flex w-full justify-between text-xs md:text-base">
-                    <TableCell className="font-medium flex-[0.1]">{index + 1}</TableCell>
-                    <TableCell className="flex-[0.2] line-clamp-1">{job.user?.full_name}</TableCell>
-                    <TableCell className="flex-[0.25] line-clamp-1">{job.gmail}</TableCell>
+                  <TableRow
+                    key={job.id}
+                    className="flex w-full justify-between text-xs md:text-base"
+                  >
+                    <TableCell className="font-medium flex-[0.1]">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell className="flex-[0.2] line-clamp-1">
+                      {job.user?.full_name}
+                    </TableCell>
+                    <TableCell className="flex-[0.25] line-clamp-1">
+                      {job.gmail}
+                    </TableCell>
                     <TableCell className="flex-[0.25]">
                       <span className="text-blue-500">Active</span>
                     </TableCell>
@@ -122,7 +141,10 @@ export default function FormSearchAndTableCompany() {
                           >
                             <div
                               onClick={() => {
-                                setSelectedUser({ id: job.user_id, name: job.user?.full_name }); // Simpan user yang dipilih
+                                setSelectedUser({
+                                  id: job.user_id,
+                                  name: job.user?.full_name,
+                                }); // Simpan user yang dipilih
                                 setOpenModal(true);
                               }}
                               className="flex items-center gap-2"

@@ -1,5 +1,5 @@
 import AdminPage from "@/components/dashboard/admin/admin-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Dashboard Admin | Bangka Hire";
 const description =

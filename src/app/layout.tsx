@@ -1,6 +1,6 @@
 import ClientLayout from "@/components/common/client-layout";
 import { Toaster } from "@/components/ui/toaster";
-import { ChildrenProps } from "@/types";
+import type { ChildrenProps } from "@/types";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

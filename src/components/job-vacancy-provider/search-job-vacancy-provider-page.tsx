@@ -2,12 +2,12 @@
 
 import { getJobVacancyProviders } from "@/services/common";
 import { valueSearchCompany } from "@/store";
-import { ProfilCompanyProps } from "@/types";
+import type { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import hero from "../../../public/assets/cari-perusahaan.png";
 import Layout from "../common/container";
 import { IsErrorClient } from "../react-query/is-error-client";

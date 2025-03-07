@@ -5,7 +5,7 @@ import { toast } from "@/hooks/use-toast";
 import { applyJobSchema } from "@/lib/schemas/common";
 import { UploadButton } from "@/lib/uploadthing";
 import { createApplyJob, getUserOnJobs } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader, LockIcon, VerifiedIcon, X } from "lucide-react";

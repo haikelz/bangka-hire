@@ -1,5 +1,5 @@
 import { SearchJobVacancyProviderPage } from "@/components/job-vacancy-provider/search-job-vacancy-provider-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Cari Perusahaan | Bangka Hire";
 const description =

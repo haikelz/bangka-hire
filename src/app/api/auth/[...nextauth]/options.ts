@@ -6,7 +6,7 @@ import {
 import db from "@/lib/db";
 import type { Awaitable, NextAuthOptions, User } from "next-auth";
 import NextAuth from "next-auth";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 import { cookies } from "next/headers";
 
 interface UserGoogle extends User {

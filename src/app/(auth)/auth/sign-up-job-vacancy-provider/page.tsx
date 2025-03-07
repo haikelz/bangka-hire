@@ -1,5 +1,5 @@
 import { SignUpFormJobVacancyProvider } from "@/components/auth/sign-up-form-job-vacancy-provider";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Sign Up Untuk Pemberi Kerja | Bangka Hire";
 const description =

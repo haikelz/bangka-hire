@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { APIRouteParamsProps } from "@/types";
+import type { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 // mengambil semua data job di database

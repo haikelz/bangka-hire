@@ -4,7 +4,7 @@ import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { logoutAccount } from "@/services/auth";
 import { getUserPrisma } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { LogOut, SettingsIcon, User } from "lucide-react";
 import { signOut } from "next-auth/react";
@@ -134,15 +134,24 @@ export default function Header() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-primary_color" />
                     <DropdownMenuItem className="hover:bg-primary_color hover:text-white">
-
                       <Link
                         href={
-                          data.user.role === "job_applicant" ? "/profile" : data.user.role === "job_vacancy_provider" ? "/dashboard" : "/dashboard/admin"
+                          data.user.role === "job_applicant"
+                            ? "/profile"
+                            : data.user.role === "job_vacancy_provider"
+                            ? "/dashboard"
+                            : "/dashboard/admin"
                         }
                         className="flex items-center gap-2 w-full hover:bg-primary_color hover:text-white p-2 rounded-sm duration-200 ease-in-out"
                       >
                         <User className="w-4 h-4" />
-                        <p>{data.user.role === "job_applicant" ? "Edit Profil" : data.user.role === "job_vacancy_provider" ? "Dashboard" : "Dashboard Admin" }</p>
+                        <p>
+                          {data.user.role === "job_applicant"
+                            ? "Edit Profil"
+                            : data.user.role === "job_vacancy_provider"
+                            ? "Dashboard"
+                            : "Dashboard Admin"}
+                        </p>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
