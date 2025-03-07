@@ -38,10 +38,10 @@ model User {
 
 model UsersOnJobs {
   id            Int            @id @default(autoincrement())
-  user          User           @relation(fields: [user_id], references: [id])
+  user          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id       String
   cv            String?
-  job           Job            @relation(fields: [jobs_id], references: [id])
+  job           Job            @relation(fields: [jobs_id], references: [id], onDelete: Cascade)
   jobs_id       String
 
   @@map("users_on_jobs")
@@ -49,7 +49,7 @@ model UsersOnJobs {
 
 model Job {
   id             String        @id @default(cuid())
-  company        ProfilCompany @relation(fields: [company_id], references: [id])
+  company        ProfilCompany @relation(fields: [company_id], references: [id], onDelete: Cascade)
   company_id     String
   position_job   String
   responsibilty  String
@@ -69,9 +69,9 @@ model Job {
 
 model Comment {
   id          String        @id @default(cuid())
-  user        User          @relation(fields: [user_id], references: [id])
+  user        User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String
-  company     ProfilCompany @relation(fields: [company_id], references: [id])
+  company     ProfilCompany @relation(fields: [company_id], references: [id], onDelete: Cascade)
   company_id  String
   body        String
   rating      Int
@@ -83,7 +83,7 @@ model Comment {
 
 model ProfilCompany {
   id                 String    @id @default(cuid())
-  user               User      @relation(fields: [user_id], references: [id])
+  user               User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id            String    @unique
   description_company String
   company_type        String

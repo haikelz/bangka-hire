@@ -3,6 +3,7 @@
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -22,11 +23,18 @@ import {
 import { getJobVacancyProviders } from "@/services/common";
 import { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { SearchIcon } from "lucide-react";
+import { DeleteIcon, SearchIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+const ModalDeleteJobVacancy = dynamic(() =>
+  import("./modal-delete-job-vacancy").then((comp) => comp.ModalDeleteJobVacancy)
+);
 
 export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<{ id: string; name: any } | null>(null);
   const [valueCompany, setValueCompany] = useState<string>("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -54,14 +62,14 @@ export default function FormSearchAndTableCompany() {
     <div className="bg-secondary_color_2 rounded-lg p-6 space-y-3">
       {/* judul dan search company */}
       <div className="flex justify-between items-center">
-        <h1 className="font-bold text-lg">Company List</h1>
-        <form onSubmit={handleSubmit} className="w-1/3">
+        <h1 className="font-bold text-base md:text-lg">Company List</h1>
+        <form onSubmit={handleSubmit} className="w-1/2 md:w-1/3">
           <div className="relative">
             <Input
               placeholder="Search Company"
               name="search-company"
               id="search-company"
-              className=" border-primary_color pl-10"
+              className=" border-primary_color pl-8 md:pl-10 text-xs md:text-base"
             />
             <SearchIcon className="w-5 h-5 absolute top-1/2 left-2 -translate-y-1/2 text-black" />
           </div>
@@ -71,12 +79,12 @@ export default function FormSearchAndTableCompany() {
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">No</TableHead>
-              <TableHead>Nama</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Action</TableHead>
+            <TableRow className="flex w-full justify-between text-sm md:text-base">
+              <TableHead className="flex-[0.1]">No</TableHead>
+              <TableHead className="flex-[0.2]">Nama</TableHead>
+              <TableHead className="flex-[0.25]">Email</TableHead>
+              <TableHead className="flex-[0.25]">Status</TableHead>
+              <TableHead className="flex-[0.05]">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -89,17 +97,42 @@ export default function FormSearchAndTableCompany() {
             ) : jobVacancies && jobVacancies.length ? (
               <>
                 {jobVacancies.map((job, index: number) => (
-                  <TableRow key={job.id}>
-                    <TableCell className="">{index + 1}</TableCell>
-                    <TableCell className="">{job.user?.full_name}</TableCell>
-                    <TableCell>{job.gmail}</TableCell>
-                    <TableCell>
+                  <TableRow key={job.id} className="flex w-full justify-between text-xs md:text-base">
+                    <TableCell className="font-medium flex-[0.1]">{index + 1}</TableCell>
+                    <TableCell className="flex-[0.2] line-clamp-1">{job.user?.full_name}</TableCell>
+                    <TableCell className="flex-[0.25] line-clamp-1">{job.gmail}</TableCell>
+                    <TableCell className="flex-[0.25]">
                       <span className="text-blue-500">Active</span>
                     </TableCell>
-                    <TableCell>
-                      <Button className="text-gray-500 hover:text-gray-700 bg-transparent text-2xl border-none shadow-none hover:bg-transparent">
-                        ⋮
-                      </Button>
+                    <TableCell className="flex-[0.05]">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button className="text-gray-500 hover:text-gray-700 bg-transparent text-2xl border-none shadow-none hover:bg-transparent">
+                            ⋮
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          align="end"
+                          sideOffset={-5}
+                          className="bg-secondary_color_2 p-1 text-xs md:text-sm"
+                        >
+                          <DropdownMenuItem
+                            data-state="open"
+                            className="cursor-pointer !bg-transparent hover:!bg-red-600 hover:!text-white"
+                          >
+                            <div
+                              onClick={() => {
+                                setSelectedUser({ id: job.user_id, name: job.user?.full_name }); // Simpan user yang dipilih
+                                setOpenModal(true);
+                              }}
+                              className="flex items-center gap-2"
+                            >
+                              <DeleteIcon className="w-4 h-4" />
+                              <p>Hapus User</p>
+                            </div>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -157,6 +190,12 @@ export default function FormSearchAndTableCompany() {
             )}
           </TableBody>
         </Table>
+        <ModalDeleteJobVacancy
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          userName={selectedUser?.name}
+          userId={selectedUser?.id}
+        />
       </div>
     </div>
   );

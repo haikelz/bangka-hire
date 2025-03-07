@@ -12,6 +12,8 @@ export function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const isAdminRoute = pathname.startsWith("/dashboard/admin");
+
   const formatPathname = pathname.split("/")[pathname.split("/").length - 1];
 
   return (
@@ -39,6 +41,39 @@ export function Header() {
             </Button>
           </div>
           {isOpen ? (
+            isAdminRoute ? (
+            <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
+              <Link href="/dashboard/admin" className="w-full">
+                <Button
+                  className={cn(
+                    "w-full",
+                    pathname === "/dashboard/admin"
+                      ? "bg-secondary_color_1 hover:bg-primary_color"
+                      : "bg-none"
+                  )}
+                  variant={pathname === "/dashboard/admin" ? "default" : "outline"}
+                >
+                  Dashboard
+                </Button>
+              </Link>
+              <Link href="/dashboard/admin/view-company" className="w-full">
+                <Button
+                  className={cn(
+                    "w-full",
+                    pathname === "/dashboard/admin/view-company"
+                      ? "bg-secondary_color_1 hover:bg-primary_color"
+                      : "bg-none"
+                  )}
+                  variant={
+                    pathname === "/dashboard/admin/view-company" ? "default" : "outline"
+                  }
+                >
+                  View Company
+                </Button>
+              </Link>
+
+            </div>
+            ) : (
             <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
               <Link href="/dashboard" className="w-full">
                 <Button
@@ -85,6 +120,7 @@ export function Header() {
                 </Button>
               </Link>
             </div>
+            )
           ) : null}
         </nav>
       </header>

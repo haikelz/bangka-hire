@@ -218,3 +218,11 @@ export async function getAllUser(
     throw new Error("Gagal mendapatkan data seluruh user!");
   }
 }
+export async function deleteUser(id?: string) {
+  try {
+    const response = await axiosClient.delete(`/job-applicant/delete-user/${id}`);
+    return response.data;
+  } catch (err) {
+    throw new Error("Gagal menghapus user!");
+  }
+}

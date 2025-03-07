@@ -134,12 +134,15 @@ export default function Header() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-primary_color" />
                     <DropdownMenuItem className="hover:bg-primary_color hover:text-white">
+
                       <Link
-                        href="/profile"
+                        href={
+                          data.user.role === "job_applicant" ? "/profile" : data.user.role === "job_vacancy_provider" ? "/dashboard" : "/dashboard/admin"
+                        }
                         className="flex items-center gap-2 w-full hover:bg-primary_color hover:text-white p-2 rounded-sm duration-200 ease-in-out"
                       >
                         <User className="w-4 h-4" />
-                        <p>Edit Profile</p>
+                        <p>{data.user.role === "job_applicant" ? "Edit Profil" : data.user.role === "job_vacancy_provider" ? "Dashboard" : "Dashboard Admin" }</p>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
