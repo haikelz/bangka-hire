@@ -1,6 +1,5 @@
 import { createSession } from "@/app/actions";
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from "@/lib/constants";
-import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -23,11 +22,11 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
   const sessionData = {
+    full_name: "Admin",
     email,
-    password: hashedPassword,
+    password,
+    role: "admin",
   };
 
   await createSession(sessionData);

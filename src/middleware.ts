@@ -1,8 +1,11 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { NODE_ENV } from "./lib/constants";
+import { ADMIN_EMAIL, ADMIN_PASSWORD, NODE_ENV } from "./lib/constants";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set("x-current-path", request.nextUrl.pathname);
+
   const authToken = request.cookies.get("auth-token");
   const isLogin = !!authToken;
 
@@ -37,29 +40,45 @@ export function middleware(request: NextRequest) {
   }
 
   // di cek kalau user belum login dan mau akses halaman dashboard
-  // if (request.nextUrl.pathname.startsWith("/dashboard")) {
-  //   if (!isLogin || !isLoginGoogle) {
-  //     return NextResponse.redirect(new URL("/auth/login", request.url));
-  //   }
+  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    if (!isLogin && !isLoginGoogle) {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
 
-  //   try {
-  //     const tokenData = JSON.parse(atob(authToken.value));
-  //     const expirationDate = new Date(tokenData.expires);
+    try {
+      if (authToken) {
+        const tokenData = JSON.parse(atob(authToken?.value as string));
+        const expirationDate = new Date(tokenData.expires);
 
-  //     if (expirationDate < new Date()) {
-  //       const response = NextResponse.redirect(
-  //         new URL("/auth/login", request.url)
-  //       );
-  //       response.cookies.delete("auth-token");
-  //       return response;
-  //     }
-  //   } catch (error) {
-  //     return NextResponse.redirect(new URL("/auth/login", request.url));
-  //   }
-  // }
+        if (expirationDate < new Date()) {
+          const response = NextResponse.redirect(
+            new URL("/auth/login", request.url)
+          );
+          response.cookies.delete("auth-token");
+          return response;
+        }
 
-  const headers = new Headers(request.headers);
-  headers.set("x-current-path", request.nextUrl.pathname);
+        if (request.nextUrl.pathname.startsWith("/dashboard/admin")) {
+          if (
+            tokenData.user.email !== ADMIN_EMAIL ||
+            tokenData.user.password !== ADMIN_PASSWORD ||
+            tokenData.user.role !== "admin"
+          ) {
+            return NextResponse.redirect(new URL("/", request.url));
+          }
+        }
+      } else if (authTokenGoogle) {
+        // In admin role, we don't use Google login, only using email and password
+        // So, we can redirect the user who logged in with Google to homepage
+        if (request.nextUrl.pathname.startsWith("/dashboard/admin")) {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
+      }
+    } catch (err) {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
+  }
+
   return NextResponse.next({ headers });
 }
 

@@ -28,7 +28,11 @@ export function Sidebar() {
               referrerPolicy="no-referrer"
             />
           ) : (
-            <AvatarFallback className="bg-primary_color text-white text-2xl"></AvatarFallback>
+            <AvatarImage
+              src="/assets/fallback-user.svg"
+              alt="avatar"
+              referrerPolicy="no-referrer"
+            />
           )}
         </Avatar>
         <p className="mt-2">
@@ -83,7 +87,11 @@ export function Sidebar() {
           )}
         </Avatar>
         <p className="mt-2">
-          {user ? user.full_name : userGoogle ? userGoogle.name : "Employer"}
+          {user
+            ? user.full_name
+            : userGoogle
+            ? userGoogle.name
+            : "Job Vacancy Provider"}
         </p>
       </div>
       <div className="flex space-y-2 mt-10 justify-center items-center flex-col w-full">

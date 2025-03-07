@@ -1,5 +1,6 @@
 "use client";
 
+import { formatRupiah } from "@/lib/currency";
 import { formatTanggal } from "@/lib/date";
 import { JobProps } from "@/types";
 import dynamic from "next/dynamic";
@@ -12,7 +13,6 @@ import logo from "../../../public/assets/logo.png";
 import salary from "../../../public/assets/salary.png";
 import status from "../../../public/assets/status-work.png";
 import time from "../../../public/assets/time.png";
-import { formatRupiah } from "../../lib/currency";
 
 const ModalDeleteJobs = dynamic(() =>
   import("../dashboard/modal-delete-jobs").then((comp) => comp.ModalDeleteJobs)
