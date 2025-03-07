@@ -191,7 +191,6 @@ export async function editJobs(data: EditJobProps) {
     const response = await axiosClient.put(`/jobs/edit-jobs`, data);
     return response.data;
   } catch (err) {
-    console.log(err);
     throw new Error("Gagal mengedit lowongan kerja!");
   }
 }
@@ -211,7 +210,9 @@ export async function getAllUser(
   searchUser: string
 ) {
   try {
-    const response = await axiosClient.get(`/get-user?search=${searchUser}&page=${page}&limit=${limit}`);
+    const response = await axiosClient.get(
+      `/get-user?search=${searchUser}&page=${page}&limit=${limit}`
+    );
     return response.data;
   } catch (err) {
     throw new Error("Gagal mendapatkan data seluruh user!");

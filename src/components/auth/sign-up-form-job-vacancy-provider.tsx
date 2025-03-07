@@ -158,11 +158,7 @@ export function SignUpFormJobVacancyProvider() {
               </p>
             )}
           </div>
-          <div className="space-x-2 flex justify-center items-center">
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
-            <span className="text-black">atau</span>
-            <div className="w-full border border-[#3C74FF] h-[1px]"></div>
-          </div>
+
           <Button
             type="submit"
             className="w-full bg-secondary_color_1 hover:bg-primary_color"
@@ -174,6 +170,11 @@ export function SignUpFormJobVacancyProvider() {
               "Daftar"
             )}
           </Button>
+          <div className="space-x-2 flex justify-center items-center">
+            <div className="w-full border border-primary_color h-[1px]"></div>
+            <span className="text-black">atau</span>
+            <div className="w-full border border-primary_color h-[1px]"></div>
+          </div>
           <Button
             type="button"
             onClick={() => handleSignUpWithGoogle()}

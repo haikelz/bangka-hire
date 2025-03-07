@@ -4,18 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas/auth-schema";
-import { loginAccount } from "@/services/auth";
+import { loginAdmin } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export function LoginFormJobApplicant() {
+export function LoginFormAdmin() {
   const router = useRouter();
 
   const {
@@ -35,15 +33,12 @@ export function LoginFormJobApplicant() {
 
   const loginMutation = useMutation({
     mutationFn: async () =>
-      await loginAccount({
-        email: getValues("email"),
-        password: getValues("password"),
-      }),
+      await loginAdmin(getValues("email"), getValues("password")),
     onSuccess: async (response) => {
       // cek status dari response
       if (response.status_code === 400) {
         return toast({
-          title: "Gagal login!",
+          title: "Gagal login sebagai admin!",
           description: response.message,
           variant: "destructive",
         });
@@ -51,12 +46,12 @@ export function LoginFormJobApplicant() {
 
       await queryClient.invalidateQueries().then(() => {
         setTimeout(() => {
-          router.push("/");
+          router.push("/dashboard/admin");
         }, 1000);
 
         toast({
           title: "Sukses login!",
-          description: "Kamu akan dialihkan ke homepage!",
+          description: "Kamu akan dialihkan ke halaman dashboard admin!",
         });
       });
     },
@@ -77,11 +72,9 @@ export function LoginFormJobApplicant() {
       <div className="w-full space-y-4">
         <Image src="/assets/logo.png" alt="logo" width={138.72} height={77} />
         <div className="space-y-2">
-          <h3 className="text-black text-xl font-bold">Selamat Datang!</h3>
-          <p className="text-black">
-            Daftar sekarang dan cari kerjaan yang cocok untukmu di wilayah
-            Bangka Belitung.
-          </p>
+          <h3 className="text-black text-xl font-bold">
+            Selamat Datang! Admin
+          </h3>
         </div>
         <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
@@ -106,7 +99,6 @@ export function LoginFormJobApplicant() {
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
-
           <Button
             type="submit"
             className="w-full bg-secondary_color_1 hover:bg-primary_color"
@@ -118,54 +110,6 @@ export function LoginFormJobApplicant() {
               "Masuk"
             )}
           </Button>
-          <div className="space-x-2 flex justify-center items-center">
-            <div className="w-full border border-primary_color h-[1px]"></div>
-            <span className="text-black">atau</span>
-            <div className="w-full border border-primary_color h-[1px]"></div>
-          </div>
-          <Button
-            type="button"
-            onClick={() =>
-              signIn("google", {
-                callbackUrl: "/dashboard",
-              })
-            }
-            className="border border-primary_color bg-[#F3F9FF] rounded-sm w-full py-5"
-            variant="outline"
-          >
-            <Image
-              src="/assets/google.svg"
-              alt="google icon"
-              width={20}
-              height={20}
-            />
-            <p className="text-black">Lanjut Dengan Google</p>
-          </Button>
-          {/* nge link ke daftar akun */}
-          <div>
-            <p className="text-black">
-              Belum punya akun?{" "}
-              <span className="text-primary_color">
-                <Link className="hover:underline" href={"/auth/sign-up"}>
-                  Daftar Sekarang
-                </Link>
-              </span>
-            </p>
-          </div>
-          {/* daftar sebagai employeer */}
-          <div>
-            <p className="text-black">
-              Daftar sebagai{" "}
-              <span className="text-primary_color">
-                <Link
-                  className="hover:underline"
-                  href={"/auth/sign-up-job-vacancy-provider"}
-                >
-                  Employeer ?
-                </Link>
-              </span>
-            </p>
-          </div>
         </form>
       </div>
     </div>

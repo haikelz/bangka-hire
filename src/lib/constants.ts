@@ -11,3 +11,6 @@ export const NODE_ENV = process.env.NODE_ENV as "production" | "development";
 export const UPLOADTHING_TOKEN = process.env.UPLOADTHING_TOKEN as string;
 export const UPLOADTHING_SECRET_KEY = process.env
   .UPLOADTHING_SECRET_KEY as string;
+
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL as string;
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD as string;

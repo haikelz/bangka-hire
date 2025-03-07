@@ -1,5 +1,8 @@
 "use client";
 
+import { IsErrorClient } from "@/components/react-query/is-error-client";
+import { IsPendingClient } from "@/components/react-query/is-pending-client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -26,6 +29,12 @@ export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    setValueSearchUser(formData.get("search-user") as string);
+  }
+
   const { data, isPending, isError } = useQuery({
     queryKey: ["user", valueSearch, currentPageUser],
     queryFn: async () => {
@@ -36,14 +45,10 @@ export default function FormSearchAndTableUser() {
     staleTime: 1000 * 60 * 5,
   });
 
+  if (isError) return <IsErrorClient />;
+
   const users = data?.data as UserProps[];
   const totalPages = data?.totalPages ?? 1;
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    setValueSearchUser(formData.get("search-user") as string);
-  }
 
   return (
     <div className="bg-secondary_color_2 rounded-lg p-6 space-y-3">
@@ -75,13 +80,79 @@ export default function FormSearchAndTableUser() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user, index: number) => (
-            <TableRow key={user.id}>
-              <TableCell className="font-medium">{index + 1}</TableCell>
-              <TableCell>{user.full_name}</TableCell>
-              <TableCell>{user.email}</TableCell>
+          {isPending ? (
+            <TableRow>
+              <TableCell colSpan={5}>
+                <IsPendingClient className="my-1 h-40 w-full" />
+              </TableCell>
             </TableRow>
-          ))}
+          ) : users && users.length ? (
+            <>
+              {users.map((user, index: number) => (
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>{user.full_name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <span className="text-blue-500">Active</span>
+                  </TableCell>
+                  <TableCell>
+                    <Button className="text-gray-500 hover:text-gray-700 bg-transparent text-2xl border-none shadow-none hover:bg-transparent">
+                      ⋮
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {data?.totalItems > 10 && totalPages > 1 && (
+                <TableRow>
+                  <TableCell colSpan={5}>
+                    <Pagination className="mt-4 justify-end">
+                      <PaginationContent className="flex justify-center items-center gap-2">
+                        <PaginationItem>
+                          <PaginationPrevious
+                            onClick={() =>
+                              setCurrentPageUser((prev) =>
+                                Math.max(prev - 1, 1)
+                              )
+                            }
+                            className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                              currentPageUser === 1 ? "hidden" : ""
+                            }`}
+                          />
+                        </PaginationItem>
+                        <span className="font-medium text-sm">
+                          Page {currentPageUser} of {totalPages}
+                        </span>
+                        <PaginationItem>
+                          <PaginationNext
+                            onClick={() =>
+                              setCurrentPageUser((prev) =>
+                                prev < totalPages ? prev + 1 : prev
+                              )
+                            }
+                            className={`cursor-pointer bg-primary_color rounded-lg text-white hover:bg-secondary_color_1 hover:text-white ${
+                              currentPageUser === totalPages ? "hidden" : ""
+                            }`}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </TableCell>
+                </TableRow>
+              )}
+            </>
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={5}
+                className="pt-4 font-medium text-lg text-center"
+              >
+                <span className="text-gray-500">
+                  Perusahaan tidak ditemukan
+                </span>
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
       {/* Pagination */}

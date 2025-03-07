@@ -7,7 +7,7 @@ export default function AdminPage() {
       {/* kotak user */}
       <FormSearchAndTableUser />
       {/* kotak company */}
-      <FormSearchAndTableCompany />
+      {<FormSearchAndTableCompany />}
     </div>
   );
 }

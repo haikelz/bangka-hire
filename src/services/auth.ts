@@ -64,3 +64,15 @@ export async function loginAccount(
     throw new Error(err.response?.data?.message);
   }
 }
+
+export async function loginAdmin(email: string, password: string) {
+  try {
+    const response = await axiosClient.post("/auth/login/admin", {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message);
+  }
+}

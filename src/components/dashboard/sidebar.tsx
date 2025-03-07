@@ -32,7 +32,7 @@ export function Sidebar() {
           )}
         </Avatar>
         <p className="mt-2">
-          {user ? user.full_name : userGoogle ? userGoogle.name : "Employer"}
+          {user ? user.full_name : userGoogle ? userGoogle.name : "Admin"}
         </p>
       </div>
       <div className="flex space-y-2 mt-10 justify-center items-center flex-col w-full">
