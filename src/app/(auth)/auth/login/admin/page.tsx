@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 const title = "Login Admin";
 const description =
   "Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan !";
-const url = "https://bangka-hire.ekel.dev/auth/login";
+const url = "https://bangka-hire.ekel.dev/auth/login/admin";
 
 export const metadata: Metadata = {
   title,

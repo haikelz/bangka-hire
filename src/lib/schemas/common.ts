@@ -41,8 +41,8 @@ export const editProfileInDashboardAdminSchema = z.object({
       invalid_type_error: "Email harus berupa email",
     })
     .email({
-      message: "Format email tidak valid"
-  }),
+      message: "Format email tidak valid",
+    }),
   phone_number: z
     .string({
       required_error: "Nomor telepon harus diisi",

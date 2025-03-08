@@ -58,6 +58,7 @@ export async function middleware(request: NextRequest) {
           return response;
         }
 
+        // Don't accept the users who has role other than admin, and not matched email && password
         if (request.nextUrl.pathname.startsWith("/dashboard/admin")) {
           if (
             tokenData.user.email !== ADMIN_EMAIL ||
