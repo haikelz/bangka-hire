@@ -10,7 +10,6 @@ export async function PUT(req: NextRequest) {
     city,
     street,
     total_employers,
-    social_media,
   } = await req.json();
 
   const existingJobVacancyProvider = await db.user.findUnique({
@@ -41,6 +40,21 @@ export async function PUT(req: NextRequest) {
     full_name = existingJobVacancyProvider.full_name;
   }
 
+  // jika company_type kosong pakai company_type lama
+  if (!company_type) {
+    company_type = existingJobVacancyProvider.profile?.company_type;
+  }
+
+  // jika total_employers kosong pakai total_employers lama
+  if (!total_employers) {
+    total_employers = existingJobVacancyProvider.profile?.total_employers;
+  }
+
+  // jika city kosong pakai city lama
+  if (!city) {
+    city = existingJobVacancyProvider.profile?.city;
+  }
+
 
   await db.profilCompany.update({
     where: {
@@ -55,10 +69,6 @@ export async function PUT(req: NextRequest) {
       company_type,
       total_employers,
       description_company,
-      linkedin: social_media.linkedin,
-      instagram: social_media.instagram,
-      facebook: social_media.facebook,
-      gmail: social_media.gmail,
       city,
       street,
     },

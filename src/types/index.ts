@@ -7,6 +7,7 @@ export type ChildrenProps = {
 export type EditProfileUser = {
   description?: string;
   user_id?: string;
+  email?: string;
   full_name?: string;
   cv?: string;
   phone_number?: string;

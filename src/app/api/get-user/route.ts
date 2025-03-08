@@ -25,6 +25,9 @@ export async function GET(req : NextRequest) {
         mode : "insensitive"
       }
     },
+    omit: {
+      password: false,
+    },
     orderBy: {
       createdAt: "desc",
     }

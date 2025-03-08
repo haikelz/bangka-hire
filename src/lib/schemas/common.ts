@@ -23,6 +23,38 @@ export const editProfileSchema = z.object({
     }),
 });
 
+export const editProfileInDashboardAdminSchema = z.object({
+  full_name: z
+    .string({
+      required_error: "Nama lengkap harus diisi",
+      invalid_type_error: "Nama lengkap harus berupa text",
+    })
+    .min(3, {
+      message: "Nama lengkap minimal 3 karakter",
+    })
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: "Nama lengkap hanya boleh mengandung huruf dan spasi",
+    }),
+  email: z
+    .string({
+      required_error: "Email harus diisi",
+      invalid_type_error: "Email harus berupa email",
+    })
+    .email({
+      message: "Format email tidak valid"
+  }),
+  phone_number: z
+    .string({
+      required_error: "Nomor telepon harus diisi",
+      invalid_type_error: "Nomor telepon harus berupa angka",
+    })
+    .regex(/^0[1-9][0-9]{8,11}$/, {
+      message:
+        "Nomor telepon tidak valid, harus dimulai dengan 0 dan terdiri dari 10-13 angka",
+    }),
+  description: z.string().optional(),
+});
+
 export const editProfileTentangSayaSchema = z.object({
   description: z.string().min(5, {
     message: "Deskripsikan dirimu dengan minimal 5 karakter",
@@ -57,20 +89,31 @@ export const reviewJobVacancyProviderSchema = z.object({
 });
 
 export const editJobVacancyProviderProfileSchema = z.object({
-  full_name: z.string().min(1, "Company name is required"),
-  company_type: z.string().min(1, "Industry field is required"),
+  full_name: z.string().min(1, "Nama perusahaan harus diisi"),
+  company_type: z.string().min(1, "Bidang industri harus diisi"),
   description_company: z
     .string()
-    .min(1, "Information about the company is required"),
-  city: z.string().min(1, "Location is required"),
-  street: z.string().min(1, "Complete address is required"),
-  total_employers: z.string().min(1, "Total Employers is required"),
+    .min(1, "Informasi tentang perusahaan harus diisi"),
+  city: z.string().min(1, "Lokasi wajib diisi"),
+  street: z.string().min(1, "Alamat lengkap wajib diisi"),
+  total_employers: z.string().min(1, "Total Karyawan wajib diisi"),
   social_media: z.object({
-    linkedin: z.string().url("Invalid Linkedin URL format").optional(),
-    instagram: z.string().url("Invalid Instagram URL format").optional(),
-    facebook: z.string().url("Invalid Facebook URL format").optional(),
-    gmail: z.string().email("Invalid Gmail format").optional(),
+    linkedin: z.string().url("Linkedin URL tidak valid").optional(),
+    instagram: z.string().url("Instagram URL tidak valid").optional(),
+    facebook: z.string().url("Facebook URL tidak valid").optional(),
+    gmail: z.string().email("Gmail tidak valid").optional(),
   }),
+});
+
+export const editAdminJobVacancyProviderProfileSchema = z.object({
+  full_name: z.string().min(1, "Nama perusahaan harus diisi"),
+  company_type: z.string().min(1, "Bidang industri harus diisi"),
+  description_company: z
+    .string()
+    .min(1, "Informasi tentang perusahaan harus diisi"),
+  city: z.string().min(1, "Lokasi wajib diisi"),
+  street: z.string().min(1, "Alamat lengkap wajib diisi"),
+  total_employers: z.string().min(1, "Total Karyawan wajib diisi"),
 });
 
 export const createJobVacancyProviderProfileSchema = z.object({
