@@ -5,7 +5,7 @@ import { toast } from "@/hooks/use-toast";
 import { applyJobSchema } from "@/lib/schemas/common";
 import { UploadButton } from "@/lib/uploadthing";
 import { createApplyJob, getUserOnJobs } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader, LockIcon, VerifiedIcon, X } from "lucide-react";
@@ -197,10 +197,11 @@ export function ModalFormJobApply({
                 <Loader className="animate-spin" />
               </div>
             ) : (
-
               <div className="flex items-center gap-2">
                 <LockIcon color="black" width={20} height={20} />
-                <p className="font-medium">Tidak Memiliki Akses Kirim Lamaran</p>
+                <p className="font-medium">
+                  Tidak Memiliki Akses Kirim Lamaran
+                </p>
               </div>
             )}
           </Button>

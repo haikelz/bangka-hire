@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { ProfilCompanyProps, UserProps } from "@/types";
-import { ProfilCompany } from "@prisma/client";
+import type { ProfilCompanyProps, UserProps } from "@/types";
+import type { ProfilCompany } from "@prisma/client";
 import { DeleteIcon, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";

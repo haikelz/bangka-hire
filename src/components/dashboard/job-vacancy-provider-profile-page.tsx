@@ -2,7 +2,7 @@
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { getCompanyByUserId, getUserPrisma } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useState } from "react";

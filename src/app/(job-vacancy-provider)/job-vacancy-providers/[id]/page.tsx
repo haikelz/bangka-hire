@@ -1,6 +1,6 @@
 import Layout from "@/components/common/container";
 import { DetailJobVacancyProviderPage } from "@/components/job-vacancy-provider/detail-job-vacancy-provider-page";
-import { APIRouteParamsProps } from "@/types";
+import type { APIRouteParamsProps } from "@/types";
 
 export default async function DetailJobVacancyProvider({
   params,

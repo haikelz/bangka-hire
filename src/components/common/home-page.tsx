@@ -2,7 +2,7 @@
 
 import { getJobs } from "@/services/common";
 import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
-import { JobProps } from "@/types";
+import type { JobProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";

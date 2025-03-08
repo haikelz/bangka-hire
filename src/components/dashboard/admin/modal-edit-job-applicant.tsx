@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { editProfileInDashboardAdminSchema } from "@/lib/schemas/common";
 import { editProfileJobApplicant } from "@/services/admin";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";

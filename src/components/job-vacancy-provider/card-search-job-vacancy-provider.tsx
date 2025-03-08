@@ -1,5 +1,5 @@
 import { calculateAverageRating } from "@/lib/number";
-import { CommentProps, ProfilCompanyProps } from "@/types";
+import type { CommentProps, ProfilCompanyProps } from "@/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

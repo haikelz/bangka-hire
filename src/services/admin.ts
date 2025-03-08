@@ -1,4 +1,4 @@
-import { EditJobVacancyProviderProfileProps, EditProfileUser } from "@/types";
+import type { EditJobVacancyProviderProfileProps, EditProfileUser } from "@/types";
 import { axiosClient } from "./axios";
 
 export async function editProfileJobApplicant(data: EditProfileUser) {

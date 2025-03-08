@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { APIRouteParamsProps } from "@/types";
+import type { APIRouteParamsProps } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest, props: APIRouteParamsProps) {
@@ -7,12 +7,12 @@ export async function DELETE(req: NextRequest, props: APIRouteParamsProps) {
 
   await db.job.delete({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 
   return NextResponse.json({
     status_code: 200,
-    message: "Sukses menghapus job!"
+    message: "Sukses menghapus job!",
   });
 }

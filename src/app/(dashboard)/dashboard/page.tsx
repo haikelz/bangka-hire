@@ -1,5 +1,5 @@
 import { DashboardPage } from "@/components/dashboard/dashboard-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Dashboard Perusahaan | Bangka Hire";
 const description =

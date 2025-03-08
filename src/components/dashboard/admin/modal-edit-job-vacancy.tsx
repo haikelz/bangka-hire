@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { editAdminJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
 import { editJobVacancyProviderProfileAdmin } from "@/services/admin";
-import { ProfilCompanyProps, UserProps } from "@/types";
+import type { ProfilCompanyProps, UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FacebookIcon, InstagramIcon, LinkedinIcon, Loader, MailIcon } from "lucide-react";

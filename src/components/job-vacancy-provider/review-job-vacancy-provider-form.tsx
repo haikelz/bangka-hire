@@ -7,12 +7,12 @@ import { reviewJobVacancyProviderSchema } from "@/lib/schemas/common";
 import { cn } from "@/lib/utils";
 import { createReviewJobVacancyProvider } from "@/services/common";
 import { ratingAtom } from "@/store";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { StarIcon } from "lucide-react";
-import { DefaultSession } from "next-auth";
+import type { DefaultSession } from "next-auth";
 import { useForm } from "react-hook-form";
 import { OnMutateClient } from "../react-query/on-mutate-client";
 

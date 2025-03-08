@@ -3,7 +3,7 @@
 import { citiesList } from "@/lib/static";
 import { searchJob, valueFilterCity, valueFilterSalary } from "@/store";
 import { useAtom } from "jotai";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {

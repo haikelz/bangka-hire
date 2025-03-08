@@ -5,7 +5,7 @@ import { calculateAverageRating } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import { getJobVacancyProvider } from "@/services/common";
 import { companyTabAtom } from "@/store";
-import { CommentProps, ProfilCompanyProps } from "@/types";
+import type { CommentProps, ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { format, formatDate } from "date-fns/format";
 import { useAtom } from "jotai";

@@ -1,5 +1,5 @@
 import EditProfilePage from "@/components/job-applicant/edit-profile-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Profile | Bangka Hire";
 const description =

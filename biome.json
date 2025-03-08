@@ -68,7 +68,8 @@
       "style": {
         "noNamespace": "error",
         "useAsConstAssertion": "error",
-        "useBlockStatements": "off"
+        "useBlockStatements": "off",
+        "useImportType": "error"
       },
       "suspicious": {
         "noAssignInExpressions": "error",

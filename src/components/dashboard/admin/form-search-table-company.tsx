@@ -3,7 +3,12 @@
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -21,12 +26,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getJobVacancyProviders } from "@/services/common";
-import { ProfilCompanyProps } from "@/types";
+import type { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { DeleteIcon, SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TableRowJobVacancy from "./table-row-job-vacancy";
+
+const ModalDeleteJobVacancy = dynamic(() =>
+  import("./modal-delete-job-vacancy").then(
+    (comp) => comp.ModalDeleteJobVacancy
+  )
+);
 
 export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);

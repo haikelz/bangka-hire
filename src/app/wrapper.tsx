@@ -1,6 +1,6 @@
 "use client";
 
-import { ChildrenProps } from "@/types";
+import type { ChildrenProps } from "@/types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";

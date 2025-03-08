@@ -1,6 +1,6 @@
 import Layout from "@/components/common/container";
 import HomePage from "@/components/common/home-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import hero from "../../public/assets/hero.png";
 

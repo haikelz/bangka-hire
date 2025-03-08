@@ -1,5 +1,5 @@
 import { JobVacancyProviderProfilePage } from "@/components/dashboard/job-vacancy-provider-profile-page";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const title = "Profile Pemberi Kerja | Bangka Hire";
 const description =

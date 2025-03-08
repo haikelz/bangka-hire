@@ -3,7 +3,12 @@
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -21,18 +26,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getAllUser } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { DeleteIcon, SearchIcon, User } from "lucide-react";
-import { useState } from "react";
+import { DeleteIcon, SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import TableRowUser from "./table-row-user";
-
 
 const ModalDeleteJobApplicant = dynamic(() =>
   import("./modal-delete-job-applicant").then(
     (comp) => comp.ModalDeleteJobApplicant
-  ));
+  )
+);
 
 const ModalEditJobApplicant = dynamic(() =>
   import("./modal-edit-job-applicant").then(
@@ -42,7 +47,6 @@ const ModalEditJobApplicant = dynamic(() =>
 export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
-
 
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -88,13 +92,13 @@ export default function FormSearchAndTableUser() {
       {/* tabel nama,no,email */}
       <Table>
         <TableHeader>
-        <TableRow className="flex w-full justify-between text-sm md:text-base">
-          <TableHead className="flex-[0.1]">No</TableHead>
-          <TableHead className="flex-[0.2]">Nama</TableHead>
-          <TableHead className="flex-[0.25]">Email</TableHead>
-          <TableHead className="flex-[0.25]">Status</TableHead>
-          <TableHead className="flex-[0.05]">Action</TableHead>
-        </TableRow>
+          <TableRow className="flex w-full justify-between text-sm md:text-base">
+            <TableHead className="flex-[0.1]">No</TableHead>
+            <TableHead className="flex-[0.2]">Nama</TableHead>
+            <TableHead className="flex-[0.25]">Email</TableHead>
+            <TableHead className="flex-[0.25]">Status</TableHead>
+            <TableHead className="flex-[0.05]">Action</TableHead>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {isPending ? (
@@ -153,9 +157,7 @@ export default function FormSearchAndTableUser() {
                 colSpan={5}
                 className="pt-4 font-medium text-lg text-center"
               >
-                <span className="text-gray-500">
-                  User tidak ditemukan
-                </span>
+                <span className="text-gray-500">User tidak ditemukan</span>
               </TableCell>
             </TableRow>
           )}

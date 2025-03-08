@@ -19,7 +19,7 @@ import {
   createJobVacancyProviderProfile,
   editJobVacancyProviderProfile,
 } from "@/services/common";
-import { UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -30,7 +30,7 @@ import {
   MailIcon,
   PencilIcon,
 } from "lucide-react";
-import { DefaultSession } from "next-auth";
+import type { DefaultSession } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";

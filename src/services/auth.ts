@@ -1,4 +1,4 @@
-import { JobApplicantProps } from "@/types";
+import type { JobApplicantProps } from "@/types";
 import { axiosClient } from "./axios";
 
 export async function createAccount(

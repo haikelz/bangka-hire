@@ -1,5 +1,5 @@
 import DetailJobPage from "@/components/jobs/detail-job-page";
-import { APIRouteParamsProps } from "@/types";
+import type { APIRouteParamsProps } from "@/types";
 
 export default async function Job({ params }: APIRouteParamsProps) {
   const { id } = await params;
