@@ -2,13 +2,6 @@
 
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -28,7 +21,7 @@ import {
 import { getAllUser } from "@/services/common";
 import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { DeleteIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TableRowUser from "./table-row-user";
@@ -42,12 +35,12 @@ const ModalDeleteJobApplicant = dynamic(() =>
 const ModalEditJobApplicant = dynamic(() =>
   import("./modal-edit-job-applicant").then(
     (comp) => comp.ModalEditJobApplicant
-  ));
+  )
+);
 
 export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -110,7 +103,7 @@ export default function FormSearchAndTableUser() {
           ) : users && users.length ? (
             <>
               {users.map((user, index: number) => (
-               <TableRowUser key={user.id} user={user} index={index} />
+                <TableRowUser key={user.id} user={user} index={index} />
               ))}
               {/* pagination */}
               {data?.totalItems > 10 && totalPages > 1 && (

@@ -2,13 +2,6 @@
 
 import { IsErrorClient } from "@/components/react-query/is-error-client";
 import { IsPendingClient } from "@/components/react-query/is-pending-client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -28,7 +21,7 @@ import {
 import { getJobVacancyProviders } from "@/services/common";
 import type { ProfilCompanyProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { DeleteIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TableRowJobVacancy from "./table-row-job-vacancy";
@@ -103,11 +96,7 @@ export default function FormSearchAndTableCompany() {
             ) : jobVacancies && jobVacancies.length ? (
               <>
                 {jobVacancies.map((job, index: number) => (
-                  <TableRowJobVacancy
-                    key={job.id}
-                    job={job}
-                    index={index}
-                  />
+                  <TableRowJobVacancy key={job.id} job={job} index={index} />
                 ))}
                 {data?.data?.totalItems > 10 && totalPages > 1 && (
                   <TableRow>

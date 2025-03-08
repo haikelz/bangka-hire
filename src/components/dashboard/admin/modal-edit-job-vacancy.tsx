@@ -1,95 +1,103 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { editAdminJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
+import { citiesList, employeeRanges } from "@/lib/static";
 import { editJobVacancyProviderProfileAdmin } from "@/services/admin";
-import type { ProfilCompanyProps, UserProps } from "@/types";
+import type { ProfilCompanyProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FacebookIcon, InstagramIcon, LinkedinIcon, Loader, MailIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { citiesList, employeeRanges } from "@/lib/static";
 
 type ModalEditJobApplicantProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
-  jobVacancyProvider? : ProfilCompanyProps
-}
+  jobVacancyProvider?: ProfilCompanyProps;
+};
 
-export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvider }: ModalEditJobApplicantProps) {
-    const queryClient = useQueryClient();
-    const {
-        formState: { errors },
-        getValues,
-        register,
-        handleSubmit,
-        watch,
-        setValue,
-      } = useForm<z.infer<typeof editAdminJobVacancyProviderProfileSchema>>({
-        defaultValues: {
-          full_name: jobVacancyProvider?.user?.full_name ?? "",
-          company_type: jobVacancyProvider?.company_type ?? "",
-          description_company:
-            jobVacancyProvider?.description_company ?? "",
-          street: jobVacancyProvider?.street ?? "",
-          city: jobVacancyProvider?.city ?? "",
-          total_employers: jobVacancyProvider?.total_employers ?? "",
-        },
-        resolver: zodResolver(editAdminJobVacancyProviderProfileSchema),
-      });
+export function ModalEditJobVacancy({
+  openModal,
+  setOpenModal,
+  jobVacancyProvider,
+}: ModalEditJobApplicantProps) {
+  const queryClient = useQueryClient();
+  const {
+    formState: { errors },
+    getValues,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+  } = useForm<z.infer<typeof editAdminJobVacancyProviderProfileSchema>>({
+    defaultValues: {
+      full_name: jobVacancyProvider?.user?.full_name ?? "",
+      company_type: jobVacancyProvider?.company_type ?? "",
+      description_company: jobVacancyProvider?.description_company ?? "",
+      street: jobVacancyProvider?.street ?? "",
+      city: jobVacancyProvider?.city ?? "",
+      total_employers: jobVacancyProvider?.total_employers ?? "",
+    },
+    resolver: zodResolver(editAdminJobVacancyProviderProfileSchema),
+  });
 
-      const editProfileMutation = useMutation({
-        mutationFn: async () =>
-          await editJobVacancyProviderProfileAdmin({
-            user_id: jobVacancyProvider?.user_id as string,
-            full_name: getValues("full_name"),
-            company_type: getValues("company_type"),
-            description_company: getValues("description_company"),
-            city: watch("city"),
-            street: getValues("street"),
-            total_employers: watch("total_employers"),
-          }),
-        onSuccess: async (response) => {
-          if (response.status_code === 400) {
-            return toast({
-              title: "Gagal mengupdate profile!",
-              description: response.message,
-              variant: "destructive",
-            });
-          }
-
-          await queryClient.invalidateQueries({
-            queryKey: ["jobVacancies"],
-            refetchType: "all",
-          });
-
-          // close modal box
-          setOpenModal(false);
-
-          toast({
-            title: "Sukses mengupdate profile!",
-            description: "Kamu Berhasil mengupdate profile!",
-          });
-        },
-        onError: (data) => {
-          return toast({
-            title: "Gagal mengupdate profile!",
-            description: data.message,
-          });
-        },
-      });
-
-      async function onSubmit() {
-        await editProfileMutation.mutateAsync();
+  const editProfileMutation = useMutation({
+    mutationFn: async () =>
+      await editJobVacancyProviderProfileAdmin({
+        user_id: jobVacancyProvider?.user_id as string,
+        full_name: getValues("full_name"),
+        company_type: getValues("company_type"),
+        description_company: getValues("description_company"),
+        city: watch("city"),
+        street: getValues("street"),
+        total_employers: watch("total_employers"),
+      }),
+    onSuccess: async (response) => {
+      if (response.status_code === 400) {
+        return toast({
+          title: "Gagal mengupdate profile!",
+          description: response.message,
+          variant: "destructive",
+        });
       }
+
+      await queryClient.invalidateQueries({
+        queryKey: ["jobVacancies"],
+        refetchType: "all",
+      });
+
+      // close modal box
+      setOpenModal(false);
+
+      toast({
+        title: "Sukses mengupdate profile!",
+        description: "Kamu Berhasil mengupdate profile!",
+      });
+    },
+    onError: (data) => {
+      return toast({
+        title: "Gagal mengupdate profile!",
+        description: data.message,
+      });
+    },
+  });
+
+  async function onSubmit() {
+    await editProfileMutation.mutateAsync();
+  }
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -102,7 +110,10 @@ export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvide
         {/* Form Edit Company */}
         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Label htmlFor="full_name" className="font-bold text-sm md:text-base">
+            <Label
+              htmlFor="full_name"
+              className="font-bold text-sm md:text-base"
+            >
               Nama Perusahaan
             </Label>
             <Input
@@ -116,7 +127,10 @@ export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvide
             ) : null}
           </div>
           <div>
-            <Label htmlFor="company_type" className="font-bold text-sm md:text-base">
+            <Label
+              htmlFor="company_type"
+              className="font-bold text-sm md:text-base"
+            >
               Industri
             </Label>
             <Input
@@ -130,7 +144,10 @@ export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvide
             ) : null}
           </div>
           <div>
-            <Label htmlFor="description" className="font-bold text-sm md:text-base">
+            <Label
+              htmlFor="description"
+              className="font-bold text-sm md:text-base"
+            >
               Tentang Perusahaan
             </Label>
             <Textarea
@@ -145,7 +162,10 @@ export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvide
             ) : null}
           </div>
           <div>
-            <Label htmlFor="total_employers" className="font-bold text-sm md:text-base">
+            <Label
+              htmlFor="total_employers"
+              className="font-bold text-sm md:text-base"
+            >
               Total Karyawan
             </Label>
             <Select
@@ -201,16 +221,20 @@ export function ModalEditJobVacancy({ openModal, setOpenModal, jobVacancyProvide
           </div>
 
           <div className="flex justify-end items-center">
-              <Button type="submit" className="bg-secondary_color_1" disabled={editProfileMutation.isPending}>
-                {editProfileMutation.isPending ? (
-                  <Loader className="w-6 h-6 animate-spin" />
-                ) : (
-                  "Simpan"
-                )}
-              </Button>
+            <Button
+              type="submit"
+              className="bg-secondary_color_1"
+              disabled={editProfileMutation.isPending}
+            >
+              {editProfileMutation.isPending ? (
+                <Loader className="w-6 h-6 animate-spin" />
+              ) : (
+                "Simpan"
+              )}
+            </Button>
           </div>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -42,84 +42,87 @@ export function Header() {
           </div>
           {isOpen ? (
             isAdminRoute ? (
-            <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
-              <Link href="/dashboard/admin" className="w-full">
-                <Button
-                  className={cn(
-                    "w-full",
-                    pathname === "/dashboard/admin"
-                      ? "bg-secondary_color_1 hover:bg-primary_color"
-                      : "bg-none"
-                  )}
-                  variant={pathname === "/dashboard/admin" ? "default" : "outline"}
-                >
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="/dashboard/admin/view-company" className="w-full">
-                <Button
-                  className={cn(
-                    "w-full",
-                    pathname === "/dashboard/admin/view-company"
-                      ? "bg-secondary_color_1 hover:bg-primary_color"
-                      : "bg-none"
-                  )}
-                  variant={
-                    pathname === "/dashboard/admin/view-company" ? "default" : "outline"
-                  }
-                >
-                  View Company
-                </Button>
-              </Link>
-
-            </div>
+              <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
+                <Link href="/dashboard/admin" className="w-full">
+                  <Button
+                    className={cn(
+                      "w-full",
+                      pathname === "/dashboard/admin"
+                        ? "bg-secondary_color_1 hover:bg-primary_color"
+                        : "bg-none"
+                    )}
+                    variant={
+                      pathname === "/dashboard/admin" ? "default" : "outline"
+                    }
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+                <Link href="/dashboard/admin/view-company" className="w-full">
+                  <Button
+                    className={cn(
+                      "w-full",
+                      pathname === "/dashboard/admin/view-company"
+                        ? "bg-secondary_color_1 hover:bg-primary_color"
+                        : "bg-none"
+                    )}
+                    variant={
+                      pathname === "/dashboard/admin/view-company"
+                        ? "default"
+                        : "outline"
+                    }
+                  >
+                    View Company
+                  </Button>
+                </Link>
+              </div>
             ) : (
-            <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
-              <Link href="/dashboard" className="w-full">
-                <Button
-                  className={cn(
-                    "w-full",
-                    pathname === "/dashboard"
-                      ? "bg-secondary_color_1 hover:bg-primary_color"
-                      : "bg-none"
-                  )}
-                  variant={pathname === "/dashboard" ? "default" : "outline"}
-                >
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="/dashboard/jobs" className="w-full">
-                <Button
-                  className={cn(
-                    "w-full",
-                    pathname === "/dashboard/jobs"
-                      ? "bg-secondary_color_1 hover:bg-primary_color"
-                      : "bg-none"
-                  )}
-                  variant={
-                    pathname === "/dashboard/jobs" ? "default" : "outline"
-                  }
-                >
-                  Jobs
-                </Button>
-              </Link>
-              {/** Show the company section only in job_vacancy_provider role */}
-              <Link href="/dashboard/profile" className="w-full">
-                <Button
-                  className={cn(
-                    "w-full",
-                    pathname === "/dashboard/profile"
-                      ? "bg-secondary_color_1 hover:bg-primary_color"
-                      : "bg-none"
-                  )}
-                  variant={
-                    pathname === "/dashboard/profile" ? "default" : "outline"
-                  }
-                >
-                  Profile Perusahaan
-                </Button>
-              </Link>
-            </div>
+              <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">
+                <Link href="/dashboard" className="w-full">
+                  <Button
+                    className={cn(
+                      "w-full",
+                      pathname === "/dashboard"
+                        ? "bg-secondary_color_1 hover:bg-primary_color"
+                        : "bg-none"
+                    )}
+                    variant={pathname === "/dashboard" ? "default" : "outline"}
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+                <Link href="/dashboard/jobs" className="w-full">
+                  <Button
+                    className={cn(
+                      "w-full",
+                      pathname === "/dashboard/jobs"
+                        ? "bg-secondary_color_1 hover:bg-primary_color"
+                        : "bg-none"
+                    )}
+                    variant={
+                      pathname === "/dashboard/jobs" ? "default" : "outline"
+                    }
+                  >
+                    Jobs
+                  </Button>
+                </Link>
+                {/** Show the company section only in job_vacancy_provider role */}
+                <Link href="/dashboard/profile" className="w-full">
+                  <Button
+                    className={cn(
+                      "w-full",
+                      pathname === "/dashboard/profile"
+                        ? "bg-secondary_color_1 hover:bg-primary_color"
+                        : "bg-none"
+                    )}
+                    variant={
+                      pathname === "/dashboard/profile" ? "default" : "outline"
+                    }
+                  >
+                    Profile Perusahaan
+                  </Button>
+                </Link>
+              </div>
             )
           ) : null}
         </nav>

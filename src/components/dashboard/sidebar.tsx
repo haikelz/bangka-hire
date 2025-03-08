@@ -62,7 +62,9 @@ export function Sidebar() {
                 : "bg-none"
             )}
             variant={
-              pathname === "/dashboard/admin/view-company" ? "default" : "outline"
+              pathname === "/dashboard/admin/view-company"
+                ? "default"
+                : "outline"
             }
           >
             View Company

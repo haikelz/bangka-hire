@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/public/assets/logo.png" alt="logo" />
+  <img src="/public/docs/Mockup.png" alt="Mockup" />
   <h1>Bangka Hire</h1>
   <p>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan!</p>
 </div>

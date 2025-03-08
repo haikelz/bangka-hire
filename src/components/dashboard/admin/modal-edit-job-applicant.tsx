@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,74 +12,76 @@ import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type ModalEditJobApplicantProps = {
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
-  user? : UserProps;
-}
+  user?: UserProps;
+};
 
-export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEditJobApplicantProps) {
-    const queryClient = useQueryClient();
-    const editProfileMutation = useMutation({
-      mutationFn: async () =>
-        await editProfileJobApplicant({
-          phone_number: getValues("phone_number"),
-          full_name: getValues("full_name"),
-          description: getValues("description"),
-          email: getValues("email"),
-          user_id: user?.id,
-        }),
-      onSuccess: async (response) => {
-        // cek status dari response
-        if (response.status_code === 400) {
-          return toast({
-            title: "Gagal mendaftarkan akun!",
-            description: response.message,
-            variant: "destructive",
-          });
-        }
-
-        // refresh data
-        await queryClient.invalidateQueries({
-          queryKey: ["user"],
-          refetchType: "all",
-        });
-
-        // Close the modal after successful deletion
-        setOpenModal(false);
-
-        toast({
-          title: "Sukses mengupdate profile!",
-          description: "Kamu Berhasil mengupdate profile!",
-        });
-      },
-      onError: (data) => {
+export function ModalEditJobApplicant({
+  openModal,
+  setOpenModal,
+  user,
+}: ModalEditJobApplicantProps) {
+  const queryClient = useQueryClient();
+  const editProfileMutation = useMutation({
+    mutationFn: async () =>
+      await editProfileJobApplicant({
+        phone_number: getValues("phone_number"),
+        full_name: getValues("full_name"),
+        description: getValues("description"),
+        email: getValues("email"),
+        user_id: user?.id,
+      }),
+    onSuccess: async (response) => {
+      // cek status dari response
+      if (response.status_code === 400) {
         return toast({
-          title: "Gagal mengupdate akun!",
-          description: data.message,
+          title: "Gagal mendaftarkan akun!",
+          description: response.message,
+          variant: "destructive",
         });
-      },
-    });
+      }
 
-    const {
-      formState: { errors },
-      getValues,
-      setValue,
-      register,
-      handleSubmit,
-      reset
-    } = useForm<z.infer<typeof editProfileInDashboardAdminSchema>>({
-      resolver: zodResolver(editProfileInDashboardAdminSchema)
-    });
+      // refresh data
+      await queryClient.invalidateQueries({
+        queryKey: ["user"],
+        refetchType: "all",
+      });
 
+      // Close the modal after successful deletion
+      setOpenModal(false);
 
-    async function onSubmit() {
-      await editProfileMutation.mutateAsync();
-    }
+      toast({
+        title: "Sukses mengupdate profile!",
+        description: "Kamu Berhasil mengupdate profile!",
+      });
+    },
+    onError: (data) => {
+      return toast({
+        title: "Gagal mengupdate akun!",
+        description: data.message,
+      });
+    },
+  });
+
+  const {
+    formState: { errors },
+    getValues,
+    setValue,
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<z.infer<typeof editProfileInDashboardAdminSchema>>({
+    resolver: zodResolver(editProfileInDashboardAdminSchema),
+  });
+
+  async function onSubmit() {
+    await editProfileMutation.mutateAsync();
+  }
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -90,7 +92,10 @@ export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEd
         </DialogTitle>
 
         {/* Form Edit User */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 md:space-y-4 w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-2 md:space-y-4 w-full"
+        >
           <div className="space-y-2 md:space-y-4 w-full">
             {/* Nama Lengkap */}
             <div>
@@ -112,8 +117,8 @@ export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEd
               )}
             </div>
 
-             {/* Email */}
-             <div>
+            {/* Email */}
+            <div>
               <Label htmlFor="email" className="text-xs md:text-base">
                 Email
               </Label>
@@ -128,7 +133,8 @@ export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEd
               />
               {user?.google_oauth && (
                 <span className="text-red-500 text-xs md:text-sm">
-                  Catatan!!: Email ini tidak bisa diubah karena user login menggunakan google
+                  Catatan!!: Email ini tidak bisa diubah karena user login
+                  menggunakan google
                 </span>
               )}
               {errors.email && (
@@ -144,7 +150,7 @@ export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEd
                 No Handphone
               </Label>
               <Input
-                {...register("phone_number") }
+                {...register("phone_number")}
                 className="border-primary_color text-xs md:text-base"
                 id="phone_number"
                 name="phone_number"
@@ -191,5 +197,5 @@ export function ModalEditJobApplicant({ openModal, setOpenModal, user }: ModalEd
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
