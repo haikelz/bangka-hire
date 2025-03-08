@@ -53,23 +53,6 @@ export function Sidebar() {
             Dashboard
           </Button>
         </Link>
-        <Link href="/dashboard/admin/view-company" className="w-full">
-          <Button
-            className={cn(
-              "w-full",
-              pathname === "/dashboard/admin/view-company"
-                ? "bg-secondary_color_1 hover:bg-primary_color"
-                : "bg-none"
-            )}
-            variant={
-              pathname === "/dashboard/admin/view-company"
-                ? "default"
-                : "outline"
-            }
-          >
-            View Company
-          </Button>
-        </Link>
       </div>
     </aside>
   ) : (
