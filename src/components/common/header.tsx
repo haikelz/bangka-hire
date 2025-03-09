@@ -157,7 +157,7 @@ export default function Header() {
                     <DropdownMenuItem>
                       <div
                         onClick={
-                          data.user.google_oauth
+                          data && data.user.google_oauth
                             ? handleLogout
                             : () => logoutAccount()
                         }

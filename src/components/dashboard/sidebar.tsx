@@ -2,6 +2,10 @@
 
 import { useCurrentUser, useCurrentUserGoogle } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
+import { logoutAccount } from "@/services/auth";
+import { getUserPrisma } from "@/services/common";
+import { useQuery } from "@tanstack/react-query";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -14,6 +18,24 @@ export function Sidebar() {
   const pathname = usePathname();
 
   const isAdminRoute = pathname.startsWith("/dashboard/admin");
+
+  const userId = user?.id || userGoogle?.id;
+
+  const { data } = useQuery({
+    queryKey: ["user_id", userId],
+    queryFn: async () => {
+      // di cek dulu apakah userID sudah ada atau belum
+      if (!userId) return null;
+      return await getUserPrisma(userId);
+    },
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  async function handleLogout() {
+    await signOut();
+  }
 
   return isAdminRoute ? (
     // Sidebar Admin
@@ -53,6 +75,13 @@ export function Sidebar() {
             Dashboard
           </Button>
         </Link>
+        <Button
+          variant="outline"
+          className="hover:bg-red-500 w-full hover:text-white"
+          onClick={logoutAccount}
+        >
+          Logout
+        </Button>
       </div>
     </aside>
   ) : (
@@ -120,6 +149,17 @@ export function Sidebar() {
             Profile Perusahaan
           </Button>
         </Link>
+        <Button
+          variant="outline"
+          className="hover:bg-red-500 w-full hover:text-white"
+          onClick={
+            data && data.user.google_oauth
+              ? handleLogout
+              : () => logoutAccount()
+          }
+        >
+          Logout
+        </Button>
       </div>
     </aside>
   );
