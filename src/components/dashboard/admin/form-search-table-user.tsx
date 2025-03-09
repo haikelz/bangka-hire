@@ -25,6 +25,7 @@ import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TableRowUser from "./table-row-user";
+import { ModalCreateJobApplicant } from "./modal-create-job-applicant";
 
 const ModalDeleteJobApplicant = dynamic(() =>
   import("./modal-delete-job-applicant").then(
@@ -41,6 +42,10 @@ const ModalEditJobApplicant = dynamic(() =>
 export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
+  const [openModalCreate, setOpenModalCreate] = useState(false);
+
+  // prefetch data user
+
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -81,6 +86,12 @@ export default function FormSearchAndTableUser() {
           </div>
         </form>
       </div>
+
+      {/* modal create user */}
+      <div className="flex justify-end">
+        <ModalCreateJobApplicant openModal={openModalCreate} setOpenModal={setOpenModalCreate} />
+      </div>
+
 
       {/* tabel nama,no,email */}
       <Table>

@@ -10,6 +10,7 @@ export async function PUT(req: NextRequest) {
     city,
     street,
     total_employers,
+    email
   } = await req.json();
 
   const existingJobVacancyProvider = await db.user.findUnique({
@@ -33,6 +34,11 @@ export async function PUT(req: NextRequest) {
   // jika description kosong pakai description lama
   if (!description_company) {
     description_company = existingJobVacancyProvider.description;
+  }
+
+  // jika email kosong pakai email lama
+  if (!email) {
+    email = existingJobVacancyProvider.email;
   }
 
   // jika full_name kosong pakai full_name lama
@@ -64,6 +70,7 @@ export async function PUT(req: NextRequest) {
       user: {
         update: {
           full_name,
+          email
         },
       },
       company_type,

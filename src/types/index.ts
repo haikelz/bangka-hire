@@ -143,6 +143,7 @@ export type EditJobVacancyProviderProfileProps = {
   user_id: string;
   full_name?: string;
   company_type?: string;
+  email?: string;
   description_company?: string;
   city?: string;
   street?: string;

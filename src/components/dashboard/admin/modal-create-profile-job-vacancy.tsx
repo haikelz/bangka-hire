@@ -15,9 +15,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { editAdminJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
 import { citiesList, employeeRanges } from "@/lib/static";
-import { editJobVacancyProviderProfileAdmin } from "@/services/admin";
+import { createJobVacancyProviderProfileAdmin } from "@/services/admin";
 import { userId } from "@/store";
-import type { ProfilCompanyProps, UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -25,19 +25,17 @@ import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type ModalEditJobApplicantProps = {
+type ModalCreateProfileJobVacancyProps = {
   openModal: boolean;
-  setOpenModal: (openModal: boolean) => void;
+  setOpenModal: (openModal: boolean) => void
   jobVacancyProvider?: UserProps;
-  fetch: any;
 };
 
-export function ModalEditJobVacancy({
+export function ModalCreateProfileJobVacancy({
   openModal,
   setOpenModal,
   jobVacancyProvider,
-  fetch
-}: ModalEditJobApplicantProps) {
+}: ModalCreateProfileJobVacancyProps) {
   const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId)
 
   const queryClient = useQueryClient();
@@ -49,21 +47,12 @@ export function ModalEditJobVacancy({
     watch,
     setValue,
   } = useForm<z.infer<typeof editAdminJobVacancyProviderProfileSchema>>({
-    defaultValues: {
-      full_name: jobVacancyProvider?.full_name ?? "",
-      company_type: jobVacancyProvider?.profile?.company_type ?? "",
-      email: jobVacancyProvider?.email ?? "",
-      description_company: jobVacancyProvider?.profile?.description_company ?? "",
-      street: jobVacancyProvider?.profile?.street ?? "",
-      city: jobVacancyProvider?.profile?.city ?? "",
-      total_employers: jobVacancyProvider?.profile?.total_employers ?? "",
-    },
     resolver: zodResolver(editAdminJobVacancyProviderProfileSchema),
   });
 
-  const editProfileMutation = useMutation({
+  const createProfileMutation = useMutation({
     mutationFn: async () =>
-      await editJobVacancyProviderProfileAdmin({
+      await createJobVacancyProviderProfileAdmin({
         user_id: jobVacancyProvider?.id as string,
         full_name: getValues("full_name"),
         company_type: getValues("company_type"),
@@ -83,7 +72,7 @@ export function ModalEditJobVacancy({
       }
 
       // Update cache data secara langsung
-      queryClient.setQueryData(["user"], (oldData : any) => {
+      queryClient.setQueryData(["jobVacancies"], (oldData : any) => {
         // Asumsikan oldData adalah array user
         if (Array.isArray(oldData)) {
           // Tambahkan user baru ke dalam array data
@@ -102,17 +91,16 @@ export function ModalEditJobVacancy({
         return oldData;
       });
 
-      await queryClient.invalidateQueries({
-        queryKey: ["jobVacancies"],
-        refetchType: "all",
+      await queryClient.invalidateQueries().then(() => {
+
       })
 
       // close modal box
       setOpenModal(false);
 
       toast({
-        title: "Sukses mengupdate profile!",
-        description: "Kamu Berhasil mengupdate profile!",
+        title: "Sukses berhasil membuat profile!",
+        description: "Kamu Berhasil membuat profile perusahaan!",
       });
     },
     onError: (data) => {
@@ -124,7 +112,7 @@ export function ModalEditJobVacancy({
   });
 
   async function onSubmit() {
-    await editProfileMutation.mutateAsync();
+    await createProfileMutation.mutateAsync();
     setJobVacancyProviderId(jobVacancyProvider?.id as string)
   }
 
@@ -133,7 +121,7 @@ export function ModalEditJobVacancy({
       {/* Konten Modal */}
       <DialogContent className="max-w-md sm:max-w-4xl rounded-lg">
         <DialogTitle className="flex items-center justify-center">
-          Edit {jobVacancyProvider?.full_name}
+          Tambah Data Company
         </DialogTitle>
 
         {/* Form Edit Company */}
@@ -148,6 +136,8 @@ export function ModalEditJobVacancy({
             <Input
               {...register("full_name")}
               placeholder="Beritahu nama Perusahaanmu"
+              defaultValue={jobVacancyProvider?.full_name}
+              disabled
             />
             {errors.full_name ? (
               <p className="text-xs md:text-sm text-red-500">
@@ -165,13 +155,9 @@ export function ModalEditJobVacancy({
             <Input
               {...register("email")}
               placeholder="Beritahu Email Perusahaanmu"
-              disabled={jobVacancyProvider?.google_oauth}
+              defaultValue={jobVacancyProvider?.email}
+              disabled
             />
-            {jobVacancyProvider?.google_oauth && (
-              <p className="text-xs md:text-sm text-red-500">
-                Peringatan!!!: Email tidak bisa diubah karena login menggunakan google
-              </p>
-            )}
             {errors.email ? (
               <p className="text-xs md:text-sm text-red-500">
                 {errors.email.message}
@@ -188,7 +174,6 @@ export function ModalEditJobVacancy({
             <Input
               {...register("company_type")}
               placeholder="Beritahu Bidang Industri Perusahaanmu"
-              defaultValue={jobVacancyProvider?.profile?.company_type}
             />
             {errors.company_type ? (
               <p className="text-xs md:text-sm text-red-500">
@@ -207,7 +192,6 @@ export function ModalEditJobVacancy({
               className="h-24"
               {...register("description_company")}
               placeholder="Beritahu tentang perusahaan"
-              defaultValue={jobVacancyProvider?.profile?.description_company}
             />
             {errors.description_company ? (
               <p className="text-xs md:text-sm text-red-500">
@@ -224,7 +208,6 @@ export function ModalEditJobVacancy({
             </Label>
             <Select
               onValueChange={(value) => setValue("total_employers", value)}
-              defaultValue={jobVacancyProvider?.profile?.total_employers}
               {...register("total_employers")}
             >
               <SelectTrigger className="w-44">
@@ -243,7 +226,6 @@ export function ModalEditJobVacancy({
             <Label className="font-bold text-sm md:text-base">Lokasi</Label>
             <Select
               onValueChange={(value) => setValue("city", value)}
-              defaultValue={jobVacancyProvider?.profile?.city}
               {...register("city")}
             >
               <SelectTrigger className="w-44">
@@ -265,8 +247,6 @@ export function ModalEditJobVacancy({
             <Input
               {...register("street")}
               placeholder="Beritahu Alamat Lengkap Perusahaanmu"
-              required
-              defaultValue={jobVacancyProvider?.profile?.street}
             />
             {errors.street ? (
               <p className="text-xs md:text-sm text-red-500">
@@ -279,12 +259,12 @@ export function ModalEditJobVacancy({
             <Button
               type="submit"
               className="bg-secondary_color_1"
-              disabled={editProfileMutation.isPending}
+              disabled={createProfileMutation.isPending}
             >
-              {editProfileMutation.isPending ? (
+              {createProfileMutation.isPending ? (
                 <Loader className="w-6 h-6 animate-spin" />
               ) : (
-                "Simpan"
+                "Tambah"
               )}
             </Button>
           </div>

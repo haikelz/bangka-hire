@@ -112,6 +112,7 @@ export const editAdminJobVacancyProviderProfileSchema = z.object({
     .string()
     .min(1, "Informasi tentang perusahaan harus diisi"),
   city: z.string().min(1, "Lokasi wajib diisi"),
+  email: z.string().email("Email tidak valid"),
   street: z.string().min(1, "Alamat lengkap wajib diisi"),
   total_employers: z.string().min(1, "Total Karyawan wajib diisi"),
 });

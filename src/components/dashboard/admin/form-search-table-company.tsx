@@ -19,12 +19,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getJobVacancyProviders } from "@/services/common";
-import type { ProfilCompanyProps } from "@/types";
+import type { ProfilCompanyProps, UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import TableRowJobVacancy from "./table-row-job-vacancy";
+import { ModalCreateJobVacancy } from "./modal-create-job-vacancy";
+import { getUserJobVacancyAdmin } from "@/services/admin";
+import { useAtomValue } from "jotai";
+import { userId } from "@/store";
 
 const ModalDeleteJobVacancy = dynamic(() =>
   import("./modal-delete-job-vacancy").then(
@@ -35,6 +39,10 @@ const ModalDeleteJobVacancy = dynamic(() =>
 export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);
   const [valueCompany, setValueCompany] = useState<string>("");
+  const [openModalCreate, setOpenModalCreate] = useState(false);
+  const jobVacancyProviderId = useAtomValue(userId)
+
+  console.log(jobVacancyProviderId)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,20 +50,18 @@ export default function FormSearchAndTableCompany() {
     setValueCompany(formData.get("search-company") as string);
   }
 
-  const { data, isPending, isError } = useQuery({
-    queryKey: ["jobVacancies", valueCompany, currentPageCompany],
+  const { data, isPending, isError, refetch } = useQuery({
+    queryKey: ["jobVacancies", valueCompany, currentPageCompany, jobVacancyProviderId],
     queryFn: async () => {
-      return await getJobVacancyProviders(currentPageCompany, 10, valueCompany);
+      return await getUserJobVacancyAdmin(currentPageCompany, 10, valueCompany);
     },
     refetchOnWindowFocus: false,
-    retry: false,
-    staleTime: 1000 * 60 * 5,
   });
 
   if (isError) return <IsErrorClient />;
 
-  const jobVacancies = data?.data.data as ProfilCompanyProps[];
-  const totalPages = data?.data.totalPages ?? 1;
+  const jobVacancies = data?.data as UserProps[];
+  const totalPages = data?.totalPages ?? 1;
 
   return (
     <div className="bg-secondary_color_2 rounded-lg p-6 space-y-3">
@@ -73,6 +79,11 @@ export default function FormSearchAndTableCompany() {
             <SearchIcon className="w-5 h-5 absolute top-1/2 left-2 -translate-y-1/2 text-black" />
           </div>
         </form>
+      </div>
+
+      {/* modal create user */}
+      <div className="flex justify-end">
+        <ModalCreateJobVacancy openModal={openModalCreate} setOpenModal={setOpenModalCreate} />
       </div>
       {/* tabel nama,no,email */}
       <div className="overflow-x-auto">
@@ -96,7 +107,7 @@ export default function FormSearchAndTableCompany() {
             ) : jobVacancies && jobVacancies.length ? (
               <>
                 {jobVacancies.map((job, index: number) => (
-                  <TableRowJobVacancy key={job.id} job={job} index={index} />
+                  <TableRowJobVacancy key={job.id} job={job} index={index} fetch={refetch}/>
                 ))}
                 {data?.data?.totalItems > 10 && totalPages > 1 && (
                   <TableRow>
@@ -115,9 +126,9 @@ export default function FormSearchAndTableCompany() {
                               }`}
                             />
                           </PaginationItem>
-                          <span className="font-medium text-sm">
-                            Page {currentPageCompany} of {totalPages}
-                          </span>
+                            <span className="font-medium text-sm">
+                              Page {currentPageCompany} of {totalPages}
+                            </span>
                           <PaginationItem>
                             <PaginationNext
                               onClick={() =>
