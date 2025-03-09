@@ -1,4 +1,3 @@
-import { createSession } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 

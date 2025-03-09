@@ -1,3 +1,4 @@
+import { checkAvailableAuthToken } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -5,6 +6,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   // ambil user_id dan juga job_id dari body request
   const { user_id, job_id, cv } = await req.json();
+
+  const isAvailableAuthToken = checkAvailableAuthToken(req);
+
+  if (!isAvailableAuthToken.isAvailable || isAvailableAuthToken.isExpired) {
+    return NextResponse.json({
+      status_code: 401,
+      message: "Unauthorized!",
+    });
+  }
 
   // cek dulu apakah user ada
   const existingUser = await db.user.findUnique({
@@ -55,7 +65,7 @@ export async function POST(req: NextRequest) {
     data: {
       user_id: user_id,
       jobs_id: job_id,
-      cv
+      cv,
     },
   });
 

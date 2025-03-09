@@ -1,3 +1,4 @@
+import { decode } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { ADMIN_EMAIL, ADMIN_PASSWORD, NODE_ENV } from "./lib/constants";
@@ -18,6 +19,7 @@ export async function middleware(request: NextRequest) {
       ? "next-auth.session-token"
       : "__Secure-next-auth.session-token"
   );
+
   const isLoginGoogle = !!authTokenGoogle;
 
   const isAuthPage = request.nextUrl.pathname.startsWith("/auth");
@@ -41,14 +43,30 @@ export async function middleware(request: NextRequest) {
 
   // di cek kalau user belum login dan mau akses halaman dashboard
   if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    if (!isLogin && !isLoginGoogle) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
-    }
-
     try {
+      if (!isLogin && !isLoginGoogle) {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+      }
+
+      // Redirect user logged in with Google to homepage if his/her role are not "job_vacancy_provider"
+      if (authTokenGoogle) {
+        const decodedGoogleToken = await decode({
+          token: authTokenGoogle?.value,
+          secret: process.env.NEXTAUTH_SECRET as string,
+        });
+
+        if (decodedGoogleToken?.role !== "job_vacancy_provider") {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
+      }
+
       if (authToken) {
         const tokenData = JSON.parse(atob(authToken?.value as string));
         const expirationDate = new Date(tokenData.expires);
+
+        if (tokenData.user.role !== "job_vacancy_provider") {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
 
         if (expirationDate < new Date()) {
           const response = NextResponse.redirect(
