@@ -1,10 +1,14 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { signUpSchema } from "@/lib/schemas/auth-schema";
 import { createUserAdmin } from "@/services/admin";
@@ -19,8 +23,10 @@ type ModalCreateJobApplicantProps = {
   setOpenModal: (openModal: boolean) => void;
 };
 
-export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreateJobApplicantProps) {
-
+export function ModalCreateJobApplicant({
+  openModal,
+  setOpenModal,
+}: ModalCreateJobApplicantProps) {
   const queryClient = useQueryClient();
 
   const {
@@ -28,7 +34,7 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
     register,
     handleSubmit,
     getValues,
-  } = useForm<z.infer <typeof signUpSchema>>({
+  } = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
   });
 
@@ -43,7 +49,7 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
         role: "job_applicant",
       }),
     onSuccess: async (response) => {
-      if(response.status_code === 400) {
+      if (response.status_code === 400) {
         return toast({
           title: "Gagal mendaftarkan akun!",
           description: response.message,
@@ -52,7 +58,7 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
       }
 
       // Update cache data secara langsung
-      queryClient.setQueryData(["user"], (oldData : any) => {
+      queryClient.setQueryData(["user"], (oldData: any) => {
         // Asumsikan oldData adalah array user
         if (Array.isArray(oldData)) {
           // Tambahkan user baru ke dalam array data
@@ -61,10 +67,10 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
 
         // Jika strukturnya berbeda (misalnya pagination), sesuaikan di sini
         // Contoh untuk struktur pagination:
-        if (oldData && typeof oldData === 'object' && 'data' in oldData) {
+        if (oldData && typeof oldData === "object" && "data" in oldData) {
           return {
             ...oldData,
-            data: [...oldData.data, response.data]
+            data: [...oldData.data, response.data],
           };
         }
 
@@ -92,22 +98,19 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
         description: data.message,
       });
     },
-  })
-
+  });
 
   const onSubmit = async () => {
-    await createJobApplicantMutation.mutateAsync()
-  }
-
-
+    await createJobApplicantMutation.mutateAsync();
+  };
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogTrigger asChild>
-            <Button className="bg-primary_color text-white hover:bg-secondary_color_1">
-              + Tambah User
-            </Button>
-        </DialogTrigger>
+      <DialogTrigger asChild>
+        <Button className="bg-primary_color text-white hover:bg-secondary_color_1">
+          + Tambah User
+        </Button>
+      </DialogTrigger>
       {/* Konten Modal */}
       <DialogContent className="max-w-md sm:max-w-2xl rounded-lg">
         <DialogTitle className="flex items-center justify-center">
@@ -176,8 +179,8 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
               )}
             </div>
 
-             {/* Password */}
-             <div>
+            {/* Password */}
+            <div>
               <Label htmlFor="password" className="text-xs md:text-base">
                 Password
               </Label>
@@ -196,9 +199,12 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
               )}
             </div>
 
-             {/* No HP */}
-             <div>
-              <Label htmlFor="confirm_password" className="text-xs md:text-base">
+            {/* No HP */}
+            <div>
+              <Label
+                htmlFor="confirm_password"
+                className="text-xs md:text-base"
+              >
                 Konfirmasi Password
               </Label>
               <Input
@@ -215,8 +221,6 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
                 </span>
               )}
             </div>
-
-
 
             <div className="flex items-center justify-end">
               <Button
@@ -235,5 +239,5 @@ export function ModalCreateJobApplicant({ openModal, setOpenModal }: ModalCreate
         </form>
       </DialogContent>
     </Dialog>
-)
+  );
 }

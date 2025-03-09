@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getCompanyByUserId } from "@/services/common";
-import type { ProfilCompanyProps, UserProps } from "@/types";
+import { userId } from "@/store";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 import { DeleteIcon, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ModalCreateProfileJobVacancy } from "./modal-create-profile-job-vacancy";
-import { useAtomValue } from "jotai";
-import { userId } from "@/store";
 
 const ModalEditJobVacancy = dynamic(() =>
   import("./modal-edit-job-vacancy").then((comp) => comp.ModalEditJobVacancy)
@@ -31,17 +31,17 @@ const ModalDeleteJobVacancy = dynamic(() =>
 export default function TableRowJobVacancy({
   job,
   index,
-  fetch
+  fetch,
 }: {
   job: UserProps;
   index: number;
-  fetch: any
+  fetch: any;
 }) {
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [isProfileExist, setIsProfileExist] = useState<boolean>(false);
-  const jobVacancyProviderId = useAtomValue(userId)
+  const jobVacancyProviderId = useAtomValue(userId);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["user_id", jobVacancyProviderId],
@@ -58,16 +58,11 @@ export default function TableRowJobVacancy({
     staleTime: 1000 * 60 * 5,
   });
 
-
   return (
     <TableRow className="flex w-full justify-between text-xs md:text-base">
       <TableCell className="font-medium flex-[0.1]">{index + 1}</TableCell>
-      <TableCell className="flex-[0.2] line-clamp-1">
-        {job.full_name}
-      </TableCell>
-      <TableCell className="flex-[0.25] line-clamp-1">
-        {job.email}
-      </TableCell>
+      <TableCell className="flex-[0.2] line-clamp-1">{job.full_name}</TableCell>
+      <TableCell className="flex-[0.25] line-clamp-1">{job.email}</TableCell>
       <TableCell className="flex-[0.25]">
         <span className="text-blue-500">Active</span>
       </TableCell>
@@ -89,26 +84,25 @@ export default function TableRowJobVacancy({
             >
               {isProfileExist ? (
                 <div
-                onClick={() => {
-                  setOpenModalEdit(true);
-                }}
-                className="flex items-center gap-2"
-              >
-                <User className="w-4 h-4" />
-                <p>Edit Company</p>
-              </div>
+                  onClick={() => {
+                    setOpenModalEdit(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" />
+                  <p>Edit Company</p>
+                </div>
               ) : (
                 <div
-                onClick={() => {
-                  setOpenModalCreate(true);
-                }}
-                className="flex items-center gap-2"
-              >
-                <User className="w-4 h-4" />
-                <p>Tambah Company</p>
-              </div>
+                  onClick={() => {
+                    setOpenModalCreate(true);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" />
+                  <p>Tambah Company</p>
+                </div>
               )}
-
             </DropdownMenuItem>
             <DropdownMenuItem
               data-state="open"

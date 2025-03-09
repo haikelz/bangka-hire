@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { logoutAccount } from "@/services/auth";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +10,9 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 
 export function Header() {
-  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const pathname = usePathname();
 
   const isAdminRoute = pathname.startsWith("/dashboard/admin");
 
@@ -58,23 +60,13 @@ export function Header() {
                     Dashboard
                   </Button>
                 </Link>
-                <Link href="/dashboard/admin/view-company" className="w-full">
-                  <Button
-                    className={cn(
-                      "w-full",
-                      pathname === "/dashboard/admin/view-company"
-                        ? "bg-secondary_color_1 hover:bg-primary_color"
-                        : "bg-none"
-                    )}
-                    variant={
-                      pathname === "/dashboard/admin/view-company"
-                        ? "default"
-                        : "outline"
-                    }
-                  >
-                    View Company
-                  </Button>
-                </Link>
+                <Button
+                  variant="outline"
+                  className="hover:bg-red-500 w-full hover:text-white"
+                  onClick={logoutAccount}
+                >
+                  Logout
+                </Button>
               </div>
             ) : (
               <div className="flex space-y-2 mt-4 justify-center items-center md:hidden flex-col w-full">

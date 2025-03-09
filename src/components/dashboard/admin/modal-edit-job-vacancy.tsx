@@ -17,7 +17,7 @@ import { editAdminJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
 import { citiesList, employeeRanges } from "@/lib/static";
 import { editJobVacancyProviderProfileAdmin } from "@/services/admin";
 import { userId } from "@/store";
-import type { ProfilCompanyProps, UserProps } from "@/types";
+import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -36,9 +36,9 @@ export function ModalEditJobVacancy({
   openModal,
   setOpenModal,
   jobVacancyProvider,
-  fetch
+  fetch,
 }: ModalEditJobApplicantProps) {
-  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId)
+  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId);
 
   const queryClient = useQueryClient();
   const {
@@ -53,7 +53,8 @@ export function ModalEditJobVacancy({
       full_name: jobVacancyProvider?.full_name ?? "",
       company_type: jobVacancyProvider?.profile?.company_type ?? "",
       email: jobVacancyProvider?.email ?? "",
-      description_company: jobVacancyProvider?.profile?.description_company ?? "",
+      description_company:
+        jobVacancyProvider?.profile?.description_company ?? "",
       street: jobVacancyProvider?.profile?.street ?? "",
       city: jobVacancyProvider?.profile?.city ?? "",
       total_employers: jobVacancyProvider?.profile?.total_employers ?? "",
@@ -83,7 +84,7 @@ export function ModalEditJobVacancy({
       }
 
       // Update cache data secara langsung
-      queryClient.setQueryData(["user"], (oldData : any) => {
+      queryClient.setQueryData(["user"], (oldData: any) => {
         // Asumsikan oldData adalah array user
         if (Array.isArray(oldData)) {
           // Tambahkan user baru ke dalam array data
@@ -92,10 +93,10 @@ export function ModalEditJobVacancy({
 
         // Jika strukturnya berbeda (misalnya pagination), sesuaikan di sini
         // Contoh untuk struktur pagination:
-        if (oldData && typeof oldData === 'object' && 'data' in oldData) {
+        if (oldData && typeof oldData === "object" && "data" in oldData) {
           return {
             ...oldData,
-            data: [...oldData.data, response.data]
+            data: [...oldData.data, response.data],
           };
         }
 
@@ -105,7 +106,7 @@ export function ModalEditJobVacancy({
       await queryClient.invalidateQueries({
         queryKey: ["jobVacancies"],
         refetchType: "all",
-      })
+      });
 
       // close modal box
       setOpenModal(false);
@@ -125,7 +126,7 @@ export function ModalEditJobVacancy({
 
   async function onSubmit() {
     await editProfileMutation.mutateAsync();
-    setJobVacancyProviderId(jobVacancyProvider?.id as string)
+    setJobVacancyProviderId(jobVacancyProvider?.id as string);
   }
 
   return (
@@ -156,10 +157,7 @@ export function ModalEditJobVacancy({
             ) : null}
           </div>
           <div>
-            <Label
-              htmlFor="email"
-              className="font-bold text-sm md:text-base"
-            >
+            <Label htmlFor="email" className="font-bold text-sm md:text-base">
               Email
             </Label>
             <Input
@@ -169,7 +167,8 @@ export function ModalEditJobVacancy({
             />
             {jobVacancyProvider?.google_oauth && (
               <p className="text-xs md:text-sm text-red-500">
-                Peringatan!!!: Email tidak bisa diubah karena login menggunakan google
+                Peringatan!!!: Email tidak bisa diubah karena login menggunakan
+                google
               </p>
             )}
             {errors.email ? (

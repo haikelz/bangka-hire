@@ -65,6 +65,11 @@ export function ModalDeleteJobs({
         </p>
         {/* tombol hapus dan tidak */}
         <div className="flex items-center justify-end gap-2 mt-4">
+          <DialogClose asChild>
+            <Button className="bg-secondary_color_1 hover:bg-primary_color text-xs md:text-sm cursor-pointer text-white font-medium">
+              Batal
+            </Button>
+          </DialogClose>
           <Button
             onClick={onSubmit}
             type="submit"
@@ -77,11 +82,6 @@ export function ModalDeleteJobs({
               "Hapus"
             )}
           </Button>
-          <DialogClose asChild>
-            <Button className="bg-secondary_color_1 hover:bg-primary_color text-xs md:text-sm cursor-pointer text-white font-medium">
-              Batal
-            </Button>
-          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

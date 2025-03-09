@@ -24,8 +24,8 @@ import { useQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import TableRowUser from "./table-row-user";
 import { ModalCreateJobApplicant } from "./modal-create-job-applicant";
+import TableRowUser from "./table-row-user";
 
 const ModalDeleteJobApplicant = dynamic(() =>
   import("./modal-delete-job-applicant").then(
@@ -45,7 +45,6 @@ export default function FormSearchAndTableUser() {
   const [openModalCreate, setOpenModalCreate] = useState(false);
 
   // prefetch data user
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -89,9 +88,11 @@ export default function FormSearchAndTableUser() {
 
       {/* modal create user */}
       <div className="flex justify-end">
-        <ModalCreateJobApplicant openModal={openModalCreate} setOpenModal={setOpenModalCreate} />
+        <ModalCreateJobApplicant
+          openModal={openModalCreate}
+          setOpenModal={setOpenModalCreate}
+        />
       </div>
-
 
       {/* tabel nama,no,email */}
       <Table>

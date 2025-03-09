@@ -18,17 +18,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getJobVacancyProviders } from "@/services/common";
-import type { ProfilCompanyProps, UserProps } from "@/types";
+import { getUserJobVacancyAdmin } from "@/services/admin";
+import { userId } from "@/store";
+import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import TableRowJobVacancy from "./table-row-job-vacancy";
 import { ModalCreateJobVacancy } from "./modal-create-job-vacancy";
-import { getUserJobVacancyAdmin } from "@/services/admin";
-import { useAtomValue } from "jotai";
-import { userId } from "@/store";
+import TableRowJobVacancy from "./table-row-job-vacancy";
 
 const ModalDeleteJobVacancy = dynamic(() =>
   import("./modal-delete-job-vacancy").then(
@@ -40,9 +39,9 @@ export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);
   const [valueCompany, setValueCompany] = useState<string>("");
   const [openModalCreate, setOpenModalCreate] = useState(false);
-  const jobVacancyProviderId = useAtomValue(userId)
+  const jobVacancyProviderId = useAtomValue(userId);
 
-  console.log(jobVacancyProviderId)
+  console.log(jobVacancyProviderId);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,7 +50,12 @@ export default function FormSearchAndTableCompany() {
   }
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["jobVacancies", valueCompany, currentPageCompany, jobVacancyProviderId],
+    queryKey: [
+      "jobVacancies",
+      valueCompany,
+      currentPageCompany,
+      jobVacancyProviderId,
+    ],
     queryFn: async () => {
       return await getUserJobVacancyAdmin(currentPageCompany, 10, valueCompany);
     },
@@ -83,7 +87,10 @@ export default function FormSearchAndTableCompany() {
 
       {/* modal create user */}
       <div className="flex justify-end">
-        <ModalCreateJobVacancy openModal={openModalCreate} setOpenModal={setOpenModalCreate} />
+        <ModalCreateJobVacancy
+          openModal={openModalCreate}
+          setOpenModal={setOpenModalCreate}
+        />
       </div>
       {/* tabel nama,no,email */}
       <div className="overflow-x-auto">
@@ -107,7 +114,12 @@ export default function FormSearchAndTableCompany() {
             ) : jobVacancies && jobVacancies.length ? (
               <>
                 {jobVacancies.map((job, index: number) => (
-                  <TableRowJobVacancy key={job.id} job={job} index={index} fetch={refetch}/>
+                  <TableRowJobVacancy
+                    key={job.id}
+                    job={job}
+                    index={index}
+                    fetch={refetch}
+                  />
                 ))}
                 {data?.data?.totalItems > 10 && totalPages > 1 && (
                   <TableRow>
@@ -126,9 +138,9 @@ export default function FormSearchAndTableCompany() {
                               }`}
                             />
                           </PaginationItem>
-                            <span className="font-medium text-sm">
-                              Page {currentPageCompany} of {totalPages}
-                            </span>
+                          <span className="font-medium text-sm">
+                            Page {currentPageCompany} of {totalPages}
+                          </span>
                           <PaginationItem>
                             <PaginationNext
                               onClick={() =>

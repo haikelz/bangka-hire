@@ -64,18 +64,6 @@ export async function middleware(request: NextRequest) {
         const tokenData = JSON.parse(atob(authToken?.value as string));
         const expirationDate = new Date(tokenData.expires);
 
-        if (tokenData.user.role !== "job_vacancy_provider") {
-          return NextResponse.redirect(new URL("/", request.url));
-        }
-
-        if (expirationDate < new Date()) {
-          const response = NextResponse.redirect(
-            new URL("/auth/login", request.url)
-          );
-          response.cookies.delete("auth-token");
-          return response;
-        }
-
         // Don't accept the users who has role other than admin, and not matched email && password
         if (request.nextUrl.pathname.startsWith("/dashboard/admin")) {
           if (
@@ -84,7 +72,17 @@ export async function middleware(request: NextRequest) {
             tokenData.user.role !== "admin"
           ) {
             return NextResponse.redirect(new URL("/", request.url));
+          } else {
+            return NextResponse.next({ headers });
           }
+        }
+
+        if (expirationDate < new Date()) {
+          const response = NextResponse.redirect(
+            new URL("/auth/login", request.url)
+          );
+          response.cookies.delete("auth-token");
+          return response;
         }
       } else if (authTokenGoogle) {
         // In admin role, we don't use Google login, only using email and password

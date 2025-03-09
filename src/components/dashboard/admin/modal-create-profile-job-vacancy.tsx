@@ -27,7 +27,7 @@ import { z } from "zod";
 
 type ModalCreateProfileJobVacancyProps = {
   openModal: boolean;
-  setOpenModal: (openModal: boolean) => void
+  setOpenModal: (openModal: boolean) => void;
   jobVacancyProvider?: UserProps;
 };
 
@@ -36,7 +36,7 @@ export function ModalCreateProfileJobVacancy({
   setOpenModal,
   jobVacancyProvider,
 }: ModalCreateProfileJobVacancyProps) {
-  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId)
+  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId);
 
   const queryClient = useQueryClient();
   const {
@@ -72,7 +72,7 @@ export function ModalCreateProfileJobVacancy({
       }
 
       // Update cache data secara langsung
-      queryClient.setQueryData(["jobVacancies"], (oldData : any) => {
+      queryClient.setQueryData(["jobVacancies"], (oldData: any) => {
         // Asumsikan oldData adalah array user
         if (Array.isArray(oldData)) {
           // Tambahkan user baru ke dalam array data
@@ -81,19 +81,17 @@ export function ModalCreateProfileJobVacancy({
 
         // Jika strukturnya berbeda (misalnya pagination), sesuaikan di sini
         // Contoh untuk struktur pagination:
-        if (oldData && typeof oldData === 'object' && 'data' in oldData) {
+        if (oldData && typeof oldData === "object" && "data" in oldData) {
           return {
             ...oldData,
-            data: [...oldData.data, response.data]
+            data: [...oldData.data, response.data],
           };
         }
 
         return oldData;
       });
 
-      await queryClient.invalidateQueries().then(() => {
-
-      })
+      await queryClient.invalidateQueries().then(() => {});
 
       // close modal box
       setOpenModal(false);
@@ -113,7 +111,7 @@ export function ModalCreateProfileJobVacancy({
 
   async function onSubmit() {
     await createProfileMutation.mutateAsync();
-    setJobVacancyProviderId(jobVacancyProvider?.id as string)
+    setJobVacancyProviderId(jobVacancyProvider?.id as string);
   }
 
   return (
@@ -146,10 +144,7 @@ export function ModalCreateProfileJobVacancy({
             ) : null}
           </div>
           <div>
-            <Label
-              htmlFor="email"
-              className="font-bold text-sm md:text-base"
-            >
+            <Label htmlFor="email" className="font-bold text-sm md:text-base">
               Email
             </Label>
             <Input
