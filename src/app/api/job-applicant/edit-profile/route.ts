@@ -1,10 +1,19 @@
-import { createSession } from "@/app/actions";
+import { checkAvailableAuthToken, createSession } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   let { full_name, phone_number, user_id, description, cv, google_oauth } =
     await req.json();
+
+  const isAvailableAuthToken = checkAvailableAuthToken(req);
+
+  if (!isAvailableAuthToken.isAvailable || isAvailableAuthToken.isExpired) {
+    return NextResponse.json({
+      status_code: 401,
+      message: "Unauthorized!",
+    });
+  }
 
   const existingJobApplicant = await db.user.findUnique({
     where: {

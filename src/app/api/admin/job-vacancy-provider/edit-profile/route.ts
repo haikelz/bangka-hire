@@ -55,7 +55,6 @@ export async function PUT(req: NextRequest) {
     city = existingJobVacancyProvider.profile?.city;
   }
 
-
   await db.profilCompany.update({
     where: {
       user_id,

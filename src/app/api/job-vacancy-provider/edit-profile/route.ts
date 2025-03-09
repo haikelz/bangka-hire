@@ -1,3 +1,4 @@
+import { checkAvailableAuthToken } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,6 +13,15 @@ export async function PUT(req: NextRequest) {
     total_employers,
     social_media,
   } = await req.json();
+
+  const isAvailableAuthToken = checkAvailableAuthToken(req);
+
+  if (!isAvailableAuthToken.isAvailable || isAvailableAuthToken.isExpired) {
+    return NextResponse.json({
+      status_code: 401,
+      message: "Unauthorized!",
+    });
+  }
 
   const existingJobVacancyProvider = await db.user.findUnique({
     where: {
@@ -40,7 +50,6 @@ export async function PUT(req: NextRequest) {
   if (!full_name) {
     full_name = existingJobVacancyProvider.full_name;
   }
-
 
   await db.profilCompany.update({
     where: {

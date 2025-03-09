@@ -1,3 +1,4 @@
+import { checkAvailableAuthToken } from "@/app/actions";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,6 +11,15 @@ export async function POST(req: NextRequest) {
     responsibilty,
     status_work,
   } = await req.json();
+
+  const isAvailableAuthToken = checkAvailableAuthToken(req);
+
+  if (!isAvailableAuthToken.isAvailable || isAvailableAuthToken.isExpired) {
+    return NextResponse.json({
+      status_code: 401,
+      message: "Unauthorized!",
+    });
+  }
 
   // pengecekan apakah user ini sudah melengkapi data perusahaan
   // const existingCompany = await db.profilCompany.findUnique({
