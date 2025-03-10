@@ -7,13 +7,16 @@ import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAdmin } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export function LoginFormAdmin() {
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+
   const router = useRouter();
 
   const {
@@ -88,13 +91,28 @@ export function LoginFormAdmin() {
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
-            <Input
-              {...register("password")}
-              type="password"
-              placeholder="Password"
-              className="border border-primary_color focus:border-primary_color text-black"
-              name="password"
-            />
+            <div className="flex justify-center items-center relative">
+              <Input
+                {...register("password")}
+                type={isShowPassword ? "text" : "password"}
+                placeholder="Password"
+                className="border border-primary_color focus:border-primary_color text-black"
+                name="password"
+              />
+              {isShowPassword ? (
+                <EyeOff
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              ) : (
+                <Eye
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              )}
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}

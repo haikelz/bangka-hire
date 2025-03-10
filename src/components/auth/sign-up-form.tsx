@@ -8,15 +8,20 @@ import { createAccount } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export function SignUpFormJobApplicant() {
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShowConfirmationPassword, setIsShowConfirmationPassword] =
+    useState<boolean>(false);
+
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -134,23 +139,57 @@ export function SignUpFormJobApplicant() {
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
-            <Input
-              {...register("password")}
-              type="password"
-              placeholder="Password"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
-              name="password"
-            />
+            <div className="relative flex justify-center items-center">
+              <Input
+                {...register("password")}
+                type={isShowPassword ? "text" : "password"}
+                placeholder="Password"
+                className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                name="password"
+              />
+              {isShowPassword ? (
+                <EyeOff
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              ) : (
+                <Eye
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              )}
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
-            <Input
-              {...register("confirm_password")}
-              type="password"
-              placeholder="Konfirmasi Password"
-              className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
-              name="confirm_password"
-            />
+            <div className="flex justify-center items-center relative">
+              <Input
+                {...register("confirm_password")}
+                type={isShowConfirmationPassword ? "text" : "password"}
+                placeholder="Konfirmasi Password"
+                className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
+                name="confirm_password"
+              />
+              {isShowConfirmationPassword ? (
+                <EyeOff
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() =>
+                    setIsShowConfirmationPassword(!isShowConfirmationPassword)
+                  }
+                />
+              ) : (
+                <Eye
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() =>
+                    setIsShowConfirmationPassword(!isShowConfirmationPassword)
+                  }
+                />
+              )}
+            </div>
             {errors.confirm_password && (
               <p className="text-red-500 text-sm">
                 {errors.confirm_password.message}
