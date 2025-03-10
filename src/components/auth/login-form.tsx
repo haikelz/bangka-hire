@@ -7,15 +7,18 @@ import { loginSchema } from "@/lib/schemas/auth-schema";
 import { loginAccount } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export function LoginFormJobApplicant() {
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+
   const router = useRouter();
 
   const {
@@ -95,18 +98,32 @@ export function LoginFormJobApplicant() {
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
-            <Input
-              {...register("password")}
-              type="password"
-              placeholder="Password"
-              className="border border-primary_color focus:border-primary_color text-black"
-              name="password"
-            />
+            <div className="relative flex justify-center items-center">
+              <Input
+                {...register("password")}
+                type={isShowPassword ? "text" : "password"}
+                placeholder="Password"
+                className="border border-primary_color focus:border-primary_color text-black"
+                name="password"
+              />
+              {isShowPassword ? (
+                <EyeOff
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              ) : (
+                <Eye
+                  size={21}
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+              )}
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
-
           <Button
             type="submit"
             className="w-full bg-secondary_color_1 hover:bg-primary_color"

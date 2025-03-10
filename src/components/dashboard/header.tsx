@@ -114,6 +114,13 @@ export function Header() {
                     Profile Perusahaan
                   </Button>
                 </Link>
+                <Button
+                  variant="outline"
+                  className="hover:bg-red-500 w-full hover:text-white"
+                  onClick={logoutAccount}
+                >
+                  Logout
+                </Button>
               </div>
             )
           ) : null}
