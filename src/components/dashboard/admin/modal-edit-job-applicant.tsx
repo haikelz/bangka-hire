@@ -8,9 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { editProfileInDashboardAdminSchema } from "@/lib/schemas/common";
 import { editProfileJobApplicant } from "@/services/admin";
+import { jobApplicantId } from "@/store";
 import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -26,6 +28,8 @@ export function ModalEditJobApplicant({
   setOpenModal,
   user,
 }: ModalEditJobApplicantProps) {
+  const [JopApplicant, setJobApplicantId] = useAtom(jobApplicantId)
+
   const queryClient = useQueryClient();
   const editProfileMutation = useMutation({
     mutationFn: async () =>
@@ -81,6 +85,7 @@ export function ModalEditJobApplicant({
 
   async function onSubmit() {
     await editProfileMutation.mutateAsync();
+    setJobApplicantId(user?.id as string);
   }
 
   return (

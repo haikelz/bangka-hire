@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getUserJobVacancyAdmin } from "@/services/admin";
-import { userId } from "@/store";
+import { jobVacancyId } from "@/store";
 import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
@@ -28,6 +28,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ModalCreateJobVacancy } from "./modal-create-job-vacancy";
 import TableRowJobVacancy from "./table-row-job-vacancy";
+import { log } from "node:console";
 
 const ModalDeleteJobVacancy = dynamic(() =>
   import("./modal-delete-job-vacancy").then(
@@ -39,9 +40,7 @@ export default function FormSearchAndTableCompany() {
   const [currentPageCompany, setCurrentPageCompany] = useState(1);
   const [valueCompany, setValueCompany] = useState<string>("");
   const [openModalCreate, setOpenModalCreate] = useState(false);
-  const jobVacancyProviderId = useAtomValue(userId);
-
-  console.log(jobVacancyProviderId);
+  const jobVacancyProviderId = useAtomValue(jobVacancyId);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,7 +48,7 @@ export default function FormSearchAndTableCompany() {
     setValueCompany(formData.get("search-company") as string);
   }
 
-  const { data, isPending, isError, refetch } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: [
       "jobVacancies",
       valueCompany,
@@ -118,7 +117,6 @@ export default function FormSearchAndTableCompany() {
                     key={job.id}
                     job={job}
                     index={index}
-                    fetch={refetch}
                   />
                 ))}
                 {data?.data?.totalItems > 10 && totalPages > 1 && (

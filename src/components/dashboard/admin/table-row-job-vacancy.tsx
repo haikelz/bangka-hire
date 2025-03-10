@@ -9,14 +9,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getCompanyByUserId } from "@/services/common";
-import { userId } from "@/store";
 import type { UserProps } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { DeleteIcon, User } from "lucide-react";
+import { DeleteIcon, Loader, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ModalCreateProfileJobVacancy } from "./modal-create-profile-job-vacancy";
+
 
 const ModalEditJobVacancy = dynamic(() =>
   import("./modal-edit-job-vacancy").then((comp) => comp.ModalEditJobVacancy)
@@ -31,32 +30,26 @@ const ModalDeleteJobVacancy = dynamic(() =>
 export default function TableRowJobVacancy({
   job,
   index,
-  fetch,
 }: {
   job: UserProps;
   index: number;
-  fetch: any;
 }) {
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [isProfileExist, setIsProfileExist] = useState<boolean>(false);
-  const jobVacancyProviderId = useAtomValue(userId);
+
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ["user_id", jobVacancyProviderId],
+    queryKey: ["user_id", job.id],
     queryFn: async () => {
       const isExist = await getCompanyByUserId(job.id as string);
-
-      if (isExist.exists) {
-        setIsProfileExist(true);
-      }
-
       return isExist;
     },
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+
+  const isProfileExist = data?.exists as boolean;
 
   return (
     <TableRow className="flex w-full justify-between text-xs md:text-base">
@@ -82,7 +75,14 @@ export default function TableRowJobVacancy({
               data-state="open"
               className="!bg-transparent hover:!bg-primary_color hover:!text-white"
             >
-              {isProfileExist ? (
+              {isPending ?
+              (
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <p>Sabar Yah...</p>
+                </div>
+              ) :
+              isProfileExist ? (
                 <div
                   onClick={() => {
                     setOpenModalEdit(true);
@@ -126,7 +126,6 @@ export default function TableRowJobVacancy({
         openModal={openModalEdit}
         setOpenModal={setOpenModalEdit}
         jobVacancyProvider={job}
-        fetch={fetch}
       />
 
       <ModalCreateProfileJobVacancy

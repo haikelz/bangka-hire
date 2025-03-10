@@ -7,4 +7,5 @@ export const searchJob = atom<string>("");
 export const valueFilterCity = atom<string>("");
 export const valueFilterSalary = atom<string>("");
 export const valueSearchCompany = atom<string>("");
-export const userId = atom<string>("");
+export const jobVacancyId = atom<string>("");
+export const jobApplicantId = atom<string>("");
