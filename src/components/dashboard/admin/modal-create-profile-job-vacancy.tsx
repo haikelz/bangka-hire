@@ -16,7 +16,7 @@ import { toast } from "@/hooks/use-toast";
 import { editAdminJobVacancyProviderProfileSchema } from "@/lib/schemas/common";
 import { citiesList, employeeRanges } from "@/lib/static";
 import { createJobVacancyProviderProfileAdmin } from "@/services/admin";
-import { userId } from "@/store";
+import { jobVacancyId } from "@/store";
 import type { UserProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -36,7 +36,7 @@ export function ModalCreateProfileJobVacancy({
   setOpenModal,
   jobVacancyProvider,
 }: ModalCreateProfileJobVacancyProps) {
-  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(userId);
+  const [jobVacancyProviderId, setJobVacancyProviderId] = useAtom(jobVacancyId);
 
   const queryClient = useQueryClient();
   const {

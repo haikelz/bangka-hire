@@ -26,6 +26,8 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ModalCreateJobApplicant } from "./modal-create-job-applicant";
 import TableRowUser from "./table-row-user";
+import { useAtomValue } from "jotai";
+import { jobApplicantId } from "@/store";
 
 const ModalDeleteJobApplicant = dynamic(() =>
   import("./modal-delete-job-applicant").then(
@@ -43,6 +45,7 @@ export default function FormSearchAndTableUser() {
   const [valueSearch, setValueSearchUser] = useState<string>("");
   const [currentPageUser, setCurrentPageUser] = useState(1);
   const [openModalCreate, setOpenModalCreate] = useState(false);
+  const user_id = useAtomValue(jobApplicantId);
 
   // prefetch data user
 
@@ -53,7 +56,7 @@ export default function FormSearchAndTableUser() {
   }
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ["user", valueSearch, currentPageUser],
+    queryKey: ["user", valueSearch, currentPageUser, user_id],
     queryFn: async () => {
       return await getAllUser(currentPageUser, 10, valueSearch);
     },

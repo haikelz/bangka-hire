@@ -9,7 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { deleteUser } from "@/services/common";
+import { jobApplicantId } from "@/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { Loader } from "lucide-react";
 
 type DeleteJobsProps = {
@@ -25,6 +27,8 @@ export function ModalDeleteJobApplicant({
   userId,
   userName,
 }: DeleteJobsProps) {
+  const [jobApplicant, setJobApplicantId] = useAtom(jobApplicantId);
+
   const queryClient = useQueryClient();
 
   const deleteJobApplicantMutation = useMutation({
@@ -54,6 +58,7 @@ export function ModalDeleteJobApplicant({
 
   const onSubmit = () => {
     deleteJobApplicantMutation.mutateAsync();
+    setJobApplicantId("");
   };
 
   return (
