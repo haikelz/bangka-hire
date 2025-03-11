@@ -1,41 +1,77 @@
 <div align="center">
   <img src="/public/docs/Mockup.png" alt="Mockup" />
   <h1>Bangka Hire</h1>
-  <p>Jelajahi peluang kerja khusus di daerah Bangka Belitung. Mulai langkah pertamamu menuju masa depan!</p>
+  <p>Explore exclusive job opportunities in the Bangka Belitung region. Take your first step toward the future!</p>
 </div>
+
+## About
+
+Bangka Hire is a comprehensive job search and recruitment solution for Bangka Belitung region, designed to connect job seekers with opportunities that match their skills and preferences. Whether you're looking for a job in a specific industry, searching by salary range, or targeting a particular company, our advanced filtering system makes the process seamless.
+
+## Minimum Viable Product (MVP)
+
+- Searching for all available job vacancies.
+- Searching for more specific job vacancies based on several categories, such as job position, salary range, company name, and job location.
+- Company reviews with a rating and comment system.
+- Apply for jobs by entering your name, email, WhatsApp number, and the latest CV.
+- Job vacancy management and applicant CV review for job providers.
+- Sign-up and login options using Google for user convenience.
+
+## Noobz Team Personel
+
+- Haikel Ilham Hakim
+- Evan Stefanus Candra
+- Taufik Hidayat
+- Julisa Nomirga
 
 ## Folder structure
 
 ```
 .
-├── prisma
+├── prisma # Prisma
 │   ├── migrations
-├── public
+│   └── schema.prisma
+├── public # Images and assets
 │   ├── assets
 │   ├── docs
 │   └── images
+├── README.md
 ├── src
-│   ├── app
-│   │   ├── api
+│   ├── app # Main Pages
+│   │   ├── api  #API Logic
+│   │   │   ├── admin
+│   │   │   ├── auth
+│   │   │   ├── get-user
+│   │   │   ├── job-applicant
+│   │   │   ├── jobs
+│   │   │   ├── job-vacancy-provider
+│   │   │   └── uploadthing
 │   │   ├── (auth)
+│   │   │   └── auth
 │   │   ├── (dashboard)
+│   │   │   └── dashboard
 │   │   ├── (job-applicant)
+│   │   │   └── jobs
 │   │   ├── (job-vacancy-provider)
+│   │   │   └── job-vacancy-providers
 │   │   └── profile
-│   ├── components
+│   ├── components # Shared, customizable, and reusable components
 │   │   ├── auth
 │   │   ├── common
 │   │   ├── dashboard
+│   │   │   └── admin
 │   │   ├── job-applicant
 │   │   ├── jobs
 │   │   ├── job-vacancy-provider
 │   │   ├── react-query
 │   │   └── ui
-│   ├── hooks
-│   ├── lib
-│   ├── services
-│   ├── store
-│   └── types
+│   ├── hooks # Custom hooks
+│   ├── lib # Utilities
+│   │   └── schemas
+│   ├── services # HTTP Request logic
+│   ├── store # Jotai store
+│   └── types # Typescript types
+└── tsconfig.json
 ```
 
 ## Entity Relationship Diagram
