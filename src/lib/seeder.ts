@@ -86,7 +86,7 @@ async function main(): Promise<void> {
         type: "Mining",
         description:
           "Leading tin mining and processing company in Bangka Belitung with sustainable practices.",
-        city: "Sungailiat",
+        city: "Bangka Induk",
         street: "Jl. Pertambangan 123",
       },
       {
@@ -94,7 +94,7 @@ async function main(): Promise<void> {
         type: "Tourism",
         description:
           "Premier tourism company promoting the beautiful beaches and cultural heritage of Belitung.",
-        city: "Tanjung Pandan",
+        city: "Belitung",
         street: "Jl. Pantai Tanjung Tinggi 45",
       },
       {

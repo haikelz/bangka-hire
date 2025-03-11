@@ -224,7 +224,7 @@ export function ModalCreateJobVacancy({ openModal, setOpenModal }: ModalCreateJo
                 {createJobVacancyMutation.isPending ? (
                   <Loader className="w-6 h-6 animate-spin" /> // Icon loading
                 ) : (
-                  "Simpan"
+                  "Tambah"
                 )}
               </Button>
             </div>
