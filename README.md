@@ -31,8 +31,8 @@ Bangka Hire is a comprehensive job search and recruitment solution for Bangka Be
 ├── prisma # Prisma
 │   ├── migrations
 │   └── schema.prisma
-├── public # Images and assets
 │   ├── assets
+├── public # Images and assets
 │   ├── docs
 │   └── images
 ├── README.md
@@ -73,6 +73,14 @@ Bangka Hire is a comprehensive job search and recruitment solution for Bangka Be
 │   └── types # Typescript types
 └── tsconfig.json
 ```
+
+## Search Engine Optimization
+
+![SEO](./public/docs/seo.png)
+
+## Sentry Error Monitoring
+
+![Sentry](./public/docs/sentry.png)
 
 ## Entity Relationship Diagram
 
