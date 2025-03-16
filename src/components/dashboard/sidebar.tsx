@@ -126,11 +126,13 @@ export function Sidebar() {
           <Button
             className={cn(
               "w-full",
-              pathname === "/dashboard/jobs"
+              pathname.includes("/dashboard/jobs")
                 ? "bg-secondary_color_1 hover:bg-primary_color"
                 : "bg-none"
             )}
-            variant={pathname === "/dashboard/jobs" ? "default" : "outline"}
+            variant={
+              pathname.includes("/dashboard/jobs") ? "default" : "outline"
+            }
           >
             Jobs
           </Button>
@@ -140,11 +142,13 @@ export function Sidebar() {
           <Button
             className={cn(
               "w-full",
-              pathname === "/dashboard/profile"
+              pathname.includes("/dashboard/profile")
                 ? "bg-secondary_color_1 hover:bg-primary_color"
                 : "bg-none"
             )}
-            variant={pathname === "/dashboard/profile" ? "default" : "outline"}
+            variant={
+              pathname.includes("/dashboard/profile") ? "default" : "outline"
+            }
           >
             Profile Perusahaan
           </Button>

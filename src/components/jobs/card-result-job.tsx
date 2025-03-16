@@ -31,7 +31,13 @@ export default function CardResultJob({ data }: { data: JobProps }) {
 
   return (
     <div className="shadow-2xl bg-white rounded-lg p-3 border border-primary_color">
-      <Link href={`/jobs/${data.id}`}>
+      <Link
+        href={
+          pathname === "/dashboard"
+            ? `/dashboard/jobs/${data.id}`
+            : `/jobs/${data.id}`
+        }
+      >
         {/* Logo company */}
         <Image className="w-16 md:w-24" src={logo} alt="Logo" />
         {/* informasi singkat dari nama perusahaan, posisi, gaji, dll */}

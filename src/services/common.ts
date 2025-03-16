@@ -76,9 +76,9 @@ export async function getJobs({
 }
 
 // mengambil detail job
-export async function getJobById(id: string) {
+export async function getJobById(id: string, user_cv?: boolean) {
   try {
-    const response = await axiosClient.get(`/jobs/${id}`);
+    const response = await axiosClient.get(`/jobs/${id}?user_cv=${user_cv}`);
     return response.data;
   } catch (error) {
     throw new Error("Gagal mendapatkan data lowongan kerja!");

@@ -168,7 +168,7 @@ export function SignUpFormJobVacancyProvider() {
             <div className="flex justify-center items-center relative">
               <Input
                 {...register("confirm_password")}
-                type="password"
+                type={isShowConfirmationPassword ? "text" : "password"}
                 placeholder="Konfirmasi Password"
                 className="border border-[#3C74FF] focus:border-[#3C74FF] text-black"
                 name="confirm_password"
