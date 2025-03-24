@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IsErrorClient } from "../react-query/is-error-client";
 import { IsPendingClient } from "../react-query/is-pending-client";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -41,32 +42,40 @@ export function JobDetailPage({ id }: { id: string }) {
     <section className="p-8 w-full">
       {jobDetail.users.length ? (
         <div className="gap-4">
-          {jobDetail.users.map((item) => (
-            <Card key={item.id}>
-              <CardHeader>
-                <Image
-                  src={item.user.image ?? "/assets/fallback-user.svg"}
-                  alt="job applicant"
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
-                <CardTitle>{item.user.full_name}</CardTitle>
-                <CardDescription>{item.user.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {item.cv ? (
-                  <Link
-                    href={item.cv}
-                    className="flex justify-start items-center space-x-1"
-                  >
-                    <File size={21} />
-                    <span className="text-sm font-bold">CV</span>
-                  </Link>
-                ) : null}
-              </CardContent>
-            </Card>
-          ))}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-cols-1">
+            {jobDetail.users.map((item) => (
+              <Card key={item.id}>
+                <CardHeader>
+                  <Image
+                    src={item.user.image ?? "/assets/fallback-user.svg"}
+                    alt="job applicant"
+                    width={50}
+                    height={50}
+                    className="rounded-full mb-2"
+                  />
+                  <CardTitle>{item.user.full_name}</CardTitle>
+                  <CardDescription>
+                    {item.user.description ?? "Tidak ada deskripsi!"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {item.cv ? (
+                    <Link
+                      href={item.cv}
+                      className="flex justify-start items-center space-x-1"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Button variant="outline">
+                        <File size={21} />
+                        <span className="text-sm font-bold">CV</span>
+                      </Button>
+                    </Link>
+                  ) : null}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       ) : (
         <p className="text-xl font-bold">

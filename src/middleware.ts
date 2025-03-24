@@ -64,6 +64,13 @@ export async function middleware(request: NextRequest) {
         const tokenData = JSON.parse(atob(authToken?.value as string));
         const expirationDate = new Date(tokenData.expires);
 
+        if (
+          tokenData.user.role !== "job_vacancy_provider" &&
+          tokenData.user.role !== "admin"
+        ) {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
+
         // Don't accept the users who has role other than admin, and not matched email && password
         if (request.nextUrl.pathname.startsWith("/dashboard/admin")) {
           if (
